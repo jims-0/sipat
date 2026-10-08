@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card result-card">
+    <div class="confidence-badge">
+        {{ (diagnosis.confidence * 100) | round(1) }}% Kumpiyansa
+    </div>
+
+    <div class="disease-name">{{ diagnosis.disease_name }}</div>
+    <div class="disease-name-tl">{{ diagnosis.disease_name_tl }}</div>
+
+    <div style="font-size: 0.85rem; color: #666; margin-bottom: 16px;">
+        Pananim: <strong>{{ diagnosis.crop_type | capitalize }}</strong>
+    </div>
+
+    <!-- Grad-CAM Visual Explanation -->
+    <div class="card-title" style="margin-top: 16px;">Paliwanag ng AI (Grad-CAM)</div>
+    <p style="font-size: 0.85rem; color: #666; margin-bottom: 8px;">
+        Ipinapakita ng kulay pula ang bahagi ng dahon na naging basehan ng pagsusuri:
+    </p>
+
+    <div class="image-comparison">
+        <div class="image-comparison-item">
+            <img src="{{ diagnosis.image_path }}" alt="Orihinal na Dahon">
+            <div class="image-label">Orihinal</div>
+        </div>
+        <div class="image-comparison-item">
+            <img src="{{ diagnosis.gradcam_path }}" alt="Grad-CAM Heatmap">
+            <div class="image-label">AI Heatmap</div>
+        </div>
+    </div>
+</div>
+
+<!-- Treatment Guidance -->
+<div class="card">
+    <div class="card-title">🌱 Gabay sa Paggamot</div>
+
+    <!-- Language Toggle -->
+    <div class="lang-toggle">
+        <button class="lang-btn active" onclick="switchLang('tl')">Tagalog</button>
+        <button class="lang-btn" onclick="switchLang('en')">English</button>
+    </div>
+
+    <div id="treatment-tl" class="treatment-content">
+        {{ diagnosis.treatment_tl | safe }}
+    </div>
+
+    <div id="treatment-en" class="treatment-content" style="display: none;">
+        {{ diagnosis.treatment | safe }}
+    </div>
+</div>
+
+<!-- Feedback Card -->
+<div class="card" id="feedback-card">
+    <div class="card-title">Makatotohanan ba ang pagsusuri?</div>
+    <div class="btn-group">
+        <button class="btn btn-outline" onclick="sendFeedback(1)">
+            👍 Oo, tama
+        </button>
+        <button class="btn btn-outline" onclick="sendFeedback(0)">
+            👎 Hindi, mali
+        </button>
+    </div>
+</div>
+
+<div class="btn-group" style="margin-top: 16px;">
+    <a href="{{ url_for('main.index') }}" class="btn btn-primary">
+        📸 Kunan Ulit
+    </a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function switchLang(lang) {
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+    if (lang === 'tl') {
+        document.querySelectorAll('.lang-btn')[0].classList.add('active');
+        document.getElementById('treatment-tl').style.display = 'block';
+        document.getElementById('treatment-en').style.display = 'none';
+    } else {
+        document.querySelectorAll('.lang-btn')[1].classList.add('active');
+        document.getElementById('treatment-tl').style.display = 'none';
+        document.getElementById('treatment-en').style.display = 'block';
+    }
+}
+
+async function sendFeedback(helpful) {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+    try {
+        await fetch('/api/feedback/{{ diagnosis.id }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken || ''
+            },
+            body: JSON.stringify({ helpful: helpful })
+        });
+        document.getElementById('feedback-card').innerHTML = `
+            <div style="text-align: center; color: var(--success-color); font-weight: 600; padding: 10px;">
+                ✓ Maraming salamat sa iyong feedback!
+            </div>
+        `;
+    } catch (e) {
+        console.error(e);
+    }
+}
+</script>
+{% endblock %}

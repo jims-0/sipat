@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <div class="card-title">Tungkol sa Tanim Guard 🌱🛡️</div>
+    <p style="margin-bottom: 12px; font-size: 0.95rem; line-height: 1.6;">
+        Ang <strong>Tanim Guard</strong> ay isang AI-powered tool para sa mga Pilipinong magsasaka upang maagang matukoy ang sakit ng pananim gamit lamang ang litrato ng dahon.
+    </p>
+</div>
+
+<div class="card">
+    <div class="card-title">✨ Mga Tampok</div>
+    <ul style="padding-left: 20px; font-size: 0.9rem; line-height: 1.8; color: #444;">
+        <li><strong>On-Device AI:</strong> Gumagana kahit walang internet gamit ang TensorFlow Lite</li>
+        <li><strong>Grad-CAM Heatmap:</strong> Ipinapakita kung aling bahagi ng dahon ang naging basehan ng AI</li>
+        <li><strong>Gabay sa Tagalog:</strong> Malinaw at ligtas na paraan ng paggamot ayon sa DA/PhilRice</li>
+        <li><strong>Mobile-First:</strong> Magaan at mabilis sa kahit anong smartphone</li>
+    </ul>
+</div>
+
+<div class="card">
+    <div class="card-title">🌾 Sinusuportahang Pananim</div>
+    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
+        <span style="background: #e8f5e9; padding: 6px 12px; border-radius: 16px; font-size: 0.85rem;">🍅 Kamatis</span>
+        <span style="background: #e8f5e9; padding: 6px 12px; border-radius: 16px; font-size: 0.85rem;">🌶️ Sili</span>
+        <span style="background: #e8f5e9; padding: 6px 12px; border-radius: 16px; font-size: 0.85rem;">🥔 Patatas</span>
+        <span style="background: #e8f5e9; padding: 6px 12px; border-radius: 16px; font-size: 0.85rem;">🌾 Palay</span>
+        <span style="background: #e8f5e9; padding: 6px 12px; border-radius: 16px; font-size: 0.85rem;">🌽 Mais</span>
+    </div>
+</div>
+
+<div class="card" style="text-align: center; font-size: 0.8rem; color: #888;">
+    <p>Tanim Guard v1.0 • Binuo para sa Magsasakang Pilipino</p>
+    <p style="margin-top: 4px;">Dataset: PlantVillage • Gabay: DA-BAR, PhilRice</p>
+</div>
+{% endblock %}

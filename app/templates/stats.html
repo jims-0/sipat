@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <div class="card-title">📊 Estadistika ng Paggamit</div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0;">
+        <div style="background: #e8f5e9; padding: 16px; border-radius: var(--radius); text-align: center;">
+            <div style="font-size: 1.8rem; font-weight: 700; color: var(--primary-dark);">
+                {{ stats.total_diagnoses }}
+            </div>
+            <div style="font-size: 0.8rem; color: #666;">Kabuuang Pagsusuri</div>
+        </div>
+
+        <div style="background: #fff8e1; padding: 16px; border-radius: var(--radius); text-align: center;">
+            <div style="font-size: 1.8rem; font-weight: 700; color: var(--accent-dark);">
+                {% if stats.user_accuracy %}
+                    {{ (stats.user_accuracy * 100) | round }}%
+                {% else %}
+                    N/A
+                {% endif %}
+            </div>
+            <div style="font-size: 0.8rem; color: #666;">Feedback Accuracy</div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-title">🌾 Pinakamadalas na Pananim</div>
+    {% if stats.by_crop %}
+        <ul style="list-style: none; padding: 0;">
+            {% for crop in stats.by_crop %}
+            <li style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-color);">
+                <span>{{ crop.crop_type | capitalize }}</span>
+                <strong>{{ crop.count }}</strong>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p style="color: #888; font-size: 0.9rem;">Wala pang datos.</p>
+    {% endif %}
+</div>
+
+<div class="card">
+    <div class="card-title">🔍 Karaniwang Sakit</div>
+    {% if stats.by_disease %}
+        <ul style="list-style: none; padding: 0;">
+            {% for d in stats.by_disease %}
+            <li style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-color);">
+                <span style="font-size: 0.9rem;">{{ d.disease_name }}</span>
+                <strong>{{ d.count }}</strong>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p style="color: #888; font-size: 0.9rem;">Wala pang datos.</p>
+    {% endif %}
+</div>
+{% endblock %}

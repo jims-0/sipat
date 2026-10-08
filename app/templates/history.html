@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <div class="card-title">Kasaysayan ng mga Pagsusuri</div>
+
+    {% if diagnoses %}
+        <div class="history-list">
+            {% for item in diagnoses %}
+            <a href="{{ url_for('main.view_diagnosis', diagnosis_id=item.id) }}" class="history-item">
+                <img src="{{ item.image_path }}" alt="{{ item.disease_name }}" class="history-thumb">
+                <div class="history-details">
+                    <div class="history-title">{{ item.disease_name_tl or item.disease_name }}</div>
+                    <div style="font-size: 0.8rem; color: var(--primary-dark);">
+                        {{ item.crop_type | capitalize }} • {{ (item.confidence * 100) | round }}%
+                    </div>
+                    <div class="history-date">{{ item.timestamp }}</div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div style="text-align: center; padding: 30px; color: #888;">
+            <p>Wala pang kasaysayan ng pagsusuri.</p>
+            <a href="{{ url_for('main.index') }}" class="btn btn-primary" style="margin-top: 16px; display: inline-block;">
+                Magsimula ng Pagsusuri
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
