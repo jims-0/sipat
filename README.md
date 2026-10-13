@@ -1,8 +1,11 @@
-# Tanim Guard 🌱🛡️
+# Sipat 🌱🔍
 
 **Crop disease detection from a leaf photo, for Filipino smallholder farmers.**
 
-Take a photo of a leaf; Tanim Guard says which disease it most likely has, shows
+*Sipat* is Tagalog for looking at something closely to inspect it, the way a
+farmer or agriculturist studies a leaf. (Formerly "Tanim Guard".)
+
+Take a photo of a leaf; Sipat says which disease it most likely has, shows
 which part of the leaf the AI looked at, and gives treatment guidance in Tagalog
 and English. If it is not confident, it says so and asks for a better photo.
 
@@ -67,7 +70,7 @@ the same Wi-Fi). Set `TANIM_DEBUG=1` only when developing alone - debug mode
 exposes a code console to the network.
 
 **Windows exe:** `powershell -ExecutionPolicy Bypass -File build_exe.ps1` builds
-`dist\TanimGuard\TanimGuard.exe` and a zip to copy to any Windows PC (no Python
+`dist\Sipat\Sipat.exe` and a zip to copy to any Windows PC (no Python
 needed there).
 
 **Adviser (optional):** install Ollama (https://ollama.com) and run

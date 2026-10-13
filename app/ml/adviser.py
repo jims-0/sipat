@@ -39,8 +39,8 @@ OFFLINE = {
     "tl": "Hindi available ang tagapayo (hindi tumatakbo ang Ollama sa computer na ito). Gamitin muna ang nakasulat na gabay sa itaas.",
 }
 DONT_KNOW = {
-    "en": "I can't answer that safely from Tanim Guard's guidance. Read the guidance above, and ask your Municipal Agriculture Office (MAO).",
-    "tl": "Hindi ko iyan masasagot nang ligtas mula sa gabay ng Tanim Guard. Basahin ang gabay sa itaas at magtanong sa inyong Municipal Agriculture Office (MAO).",
+    "en": "I can't answer that safely from Sipat's guidance. Read the guidance above, and ask your Municipal Agriculture Office (MAO).",
+    "tl": "Hindi ko iyan masasagot nang ligtas mula sa gabay ng Sipat. Basahin ang gabay sa itaas at magtanong sa inyong Municipal Agriculture Office (MAO).",
 }
 
 # Order matters: the first intent that matches wins. Dose comes first so
@@ -124,7 +124,7 @@ def build_messages(diagnosis: dict, question: str, lang: str) -> list[dict]:
     crop = CLASSES.get(key, {}).get("name", diagnosis.get("disease_name", ""))
     language = "Tagalog (Filipino), simple words" if lang == "tl" else "English, simple words"
     system = (
-        "You are Tanim Guard's farm adviser for Filipino smallholder farmers. "
+        "You are Sipat's farm adviser for Filipino smallholder farmers. "
         f"The photo was diagnosed as: {crop} (status: {status}, model confidence "
         f"{diagnosis.get('confidence', 0):.0%}).\n"
         "Answer ONLY from the REFERENCE below. If it is not there, say you do not know "

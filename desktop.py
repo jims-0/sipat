@@ -1,4 +1,4 @@
-"""TanimGuard.exe entry point (PyInstaller, see build_exe.ps1).
+"""Sipat.exe entry point (PyInstaller, see build_exe.ps1).
 
 Same rule as CarScoot Hub: nothing the app writes may live inside the bundle -
 PyInstaller unpacks into a temp folder that is deleted on exit. So the database,
@@ -55,7 +55,7 @@ def main():
         "UPLOAD_FOLDER": os.path.join(data, "uploads"),
     })
     port = int(os.getenv("PORT", "5000"))
-    print(f"\n  Tanim Guard is running:  http://localhost:{port}")
+    print(f"\n  Sipat is running:  http://localhost:{port}")
     if (ip := lan_address()):
         print(f"  Sa cellphone (parehong Wi-Fi):  http://{ip}:{port}")
     print("  Close this window to stop.\n")

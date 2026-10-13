@@ -1,5 +1,5 @@
 /**
- * Tanim Guard - Camera & Upload Handler
+ * Sipat - Camera & Upload Handler
  */
 
 document.addEventListener('DOMContentLoaded', () => {

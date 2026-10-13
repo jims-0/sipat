@@ -6,7 +6,7 @@ photo. Now: the real model, its top three guesses, and four possible outcomes:
   status "ok"          a crop diagnosis the model is confident about
   status "unsure"      best guess below the confidence threshold -> retake photo
   status "not_leaf"    the model sees no leaf at all
-  status "other_plant" a leaf, but of a plant Tanim Guard was not trained on
+  status "other_plant" a leaf, but of a plant Sipat was not trained on
 
 The app runs the TensorFlow Lite export (scripts/export_tflite.py) with LiteRT,
 so it needs a few MB of runtime instead of TensorFlow. The threshold comes from

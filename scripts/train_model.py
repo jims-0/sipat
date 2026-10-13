@@ -1,4 +1,4 @@
-"""Train the Tanim Guard leaf-disease model (transfer learning, CPU-friendly).
+"""Train the Sipat leaf-disease model (transfer learning, CPU-friendly).
 
     python scripts/train_model.py                      # full run (~1 h on a laptop CPU)
     python scripts/train_model.py --max-per-class 60 --head-epochs 1 --fine-epochs 0   # smoke test

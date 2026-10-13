@@ -1,4 +1,4 @@
-"""Unpack the PlantVillage photos Tanim Guard trains on.
+"""Unpack the PlantVillage photos Sipat trains on.
 
     python scripts/prepare_dataset.py datasets/raw/plantvillage.zip
 

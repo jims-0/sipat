@@ -1,9 +1,9 @@
 @echo off
-title Tanim Guard - Crop Disease Detection
+title Sipat - Crop Disease Detection
 cd /d "%~dp0"
 echo.
 echo ========================================
-echo   TANIM GUARD
+echo   SIPAT
 echo ========================================
 echo.
 

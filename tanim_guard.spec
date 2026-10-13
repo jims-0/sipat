@@ -1,5 +1,5 @@
 # -*- mode: python ; coding: utf-8 -*-
-"""PyInstaller spec for TanimGuard.exe (onedir). Built by build_exe.ps1.
+"""PyInstaller spec for Sipat.exe (onedir). Built by build_exe.ps1.
 
 The app runs the .tflite model with LiteRT, so TensorFlow/Keras are excluded -
 they are only needed to TRAIN (scripts/). Uploads are not bundled: the exe
@@ -28,6 +28,6 @@ a = Analysis(
     noarchive=False,
 )
 pyz = PYZ(a.pure)
-exe = EXE(pyz, a.scripts, [], exclude_binaries=True, name='TanimGuard',
+exe = EXE(pyz, a.scripts, [], exclude_binaries=True, name='Sipat',
           console=True, upx=False)
-coll = COLLECT(exe, a.binaries, a.datas, name='TanimGuard', upx=False)
+coll = COLLECT(exe, a.binaries, a.datas, name='Sipat', upx=False)

@@ -1,5 +1,5 @@
 """
-Tanim Guard Database Models
+Sipat Database Models
 """
 import sqlite3
 from datetime import datetime

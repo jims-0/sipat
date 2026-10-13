@@ -28,9 +28,9 @@ STATUS_MESSAGES = {
         "tl": "**Walang nakitang dahon.** Kumuha ng malapitang larawan ng isang dahon mula sa apektadong halaman.",
     },
     "other_plant": {
-        "en": "**Unsupported plant.** Tanim Guard currently recognises tomato, pepper (sili), potato and corn "
+        "en": "**Unsupported plant.** Sipat currently recognises tomato, pepper (sili), potato and corn "
               "leaves only. For other crops, ask your Municipal Agriculture Office.",
-        "tl": "**Hindi suportadong halaman.** Kamatis, sili, patatas at mais lamang ang kilala ngayon ng Tanim Guard. "
+        "tl": "**Hindi suportadong halaman.** Kamatis, sili, patatas at mais lamang ang kilala ngayon ng Sipat. "
               "Para sa ibang pananim, magtanong sa inyong Municipal Agriculture Office.",
     },
 }

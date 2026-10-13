@@ -1,4 +1,4 @@
-"""Tanim Guard: the decisions around the model, the guidance, and the screens.
+"""Sipat: the decisions around the model, the guidance, and the screens.
 
 The model itself is exercised at the bottom only when a trained model file
 exists (scripts/train_model.py); everything else runs without TensorFlow work.

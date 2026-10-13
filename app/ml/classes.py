@@ -9,7 +9,7 @@ added to datasets/ and the model is retrained (see TRAINING.md).
 """
 
 NOT_A_LEAF = "Background_without_leaves"
-# Leaves of plants Tanim Guard does not cover (apple, grape, soybean...), pooled
+# Leaves of plants Sipat does not cover (apple, grape, soybean...), pooled
 # from the rest of PlantVillage. Without it, a mango leaf would still be forced
 # into one of the tomato/corn/potato/pepper diseases.
 OTHER_PLANT = "Other_plant"

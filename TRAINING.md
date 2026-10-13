@@ -1,4 +1,4 @@
-# Training the Tanim Guard model
+# Training the Sipat model
 
 Everything here is reproducible: the same commands on the same dataset give the
 same train/validation/test split (it is decided by a hash of each file name).

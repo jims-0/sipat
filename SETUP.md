@@ -1,4 +1,4 @@
-# Tanim Guard - Quick Setup Guide
+# Sipat - Quick Setup Guide
 
 ## Installation
 

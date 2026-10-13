@@ -1,5 +1,5 @@
 """
-Tanim Guard Flask Application Factory
+Sipat Flask Application Factory
 """
 import os
 from flask import Flask

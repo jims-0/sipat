@@ -1,5 +1,5 @@
 """
-Tanim Guard - start the app.
+Sipat - start the app.
 Run with: python run.py   (or double-click start.bat)
 """
 import os
@@ -8,8 +8,6 @@ import threading
 import webbrowser
 
 from app import create_app
-
-app = create_app()
 
 
 def lan_address() -> str | None:
@@ -23,8 +21,11 @@ def lan_address() -> str | None:
 
 
 if __name__ == '__main__':
+    # Created here, not at import: desktop.py imports lan_address, and an
+    # import-time app opened a stray tanim_guard.db next to the exe.
+    app = create_app()
     port = int(os.getenv('PORT', '5000'))
-    print(f"\n  Tanim Guard:  http://localhost:{port}")
+    print(f"\n  Sipat:  http://localhost:{port}")
     if (ip := lan_address()):
         print(f"  Sa cellphone (parehong Wi-Fi):  http://{ip}:{port}\n")
     if os.getenv('TANIM_OPEN_BROWSER') == '1':
