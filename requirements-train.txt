@@ -1,0 +1,7 @@
+# Extra packages to TRAIN / EVALUATE / EXPORT the model (scripts/).
+# Python 3.14: only a TensorFlow pre-release exists -> pip install --pre -r requirements-train.txt
+# Python 3.10-3.12: a normal pip install works.
+-r requirements.txt
+tensorflow>=2.16
+matplotlib>=3.8
+pytest>=8

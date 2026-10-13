@@ -1,111 +1,123 @@
+"""Leaf photo -> diagnosis, using the model trained by scripts/train_model.py.
+
+There used to be a mock here that answered "Tomato Late Blight, 92%" for every
+photo. Now: the real model, its top three guesses, and four possible outcomes:
+
+  status "ok"          a crop diagnosis the model is confident about
+  status "unsure"      best guess below the confidence threshold -> retake photo
+  status "not_leaf"    the model sees no leaf at all
+  status "other_plant" a leaf, but of a plant Tanim Guard was not trained on
+
+The app runs the TensorFlow Lite export (scripts/export_tflite.py) with LiteRT,
+so it needs a few MB of runtime instead of TensorFlow. The threshold comes from
+app/ml/model/evaluation_report.json (measured on the test set by
+scripts/evaluate.py), so it is a number we can defend, not a guess.
 """
-TensorFlow Lite Model Inference
-"""
-import os
+
+import json
+import threading
+from pathlib import Path
+
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageOps
 
-# Disease mapping (PlantVillage dataset classes relevant to Philippine crops)
-DISEASE_CLASSES = {
-    0: {'name': 'Tomato Late Blight', 'name_tl': 'Late Blight sa Kamatis', 'crop': 'tomato'},
-    1: {'name': 'Tomato Early Blight', 'name_tl': 'Early Blight sa Kamatis', 'crop': 'tomato'},
-    2: {'name': 'Tomato Leaf Mold', 'name_tl': 'Amag sa Dahon ng Kamatis', 'crop': 'tomato'},
-    3: {'name': 'Tomato Septoria Leaf Spot', 'name_tl': 'Septoria Leaf Spot sa Kamatis', 'crop': 'tomato'},
-    4: {'name': 'Tomato Spider Mites', 'name_tl': 'Spider Mites sa Kamatis', 'crop': 'tomato'},
-    5: {'name': 'Tomato Target Spot', 'name_tl': 'Target Spot sa Kamatis', 'crop': 'tomato'},
-    6: {'name': 'Tomato Yellow Leaf Curl Virus', 'name_tl': 'Yellow Leaf Curl Virus sa Kamatis', 'crop': 'tomato'},
-    7: {'name': 'Tomato Mosaic Virus', 'name_tl': 'Mosaic Virus sa Kamatis', 'crop': 'tomato'},
-    8: {'name': 'Tomato Healthy', 'name_tl': 'Malusog na Kamatis', 'crop': 'tomato'},
-    9: {'name': 'Pepper Bacterial Spot', 'name_tl': 'Bacterial Spot sa Sili', 'crop': 'pepper'},
-    10: {'name': 'Pepper Healthy', 'name_tl': 'Malusog na Sili', 'crop': 'pepper'},
-    11: {'name': 'Potato Early Blight', 'name_tl': 'Early Blight sa Patatas', 'crop': 'potato'},
-    12: {'name': 'Potato Late Blight', 'name_tl': 'Late Blight sa Patatas', 'crop': 'potato'},
-    13: {'name': 'Potato Healthy', 'name_tl': 'Malusog na Patatas', 'crop': 'potato'},
-    14: {'name': 'Rice Blast', 'name_tl': 'Blast sa Palay', 'crop': 'rice'},
-    15: {'name': 'Rice Brown Spot', 'name_tl': 'Brown Spot sa Palay', 'crop': 'rice'},
-    16: {'name': 'Rice Healthy', 'name_tl': 'Malusog na Palay', 'crop': 'rice'},
-    17: {'name': 'Corn Common Rust', 'name_tl': 'Common Rust sa Mais', 'crop': 'corn'},
-    18: {'name': 'Corn Gray Leaf Spot', 'name_tl': 'Gray Leaf Spot sa Mais', 'crop': 'corn'},
-    19: {'name': 'Corn Healthy', 'name_tl': 'Malusog na Mais', 'crop': 'corn'},
-}
+from app.ml.classes import NOT_A_LEAF, OTHER_PLANT, info
 
-def load_model():
-    """Load TensorFlow Lite model (mock for now - replace with real model)"""
-    # In production, this would load the actual .tflite file:
-    # import tensorflow as tf
-    # model_path = os.path.join(os.path.dirname(__file__), '../static/models/crop_disease_model.tflite')
-    # interpreter = tf.lite.Interpreter(model_path=model_path)
-    # interpreter.allocate_tensors()
-    # return interpreter
+MODEL_DIR = Path(__file__).resolve().parent / "model"
+MODEL_PATH = MODEL_DIR / "tanim_guard.tflite"
+IMG_SIZE = 224
+DEFAULT_THRESHOLD = 0.6
 
-    return None  # Mock model for now
+_lock = threading.Lock()
+_state = {}
 
-def preprocess_image(image_path, target_size=(224, 224)):
-    """Preprocess image for model input"""
-    img = Image.open(image_path)
-    img = img.convert('RGB')
-    img = img.resize(target_size, Image.Resampling.LANCZOS)
 
-    # Convert to numpy array and normalize
-    img_array = np.array(img, dtype=np.float32)
-    img_array = img_array / 255.0  # Normalize to [0, 1]
-    img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
+class ModelMissing(RuntimeError):
+    pass
 
-    return img_array
 
-def predict_disease(image_path):
-    """
-    Run inference on uploaded image
+def load() -> dict:
+    """Interpreter, labels, threshold and CAM weights - loaded once."""
+    with _lock:
+        if not _state:
+            if not MODEL_PATH.exists():
+                raise ModelMissing("Wala pang trained model. Patakbuhin ang scripts/train_model.py "
+                                   "at scripts/export_tflite.py (tingnan ang TRAINING.md).")
+            from ai_edge_litert.interpreter import Interpreter
 
-    Args:
-        image_path: Path to uploaded leaf image
+            interp = Interpreter(model_path=str(MODEL_PATH))
+            interp.allocate_tensors()
+            outputs = interp.get_output_details()
+            report = MODEL_DIR / "evaluation_report.json"
+            _state.update(
+                interp=interp,
+                input=interp.get_input_details()[0]["index"],
+                probs=next(d["index"] for d in outputs if len(d["shape"]) == 2),
+                features=next(d["index"] for d in outputs if len(d["shape"]) == 4),
+                labels=json.loads((MODEL_DIR / "labels.json").read_text()),
+                cam_weights=np.load(MODEL_DIR / "cam_weights.npy"),
+                threshold=(json.loads(report.read_text()).get("recommended_threshold", DEFAULT_THRESHOLD)
+                           if report.exists() else DEFAULT_THRESHOLD),
+            )
+    return _state
 
-    Returns:
-        dict with disease_name, confidence, crop_type, class_idx
-    """
+
+def preprocess_image(image_path) -> np.ndarray:
+    """Same as training: RGB, 224x224, 0-255 floats (the model rescales itself).
+    exif_transpose so a phone photo taken sideways is not fed in sideways."""
+    with Image.open(image_path) as img:
+        img = ImageOps.exif_transpose(img).convert("RGB").resize((IMG_SIZE, IMG_SIZE), Image.Resampling.BILINEAR)
+        return np.asarray(img, dtype=np.float32)[None, ...]
+
+
+def run(image_path) -> tuple[np.ndarray, np.ndarray]:
+    """(probabilities [classes], feature map [h, w, C]) for one photo."""
+    s = load()
+    x = preprocess_image(image_path)
+    with _lock:  # one interpreter, shared - calls must not interleave
+        s["interp"].set_tensor(s["input"], x)
+        s["interp"].invoke()
+        probs = s["interp"].get_tensor(s["probs"])[0].copy()
+        features = s["interp"].get_tensor(s["features"])[0].copy()
+    return probs, features
+
+
+def interpret(probs, labels, threshold) -> dict:
+    """Pure: probabilities -> the answer the app shows. Tested without a model."""
+    order = np.argsort(probs)[::-1]
+    top = [{"class": labels[i], **info(labels[i]), "confidence": round(float(probs[i]), 4)}
+           for i in order[:3]]
+    best = top[0]
+    if best["class"] == NOT_A_LEAF and best["confidence"] >= threshold:
+        status = "not_leaf"
+    elif best["class"] == OTHER_PLANT and best["confidence"] >= threshold:
+        status = "other_plant"
+    elif best["confidence"] < threshold:
+        status = "unsure"
+    else:
+        status = "ok"
+    return {
+        "status": status,
+        "class_key": best["class"],
+        "class_idx": int(order[0]),
+        "disease_name": best["name"],
+        "disease_name_tl": best["name_tl"],
+        "crop_type": best["crop"],
+        "healthy": bool(best.get("healthy")),
+        "confidence": best["confidence"],
+        "threshold": threshold,
+        "top3": top,
+        "error": None,
+    }
+
+
+def predict_disease(image_path) -> dict:
     try:
-        # Load and preprocess image
-        img_array = preprocess_image(image_path)
-
-        # MOCK PREDICTION (replace with real TFLite inference)
-        # In production:
-        # interpreter = load_model()
-        # input_details = interpreter.get_input_details()
-        # output_details = interpreter.get_output_details()
-        # interpreter.set_tensor(input_details[0]['index'], img_array)
-        # interpreter.invoke()
-        # predictions = interpreter.get_tensor(output_details[0]['index'])[0]
-
-        # For now, return a mock prediction
-        # Simulate a tomato late blight detection with high confidence
-        mock_class_idx = 0  # Tomato Late Blight
-        mock_confidence = 0.92
-
-        disease_info = DISEASE_CLASSES[mock_class_idx]
-
-        return {
-            'disease_name': disease_info['name'],
-            'disease_name_tl': disease_info['name_tl'],
-            'crop_type': disease_info['crop'],
-            'confidence': mock_confidence,
-            'class_idx': mock_class_idx,
-            'error': None
-        }
-
-    except Exception as e:
-        return {
-            'disease_name': None,
-            'disease_name_tl': None,
-            'crop_type': None,
-            'confidence': 0.0,
-            'class_idx': None,
-            'error': str(e)
-        }
-
-def get_disease_info(class_idx):
-    """Get disease information by class index"""
-    return DISEASE_CLASSES.get(class_idx, {
-        'name': 'Unknown Disease',
-        'name_tl': 'Hindi Kilalang Sakit',
-        'crop': 'unknown'
-    })
+        probs, _features = run(image_path)
+        s = load()
+        return interpret(probs, s["labels"], s["threshold"])
+    except ModelMissing as exc:
+        return {"status": "error", "error": str(exc)}
+    except Exception:  # unreadable image, corrupt upload
+        return {"status": "error",
+                "error": "Hindi mabasa ang larawan. Subukang kumuha ulit ng JPG o PNG."}

@@ -41,3 +41,13 @@ datasets/
 # Logs
 *.log
 logs/
+training_runs/
+.venv/
+# Training artefact; the app runs the .tflite. Re-create with scripts/train_model.py
+app/ml/model/*.keras
+build/
+dist/
+# Photos people upload (the app writes here when run from source)
+app/static/uploads/*
+!app/static/uploads/20261008_173647_17914521949033171746575867417473.jpg
+!app/static/uploads/gradcam_20261008_173647_17914521949033171746575867417473.jpg

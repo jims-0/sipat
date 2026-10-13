@@ -45,19 +45,27 @@ def init_db(app):
             CREATE INDEX IF NOT EXISTS idx_timestamp ON diagnoses(timestamp DESC);
             CREATE INDEX IF NOT EXISTS idx_crop_type ON diagnoses(crop_type);
         ''')
+        # Added with the real model (2026-10-14). ALTER, not a rebuild, so an
+        # existing tanim_guard.db keeps its history.
+        have = {row['name'] for row in db.execute('PRAGMA table_info(diagnoses)')}
+        for column, kind in (('status', "TEXT DEFAULT 'ok'"), ('class_key', 'TEXT'),
+                             ('top3_json', 'TEXT')):
+            if column not in have:
+                db.execute(f'ALTER TABLE diagnoses ADD COLUMN {column} {kind}')
         db.commit()
 
 def save_diagnosis(image_path, disease_name, disease_name_tl, confidence,
-                   crop_type, gradcam_path, treatment, treatment_tl):
+                   crop_type, gradcam_path, treatment, treatment_tl,
+                   status='ok', class_key=None, top3_json=None):
     """Save a diagnosis to the database"""
     db = get_db()
     cursor = db.execute('''
         INSERT INTO diagnoses
         (image_path, disease_name, disease_name_tl, confidence, crop_type,
-         gradcam_path, treatment, treatment_tl)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+         gradcam_path, treatment, treatment_tl, status, class_key, top3_json)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ''', (image_path, disease_name, disease_name_tl, confidence, crop_type,
-          gradcam_path, treatment, treatment_tl))
+          gradcam_path, treatment, treatment_tl, status, class_key, top3_json))
     db.commit()
     return cursor.lastrowid
 

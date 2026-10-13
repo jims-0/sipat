@@ -415,3 +415,22 @@ input[type="file"] {
     max-height: 400px;
   }
 }
+
+/* --- real-model result page (2026-10-14) --- */
+.result-meta { font-size: 0.85rem; color: #666; margin-bottom: 8px; }
+.status-banner { padding: 14px 16px; border-radius: var(--radius); font-weight: 600; margin-bottom: 8px; }
+.status-unsure { background: #fff8e1; color: var(--accent-dark); border: 1px solid var(--accent-color); }
+.status-not_leaf, .status-other_plant { background: #eceff1; color: #37474f; border: 1px solid #b0bec5; }
+.top3 { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.top3 li { display: grid; grid-template-columns: minmax(0, 1fr) 90px 52px; gap: 8px; align-items: center; font-size: 0.85rem; }
+.top3 small { color: #888; }
+.top3-bar { height: 8px; background: var(--border-color); border-radius: 4px; overflow: hidden; }
+.top3-bar span { display: block; height: 100%; background: var(--primary-light); }
+.top3 strong { text-align: right; font-variant-numeric: tabular-nums; }
+.treatment-content ol { padding-left: 20px; margin: 4px 0 10px; }
+.treatment-content p { margin: 0 0 8px; }
+.ask-row { display: flex; gap: 8px; }
+.ask-row input { flex: 1; min-width: 0; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: var(--radius); font-size: 0.95rem; }
+.ask-row .btn { width: auto; flex: 0 0 auto; }
+.ask-answer { margin-top: 10px; padding: 12px; background: #f1f8e9; border-radius: var(--radius); white-space: pre-wrap; font-size: 0.92rem; }
+.feedback-thanks { text-align: center; color: var(--success-color); font-weight: 600; padding: 10px; }

@@ -4,17 +4,18 @@
 <div class="card">
     <div class="card-title">Tungkol sa Tanim Guard 🌱🛡️</div>
     <p style="margin-bottom: 12px; font-size: 0.95rem; line-height: 1.6;">
-        Ang <strong>Tanim Guard</strong> ay isang AI-powered tool para sa mga Pilipinong magsasaka upang maagang matukoy ang sakit ng pananim gamit lamang ang litrato ng dahon.
+        Ang <strong>Tanim Guard</strong> ay isang AI tool para sa mga Pilipinong magsasaka upang maagang matukoy ang sakit ng pananim gamit lamang ang litrato ng dahon.
     </p>
 </div>
 
 <div class="card">
     <div class="card-title">✨ Mga Tampok</div>
     <ul style="padding-left: 20px; font-size: 0.9rem; line-height: 1.8; color: #444;">
-        <li><strong>On-Device AI:</strong> Gumagana kahit walang internet gamit ang TensorFlow Lite</li>
-        <li><strong>Grad-CAM Heatmap:</strong> Ipinapakita kung aling bahagi ng dahon ang naging basehan ng AI</li>
-        <li><strong>Gabay sa Tagalog:</strong> Malinaw at ligtas na paraan ng paggamot ayon sa DA/PhilRice</li>
-        <li><strong>Mobile-First:</strong> Magaan at mabilis sa kahit anong smartphone</li>
+        <li><strong>AI sa computer na ito:</strong> Tumatakbo ang model dito (TensorFlow Lite); hindi ipinapadala ang larawan sa internet</li>
+        <li><strong>Heatmap:</strong> Ipinapakita kung aling bahagi ng dahon ang naging basehan ng AI</li>
+        <li><strong>"Hindi sigurado":</strong> Kapag mababa ang kumpiyansa, hihilingin nitong kumuha ulit sa halip na manghula</li>
+        <li><strong>Gabay sa Tagalog at English:</strong> May batayang sanggunian; sundin ang label at magtanong sa MAO para sa dami ng gamot</li>
+        <li><strong>Tagapayo:</strong> Magtanong tungkol sa resulta (kailangan ang Ollama sa computer)</li>
     </ul>
 </div>
 
@@ -24,13 +25,25 @@
         <span style="background: #e8f5e9; padding: 6px 12px; border-radius: 16px; font-size: 0.85rem;">🍅 Kamatis</span>
         <span style="background: #e8f5e9; padding: 6px 12px; border-radius: 16px; font-size: 0.85rem;">🌶️ Sili</span>
         <span style="background: #e8f5e9; padding: 6px 12px; border-radius: 16px; font-size: 0.85rem;">🥔 Patatas</span>
-        <span style="background: #e8f5e9; padding: 6px 12px; border-radius: 16px; font-size: 0.85rem;">🌾 Palay</span>
         <span style="background: #e8f5e9; padding: 6px 12px; border-radius: 16px; font-size: 0.85rem;">🌽 Mais</span>
     </div>
+    <p class="result-meta" style="margin-top: 10px;">Wala pang palay: walang larawan ng palay sa PlantVillage dataset. Idadagdag kapag may rice dataset na.</p>
 </div>
 
+{% if report %}
+<div class="card">
+    <div class="card-title">📏 Sukat ng Model</div>
+    <p class="result-meta">Sinukat sa {{ report.test_photos }} test na larawan na hindi ginamit sa training:</p>
+    <ul style="padding-left: 20px; font-size: 0.9rem; line-height: 1.8; color: #444;">
+        <li>Accuracy: <strong>{{ (report.accuracy * 100) | round(1) }}%</strong></li>
+        <li>Tamang sagot nasa top 3: <strong>{{ (report.top3_accuracy * 100) | round(1) }}%</strong></li>
+    </ul>
+    <p class="result-meta">Lab na larawan ito (isang dahon, payak na background). Mas mababa ang inaasahang accuracy sa larawang kuha sa bukid.</p>
+</div>
+{% endif %}
+
 <div class="card" style="text-align: center; font-size: 0.8rem; color: #888;">
-    <p>Tanim Guard v1.0 • Binuo para sa Magsasakang Pilipino</p>
-    <p style="margin-top: 4px;">Dataset: PlantVillage • Gabay: DA-BAR, PhilRice</p>
+    <p>Tanim Guard • Binuo para sa Magsasakang Pilipino</p>
+    <p style="margin-top: 4px;">Dataset: PlantVillage (Mendeley Data) • Gabay: UC IPM, Cornell, CIP, CIMMYT; kumpirmahin sa inyong MAO</p>
 </div>
 {% endblock %}
