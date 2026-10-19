@@ -1,8 +1,33 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% if due %}
+<div class="card">
+    <div class="card-title">⏰ Dapat Balikan Ngayon</div>
+    <div class="due-list">
+        {% for item in due %}
+        <a href="{{ url_for('main.index', followup=item.id) }}">
+            <img src="{{ item.image_path }}" alt="">
+            <span style="flex: 1;">
+                <strong>{{ item.disease_name_tl or item.disease_name }}</strong><br>
+                <small>{% if item.plot_name %}{{ item.plot_name }} • {% endif %}takdang {{ item.recheck_due }}</small>
+            </span>
+            <span class="chip chip-due">Kunan ulit</span>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
 <div class="card camera-container">
     <div class="card-title">Kunan ang May Sakit na Dahon</div>
+    {% if parent %}
+    <div class="notice">
+        Follow-up ng pagsusuri #{{ parent.id }} ({{ parent.disease_name_tl or parent.disease_name }},
+        {{ parent.timestamp | localtime('%b %d') }}). Kunan ang parehong halaman para makita kung gumaling o lumala.
+        <input type="hidden" id="parent-id" value="{{ parent.id }}">
+    </div>
+    {% endif %}
 
     <div class="preview-box" id="preview-box">
         <img id="preview-img" src="" alt="Dahon preview" style="display: none;">
@@ -33,6 +58,18 @@
             </svg>
             Gallery
         </button>
+    </div>
+
+    <div class="field">
+        <label for="plot-select">Taniman (opsyonal)</label>
+        <select id="plot-select">
+            <option value="">— Walang taniman —</option>
+            {% for plot in plots %}
+            <option value="{{ plot.id }}" {% if parent and parent.plot_id == plot.id %}selected{% endif %}>{{ plot.name }}</option>
+            {% endfor %}
+            <option value="new">＋ Bagong taniman…</option>
+        </select>
+        <input type="text" id="new-plot" maxlength="60" placeholder="Hal.: Kamatis sa likod-bahay" hidden>
     </div>
 
     <button type="button" id="analyze-btn" class="btn btn-accent" style="margin-top: 12px;" disabled>

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <div class="card-title">📖 Aklatan ng mga Sakit</div>
+    <p class="result-meta">Lahat ng sakit na kilala ng Sipat, may gabay sa Tagalog at English. Hindi kailangan ng larawan o internet.</p>
+</div>
+
+{% for crop, name_tl, items in groups %}
+<div class="card">
+    <div class="card-title">{{ name_tl }} <small style="color: #888; font-weight: 400;">({{ crop | capitalize }})</small></div>
+    <div class="library-grid">
+        {% for key, info in items %}
+        <a class="library-card" href="{{ url_for('main.library_entry', name=key) }}">
+            {% if key in thumbs %}<img src="{{ url_for('static', filename='library/' ~ key ~ '.jpg') }}" alt="" loading="lazy">
+            {% else %}<span class="noimg"></span>{% endif %}
+            <div><strong>{{ info.name_tl }}</strong><small>{{ info.name }}</small></div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endfor %}
+<p class="small-print" style="text-align: center;">Mga larawan: PlantVillage, Mendeley Data doi:10.17632/tywbtsjrjv.1 (CC BY 4.0).</p>
+{% endblock %}

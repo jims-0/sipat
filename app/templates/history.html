@@ -1,24 +1,60 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% set status_labels = {'ok': 'May resulta', 'unsure': 'Hindi sigurado', 'not_leaf': 'Hindi dahon', 'other_plant': 'Ibang halaman'} %}
 <div class="card">
-    <div class="card-title">Kasaysayan ng mga Pagsusuri</div>
+    <div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
+        <span>Kasaysayan ng mga Pagsusuri</span>
+        <a href="{{ url_for('main.plots') }}" class="btn btn-outline btn-small">🌾 Mga Taniman</a>
+    </div>
+
+    <form method="get" class="filters">
+        <select name="plot" onchange="this.form.submit()" aria-label="Taniman">
+            <option value="">Lahat ng taniman</option>
+            {% for plot in plots %}
+            <option value="{{ plot.id }}" {% if filters.plot_id == plot.id %}selected{% endif %}>{{ plot.name }}</option>
+            {% endfor %}
+        </select>
+        <select name="crop" onchange="this.form.submit()" aria-label="Pananim">
+            <option value="">Lahat ng pananim</option>
+            {% for key, name in crops.items() %}
+            <option value="{{ key }}" {% if filters.crop == key %}selected{% endif %}>{{ name }}</option>
+            {% endfor %}
+        </select>
+        <select name="status" onchange="this.form.submit()" aria-label="Resulta">
+            <option value="">Lahat ng resulta</option>
+            {% for key, name in status_labels.items() %}
+            <option value="{{ key }}" {% if filters.status == key %}selected{% endif %}>{{ name }}</option>
+            {% endfor %}
+        </select>
+        <input type="search" name="q" value="{{ filters.query or '' }}" placeholder="Hanapin (sakit o tala)">
+        {% if filters.class_key %}<input type="hidden" name="disease" value="{{ request.args.get('disease') }}">{% endif %}
+    </form>
+    {% if filters.values() | select | list %}
+    <p class="result-meta">{{ diagnoses | length }} resulta • <a href="{{ url_for('main.history') }}">Alisin ang filter</a></p>
+    {% endif %}
 
     {% if diagnoses %}
         <div class="history-list">
             {% for item in diagnoses %}
+            {% set st = item.status or 'ok' %}
             <a href="{{ url_for('main.view_diagnosis', diagnosis_id=item.id) }}" class="history-item">
                 <img src="{{ item.image_path }}" alt="{{ item.disease_name }}" class="history-thumb">
                 <div class="history-details">
                     <div class="history-title">{{ item.disease_name_tl or item.disease_name }}</div>
                     <div style="font-size: 0.8rem; color: var(--primary-dark);">
                         {{ item.crop_type | capitalize }} • {{ (item.confidence * 100) | round }}%
+                        {% if st != 'ok' %}<span class="chip chip-{{ st }}">{{ status_labels[st] }}</span>{% endif %}
+                        {% if item.plot_name %}<span class="chip">{{ item.plot_name }}</span>{% endif %}
+                        {% if item.parent_id %}<span class="chip">follow-up</span>{% endif %}
                     </div>
-                    <div class="history-date">{{ item.timestamp }}</div>
+                    <div class="history-date">{{ item.timestamp | localtime }}</div>
                 </div>
             </a>
             {% endfor %}
         </div>
+    {% elif filters.values() | select | list %}
+        <p style="text-align: center; padding: 20px; color: #888;">Walang tugma sa filter.</p>
     {% else %}
         <div style="text-align: center; padding: 30px; color: #888;">
             <p>Wala pang kasaysayan ng pagsusuri.</p>

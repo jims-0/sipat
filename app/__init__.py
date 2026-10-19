@@ -41,7 +41,24 @@ def create_app(overrides=None):
     app.register_blueprint(routes.bp)
 
     app.add_template_filter(markdown_lite, 'markdown')
+    app.add_template_filter(local_time, 'localtime')
+
+    @app.errorhandler(404)
+    def not_found(_error):
+        from flask import render_template
+        return render_template('404.html'), 404
+
     return app
+
+
+def local_time(value, fmt='%b %d, %Y %I:%M %p'):
+    """SQLite's CURRENT_TIMESTAMP is UTC; show it in this computer's time."""
+    from datetime import datetime, timezone
+    try:
+        stamp = datetime.strptime(str(value)[:19], '%Y-%m-%d %H:%M:%S')
+    except ValueError:
+        return value or ''
+    return stamp.replace(tzinfo=timezone.utc).astimezone().strftime(fmt)
 
 
 def _secret_key(app):

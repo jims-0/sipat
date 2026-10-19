@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    {% if thumb %}<img class="library-hero" src="{{ url_for('static', filename='library/' ~ slug ~ '.jpg') }}" alt="{{ info.name }}">{% endif %}
+    <div class="disease-name">{{ info.name_tl }}</div>
+    <div class="disease-name-tl">{{ info.name }}</div>
+    <p class="result-meta" style="margin-top: 8px;">
+        {% if scans %}<a href="{{ url_for('main.history', disease=slug) }}">{{ scans }} sa iyong mga scan</a>{% else %}Wala pa sa iyong mga scan{% endif %}
+    </p>
+</div>
+
+<div class="card">
+    <div class="lang-toggle">
+        <button class="lang-btn active" onclick="switchLang('tl')">Tagalog</button>
+        <button class="lang-btn" onclick="switchLang('en')">English</button>
+    </div>
+    <div id="treatment-tl" class="treatment-content">{{ guidance.tl | markdown }}</div>
+    <div id="treatment-en" class="treatment-content" style="display: none;">{{ guidance.en | markdown }}</div>
+</div>
+
+<div class="row-actions">
+    <a href="{{ url_for('main.library') }}" class="btn btn-outline">← Aklatan</a>
+    <a href="{{ url_for('main.index') }}" class="btn btn-primary">📸 Mag-scan</a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function switchLang(next) {
+    const buttons = document.querySelectorAll('.lang-btn');
+    buttons[0].classList.toggle('active', next === 'tl');
+    buttons[1].classList.toggle('active', next === 'en');
+    document.getElementById('treatment-tl').style.display = next === 'tl' ? 'block' : 'none';
+    document.getElementById('treatment-en').style.display = next === 'en' ? 'block' : 'none';
+}
+</script>
+{% endblock %}

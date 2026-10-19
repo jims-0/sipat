@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <div class="card-title">🌾 Mga Taniman</div>
+    <p class="result-meta">Lagyan ng taniman ang bawat scan para masubaybayan ang isang bukid sa paglipas ng panahon.</p>
+    <form method="post" class="ask-row" style="margin-top: 8px;">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="text" name="name" maxlength="60" required placeholder="Pangalan, hal.: Kamatis - Lote 2">
+        <button class="btn btn-primary" type="submit">Idagdag</button>
+    </form>
+</div>
+
+<div class="card">
+    {% if plots %}
+    <div class="history-list">
+        {% for plot in plots %}
+        <div class="history-item" style="align-items: center;">
+            <div class="history-details">
+                <a href="{{ url_for('main.history', plot=plot.id) }}" class="history-title" style="color: inherit;">{{ plot.name }}</a>
+                <div style="font-size: 0.8rem; color: var(--primary-dark);">
+                    {{ plot.scans }} scan{% if plot.last_result %} • huli: {{ plot.last_result }}{% endif %}
+                </div>
+                {% if plot.last_scan %}<div class="history-date">{{ plot.last_scan | localtime }}</div>{% endif %}
+            </div>
+            <form method="post" action="{{ url_for('main.remove_plot', plot_id=plot.id) }}"
+                  onsubmit="return confirm('Alisin ang taniman? Mananatili ang mga scan nito.');">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button class="btn btn-danger btn-small" type="submit">Alisin</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p style="text-align: center; padding: 20px; color: #888;">Wala pang taniman.</p>
+    {% endif %}
+</div>
+{% endblock %}

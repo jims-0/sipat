@@ -46,3 +46,15 @@ def info(folder: str) -> dict:
 def is_diagnosis(folder: str) -> bool:
     """A crop result, as opposed to 'not a leaf' or 'a plant we do not cover'."""
     return folder in CLASSES and folder not in (NOT_A_LEAF, OTHER_PLANT)
+
+
+CROPS = {"tomato": "Kamatis", "pepper": "Sili", "potato": "Patatas", "corn": "Mais"}
+
+
+def slug(folder: str) -> str:
+    """URL-safe name for a class ("Pepper,_bell___Bacterial_spot" -> "pepper-bell-bacterial-spot")."""
+    import re
+    return re.sub(r"[^a-z0-9]+", "-", folder.lower()).strip("-")
+
+
+SLUGS = {slug(k): k for k in CLASSES}

@@ -57,6 +57,25 @@ leaf the model does not know is not forced into a tomato disease.
 name. Validation picks the best epoch; **the test photos are used only by
 evaluate.py**, after training is finished.
 
+## Measuring on field photos
+
+The lab test set says nothing about phone photos in a real field. To measure that:
+
+1. Use the app on real plants. On each result, tap 👍 if it was right, or 👎 and
+   pick what it really was (best confirmed by the MAO or an agronomist). An
+   "unsure" result can be labelled too.
+2. On **Estadistika**, download the field test set (`sipat_field_set_<date>.zip`:
+   one folder per true class + `labels.csv`).
+3. Run the app's own pipeline (LiteRT, the app threshold - no TensorFlow) on it:
+
+       python scripts\evaluate_field.py sipat_field_set_20261019.zip
+
+   It writes `docs/FIELD_EVALUATION.md` (field vs lab, per class, mistakes) and
+   `app/ml/model/field_report.json`, which the Estadistika page then shows.
+
+Aim for at least 30 photos per class; smaller classes are reported but flagged.
+Do not use PlantVillage photos here - that would only repeat the lab number.
+
 ## Limits to state honestly
 
 - PlantVillage photos are single leaves on plain backgrounds under even light.

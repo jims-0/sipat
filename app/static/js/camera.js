@@ -50,6 +50,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // "＋ Bagong taniman…" shows the name box
+    const plotSelect = document.getElementById('plot-select');
+    if (plotSelect) {
+        plotSelect.addEventListener('change', () => {
+            const box = document.getElementById('new-plot');
+            box.hidden = plotSelect.value !== 'new';
+            if (!box.hidden) box.focus();
+        });
+    }
+
     // Handle analysis submit
     if (analyzeBtn) {
         analyzeBtn.addEventListener('click', async () => {
@@ -61,6 +71,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const formData = new FormData();
             formData.append('image', selectedFile);
             formData.append('language', currentLang);
+            // Plot (taniman) and, for a follow-up re-scan, the first scan
+            const plotSelect = document.getElementById('plot-select');
+            const newPlot = document.getElementById('new-plot');
+            const parentId = document.getElementById('parent-id');
+            if (plotSelect && plotSelect.value === 'new' && newPlot.value.trim()) {
+                formData.append('new_plot', newPlot.value.trim());
+            } else if (plotSelect && plotSelect.value && plotSelect.value !== 'new') {
+                formData.append('plot_id', plotSelect.value);
+            }
+            if (parentId) formData.append('parent_id', parentId.value);
 
             try {
                 // Get CSRF token

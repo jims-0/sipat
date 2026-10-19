@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sipat #{{ diagnosis.id }} - {{ diagnosis.disease_name }}</title>
+    <style>
+        @page { size: A4; margin: 14mm; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Roboto, Arial, sans-serif; color: #222; font-size: 11.5pt; line-height: 1.45; padding: 16px; max-width: 800px; margin: 0 auto; }
+        header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #2e7d32; padding-bottom: 6px; margin-bottom: 12px; }
+        header h1 { font-size: 18pt; margin: 0; color: #1b5e20; }
+        header small { color: #666; }
+        .meta { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px 18px; margin-bottom: 10px; }
+        .meta b { color: #555; font-weight: 600; }
+        .photos { display: flex; gap: 10px; margin: 8px 0 12px; }
+        .photos figure { margin: 0; flex: 1; text-align: center; font-size: 9pt; color: #666; }
+        .photos img { width: 100%; max-height: 220px; object-fit: contain; border: 1px solid #ccc; border-radius: 6px; }
+        .result { padding: 8px 12px; border: 2px solid #2e7d32; border-radius: 8px; margin-bottom: 10px; }
+        .result .name { font-size: 15pt; font-weight: 700; color: #1b5e20; }
+        .warn { border-color: #f57f17; }
+        table { width: 100%; border-collapse: collapse; font-size: 10pt; margin-top: 6px; }
+        td { border-bottom: 1px solid #ddd; padding: 3px 4px; }
+        td:last-child { text-align: right; }
+        h2 { font-size: 12pt; color: #1b5e20; margin: 14px 0 4px; }
+        .guide ol { margin: 2px 0 6px; padding-left: 20px; }
+        .guide p { margin: 0 0 6px; }
+        .box { border: 1px solid #999; border-radius: 6px; min-height: 90px; padding: 6px 10px; white-space: pre-wrap; }
+        .sign { display: flex; gap: 30px; margin-top: 26px; }
+        .sign div { flex: 1; border-top: 1px solid #333; padding-top: 2px; font-size: 9pt; color: #555; }
+        .disclaimer { font-size: 8.5pt; color: #666; margin-top: 14px; border-top: 1px solid #ddd; padding-top: 6px; }
+        .toolbar { margin-bottom: 14px; display: flex; gap: 8px; }
+        .toolbar button, .toolbar a { padding: 8px 14px; border-radius: 8px; border: 2px solid #2e7d32; background: #2e7d32; color: white; font-weight: 600; cursor: pointer; text-decoration: none; font-size: 10.5pt; }
+        .toolbar a { background: white; color: #2e7d32; }
+        @media print { .toolbar { display: none; } body { padding: 0; } }
+    </style>
+</head>
+<body>
+{% set tl = lang == 'tl' %}
+{% set status = diagnosis.status or 'ok' %}
+<div class="toolbar">
+    <button onclick="window.print()">🖨️ {{ 'I-print' if tl else 'Print' }}</button>
+    <a href="{{ url_for('main.print_diagnosis', diagnosis_id=diagnosis.id, lang='en' if tl else 'tl') }}">{{ 'English' if tl else 'Tagalog' }}</a>
+    <a href="{{ url_for('main.view_diagnosis', diagnosis_id=diagnosis.id) }}">{{ 'Bumalik' if tl else 'Back' }}</a>
+</div>
+
+<header>
+    <h1>🌱 Sipat - {{ 'Ulat ng Pagsusuri ng Dahon' if tl else 'Leaf Diagnosis Report' }}</h1>
+    <small>#{{ diagnosis.id }}</small>
+</header>
+
+<div class="meta">
+    <div><b>{{ 'Petsa ng scan' if tl else 'Scanned' }}:</b> {{ diagnosis.timestamp | localtime }}</div>
+    <div><b>{{ 'Na-print' if tl else 'Printed' }}:</b> {{ printed.strftime('%b %d, %Y %I:%M %p') }}</div>
+    <div><b>{{ 'Pananim' if tl else 'Crop' }}:</b> {{ diagnosis.crop_type | capitalize }}</div>
+    <div><b>{{ 'Taniman' if tl else 'Plot' }}:</b> {{ diagnosis.plot_name or '-' }}</div>
+</div>
+
+<div class="result {{ '' if status == 'ok' else 'warn' }}">
+    {% if status == 'ok' %}
+    <div class="name">{{ diagnosis.disease_name_tl if tl else diagnosis.disease_name }}</div>
+    <div>{{ 'Kumpiyansa ng AI' if tl else 'AI confidence' }}: <b>{{ (diagnosis.confidence * 100) | round(1) }}%</b></div>
+    {% elif status == 'unsure' %}
+    <div class="name">{{ 'Hindi sigurado ang AI' if tl else 'AI not sure' }}</div>
+    {% elif status == 'not_leaf' %}
+    <div class="name">{{ 'Walang nakitang dahon' if tl else 'No leaf found' }}</div>
+    {% else %}
+    <div class="name">{{ 'Hindi suportadong halaman' if tl else 'Unsupported plant' }}</div>
+    {% endif %}
+    {% if true_class %}
+    <div>{{ 'Kinumpirma ng magsasaka/MAO bilang' if tl else 'Confirmed by farmer/MAO as' }}: <b>{{ true_class.name_tl if tl else true_class.name }}</b></div>
+    {% endif %}
+    {% if diagnosis.top3 %}
+    <table>
+        {% for g in diagnosis.top3 %}
+        <tr><td>{{ loop.index }}. {{ g.name_tl if tl else g.name }}</td><td>{{ (g.confidence * 100) | round(1) }}%</td></tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</div>
+
+<div class="photos">
+    <figure><img src="{{ diagnosis.image_path }}" alt=""><figcaption>{{ 'Larawan' if tl else 'Photo' }}</figcaption></figure>
+    {% if diagnosis.gradcam_path %}
+    <figure><img src="{{ diagnosis.gradcam_path }}" alt=""><figcaption>{{ 'Pinagbatayan ng AI (heat map)' if tl else 'Where the AI looked (heat map)' }}</figcaption></figure>
+    {% endif %}
+</div>
+
+<h2>{{ 'Gabay' if tl else 'Guidance' }}</h2>
+<div class="guide">{{ (diagnosis.treatment_tl if tl else diagnosis.treatment) | markdown }}</div>
+
+<h2>{{ 'Tala ng magsasaka' if tl else 'Notes from the farmer' }}</h2>
+<div class="box" style="min-height: 50px;">{{ diagnosis.notes or '' }}</div>
+
+<h2>{{ 'Para sa MAO / Agricultural Technologist' if tl else 'For the MAO / Agricultural Technologist' }}</h2>
+<div class="box"></div>
+<div class="sign">
+    <div>{{ 'Pangalan at lagda' if tl else 'Name and signature' }}</div>
+    <div>{{ 'Petsa' if tl else 'Date' }}</div>
+</div>
+
+<p class="disclaimer">
+    {% if tl %}
+    Ang Sipat ay pantulong lamang: AI na sinanay sa PlantVillage na larawan, hindi kapalit ng pagsusuri ng eksperto.
+    Gumamit lamang ng produktong rehistrado sa FPA at sundin ang label.
+    {% else %}
+    Sipat is a decision aid: an AI trained on PlantVillage photos, not a substitute for an expert diagnosis.
+    Use only FPA-registered products and follow the label.
+    {% endif %}
+</p>
+</body>
+</html>
