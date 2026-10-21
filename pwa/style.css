@@ -510,7 +510,7 @@ textarea.text-input { resize: vertical; }
 .loading-card { display: flex; flex-direction: column; align-items: center; padding: 40px 20px; color: var(--text-secondary); }
 .follow-banner { background: #e3f2fd; color: #0d47a1; font-size: 0.92rem; }
 .due-card { border-left: 5px solid var(--error-color); }
-.history-badge { margin-left: auto; padding: 3px 9px; border-radius: 12px; font-size: 0.78rem; font-weight: 600;
+.history-badge { align-self: center; margin-left: auto; padding: 3px 9px; border-radius: 12px; font-size: 0.78rem; font-weight: 600;
   background: #e8f5e9; color: var(--success-color); flex: 0 0 auto; }
 .history-badge.muted { background: #eceff1; color: #546e7a; }
 .image-comparison figure { margin: 0; text-align: center; }
@@ -543,3 +543,28 @@ code { font-size: 0.8rem; background: #eceff1; padding: 1px 5px; border-radius: 
 .history-item { min-width: 0; }
 .history-details { min-width: 0; }
 .history-title, .history-date { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* --- dashboard (home screen, both apps) --- */
+.dash .tiles { margin-top: 0; }
+.tiles-4 { grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 480px) { .tiles-4 { grid-template-columns: repeat(4, 1fr); } }
+a.tile { text-decoration: none; color: inherit; }
+.tile-good { background: #e8f5e9; }
+.tile-good .num { color: var(--success-color); }
+.tile-alert { background: #ffebee; }
+.tile-alert .num { color: var(--error-color); }
+.mix { display: flex; height: 12px; border-radius: 6px; overflow: hidden; background: var(--border-color); margin-top: 4px; }
+.mix span { display: block; height: 100%; }
+.mix-healthy { background: var(--primary-light); }
+.mix-sick { background: var(--accent-dark); }
+.mix-unsure { background: #b0bec5; }
+.mix-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.78rem; color: var(--text-secondary); margin-top: 6px; }
+.dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 5px; vertical-align: -1px; flex: 0 0 auto; }
+.dash-title { font-weight: 600; font-size: 0.9rem; color: var(--primary-dark); margin: 18px 0 8px; }
+.bars .track .bar-sick { display: block; height: 100%; background: var(--accent-dark); }
+.plot-list { display: grid; gap: 2px; }
+.plot-row { display: flex; align-items: center; gap: 4px; padding: 8px 0; border-bottom: 1px solid var(--border-color);
+  text-decoration: none; color: inherit; font-size: 0.88rem; min-width: 0; }
+.plot-row:last-child { border-bottom: none; }
+.plot-row strong { flex: 0 0 auto; margin-right: 6px; }
+.plot-row span { color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }

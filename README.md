@@ -1,8 +1,8 @@
-# Sipat 🌱🔍
+# SIPAT 🌱🔍 - Smart Image-based Plant Ailment Tracker
 
 **Crop disease detection from a leaf photo, for Filipino smallholder farmers.**
 
-*Sipat* is Tagalog for looking at something closely to inspect it, the way a
+SIPAT is an acronym and a word: *sipat* is Tagalog for looking at something closely to inspect it, the way a
 farmer or agriculturist studies a leaf. (Formerly "Tanim Guard".)
 
 Take a photo of a leaf; Sipat says which disease it most likely has, shows

@@ -1,0 +1,50 @@
+{# Home-screen dashboard; data from models.get_dashboard(). The phone app draws the same cards (pwa/app.js dashboardHtml). #}
+{% set d = dash %}
+{% set labels = {'healthy': 'Malusog', 'sick': 'May sakit', 'unsure': 'Hindi sigurado / walang dahon'} %}
+<div class="card dash">
+    <div class="card-title">📊 Dashboard</div>
+    {% if not d.total %}
+    <p class="result-meta">Dito lalabas ang buod ng mga scan mo: ilan ang malusog, ilan ang may sakit, at ano ang pinakamadalas na sakit.</p>
+    {% else %}
+    <div class="tiles tiles-4">
+        <a class="tile" href="{{ url_for('main.history') }}"><div class="num">{{ d.total }}</div><div class="lbl">Lahat ng scan</div></a>
+        <div class="tile tile-good"><div class="num">{{ d.healthy }}</div><div class="lbl">Malusog</div></div>
+        <div class="tile tile-warm"><div class="num">{{ d.sick }}</div><div class="lbl">May sakit</div></div>
+        <div class="tile {{ 'tile-alert' if d.due }}"><div class="num">{{ d.due }}</div><div class="lbl">Balikan na</div></div>
+    </div>
+    <div class="mix" role="img" aria-label="Malusog {{ (100 * d.healthy / d.total) | round | int }}%, may sakit {{ (100 * d.sick / d.total) | round | int }}%">
+        {% for k in ['healthy', 'sick', 'unsure'] if d[k] %}<span class="mix-{{ k }}" style="flex: {{ d[k] }}"></span>{% endfor %}
+    </div>
+    <div class="mix-legend">
+        {% for k in ['healthy', 'sick', 'unsure'] %}<span><i class="dot mix-{{ k }}"></i>{{ labels[k] }} {{ (100 * d[k] / d.total) | round | int }}%</span>{% endfor %}
+    </div>
+
+    {% set peak = ([1] + d.weeks | map(attribute='count') | list) | max %}
+    <div class="dash-title">Scan bawat linggo</div>
+    <div class="weeks">
+        {% for w in d.weeks %}
+        <div><b>{{ w.count or '' }}</b><span class="bar" style="height: {{ (100 * w.count / peak) | round | int }}%"></span>{{ w.week[5:7] | int }}/{{ w.week[8:] | int }}</div>
+        {% endfor %}
+    </div>
+
+    {% if d.top %}
+    {% set top_peak = d.top[0].count %}
+    <div class="dash-title">Pinakamadalas na sakit</div>
+    <ul class="bars">
+        {% for t in d.top %}
+        <li><span>{{ t.name_tl }}</span><span class="track"><span class="bar-sick" style="width: {{ (100 * t.count / top_peak) | round | int }}%"></span></span><strong>{{ t.count }}</strong></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if d.plots %}
+    <div class="dash-title">Kalagayan ng bawat taniman</div>
+    <div class="plot-list">
+        {% for p in d.plots %}
+        <a class="plot-row" href="{{ url_for('main.history', plot=p.plot_id) }}"><i class="dot mix-{{ p.kind }}"></i><strong>{{ p.name }}</strong>
+            <span>{{ p.result }} • {{ p.timestamp | localtime('%b %d') }}</span></a>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endif %}
+</div>

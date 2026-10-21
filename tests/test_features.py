@@ -205,11 +205,11 @@ def test_recheck_reminder_shows_when_due_and_clears_after_rescan(app, client, mo
     d = scan(client)
     resp = client.post(f"/api/diagnosis/{d}/recheck", json={"days": 7})
     assert resp.status_code == 200 and resp.get_json()["recheck_due"]
-    assert "Dapat Balikan" not in client.get("/").get_data(as_text=True)  # not due yet
+    assert "⏰ Balikan Na<" not in client.get("/").get_data(as_text=True)  # not due yet
     with app.app_context():
         from app.models import set_recheck
         set_recheck(d, "2026-01-01")  # overdue
-    assert "Dapat Balikan" in client.get("/").get_data(as_text=True)
+    assert "⏰ Balikan Na<" in client.get("/").get_data(as_text=True)
     scan(client, parent_id=str(d))
     assert "Dapat Balikan" not in client.get("/").get_data(as_text=True)
 
@@ -349,3 +349,31 @@ def test_old_database_gains_plots_and_label_columns(tmp_path):
 def test_unknown_page_is_a_friendly_404(client):
     resp = client.get("/no-such-page")
     assert resp.status_code == 404 and "Hindi makita" in resp.get_data(as_text=True)
+
+
+# --- home dashboard (2026-10-22) ----------------------------------------------
+
+def test_dashboard_counts_healthy_sick_unsure_and_plots(app, client, model):
+    model.answer = ("Tomato___Late_blight", 0.95)
+    scan(client, new_plot="Lote A")
+    scan(client, new_plot="Lote B")
+    model.answer = ("Tomato___healthy", 0.95)
+    scan(client, new_plot="Lote B")          # Lote B is healthy now
+    model.answer = ("Corn___Common_rust", 0.4)  # below threshold -> unsure
+    scan(client)
+    with app.app_context():
+        from app.models import get_dashboard
+        d = get_dashboard()
+    assert (d["total"], d["healthy"], d["sick"], d["unsure"]) == (4, 1, 2, 1)
+    assert d["top"][0]["key"] == "Tomato___Late_blight" and d["top"][0]["count"] == 2
+    assert [p["name"] for p in d["plots"]] == ["Lote A", "Lote B"]  # sick plot first
+    assert [p["kind"] for p in d["plots"]] == ["sick", "healthy"]
+    assert len(d["weeks"]) == 8 and d["weeks"][-1]["count"] == 4
+
+
+def test_home_shows_the_dashboard(client, model):
+    assert "Dito lalabas ang buod" in client.get("/").get_data(as_text=True)  # empty state
+    scan(client, new_plot="Lote A")
+    page = client.get("/").get_data(as_text=True)
+    assert "📊 Dashboard" in page and "Pinakamadalas na sakit" in page and "Lote A" in page
+    assert "Smart Image-based Plant Ailment Tracker" in page

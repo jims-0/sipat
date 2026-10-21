@@ -18,7 +18,7 @@ from app.ml.classes import CLASSES, CROPS, NOT_A_LEAF, OTHER_PLANT, SLUGS, is_di
 from app.ml.gradcam import generate_gradcam
 from app.ml.inference import predict_disease
 from app.ml.treatment import get_treatment_guidance
-from app.models import (delete_diagnosis, delete_plot, get_diagnosis_by_id,
+from app.models import (delete_diagnosis, delete_plot, get_dashboard, get_diagnosis_by_id,
                         get_diagnosis_history, get_due_rechecks, get_field_labelled,
                         get_followups, get_or_create_plot, get_plots, get_stats,
                         plot_exists, save_diagnosis, save_feedback, save_notes,
@@ -55,7 +55,7 @@ def index():
     """Main page - camera/upload interface, plus re-checks that are due."""
     parent = get_diagnosis_by_id(_int_or_none(request.args.get('followup')) or 0)
     return render_template('index.html', plots=get_plots(), parent=parent,
-                           due=get_due_rechecks(date.today().isoformat()))
+                           due=get_due_rechecks(date.today().isoformat()), dash=get_dashboard())
 
 
 @bp.route('/api/predict', methods=['POST'])

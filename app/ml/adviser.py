@@ -36,11 +36,11 @@ MAX_QUESTION = 400
 
 OFFLINE = {
     "en": "The adviser is offline (Ollama is not running on this computer). The written guidance above still applies.",
-    "tl": "Hindi available ang tagapayo (hindi tumatakbo ang Ollama sa computer na ito). Gamitin muna ang nakasulat na gabay sa itaas.",
+    "tl": "Hindi available ang AI na sumasagot (hindi naka-on ang Ollama sa computer na ito). Basahin muna ang gabay sa itaas.",
 }
 DONT_KNOW = {
     "en": "I can't answer that safely from Sipat's guidance. Read the guidance above, and ask your Municipal Agriculture Office (MAO).",
-    "tl": "Hindi ko iyan masasagot nang ligtas mula sa gabay ng Sipat. Basahin ang gabay sa itaas at magtanong sa inyong Municipal Agriculture Office (MAO).",
+    "tl": "Hindi ko iyan masasagot nang sigurado mula sa gabay ng SIPAT. Basahin ang gabay sa itaas at magtanong sa Municipal Agriculture Office (MAO).",
 }
 
 # Order matters: the first intent that matches wins. Dose comes first so
@@ -68,8 +68,8 @@ _DOSE_RE = re.compile(r"\d[\d.,]*\s*(g|gr|gram|gramo|grams|ml|mL|l|litro|liter|l
 _LABELS = {
     "en": {"chemical": "If you spray", "organic": "Organic options", "prevention": "Prevention",
            "cause": "What it is", "signs": "Signs", "do_now": "Do now", "escalate": "When to get help"},
-    "tl": {"chemical": "Kung mag-i-spray", "organic": "Organikong paraan", "prevention": "Pag-iwas",
-           "cause": "Ano ito", "signs": "Mga palatandaan", "do_now": "Gawin ngayon", "escalate": "Kailan hihingi ng tulong"},
+    "tl": {"chemical": "Kung mag-i-spray", "organic": "Organic na paraan", "prevention": "Para maiwasan",
+           "cause": "Ano ito", "signs": "Sintomas", "do_now": "Gawin ngayon", "escalate": "Kailan magtatanong sa MAO"},
 }
 
 

@@ -3,14 +3,14 @@
 {% block content %}
 {% if due %}
 <div class="card">
-    <div class="card-title">⏰ Dapat Balikan Ngayon</div>
+    <div class="card-title">⏰ Balikan Na</div>
     <div class="due-list">
         {% for item in due %}
         <a href="{{ url_for('main.index', followup=item.id) }}">
             <img src="{{ item.image_path }}" alt="">
             <span style="flex: 1;">
                 <strong>{{ item.disease_name_tl or item.disease_name }}</strong><br>
-                <small>{% if item.plot_name %}{{ item.plot_name }} • {% endif %}takdang {{ item.recheck_due }}</small>
+                <small>{% if item.plot_name %}{{ item.plot_name }} • {% endif %}balikan sa {{ item.recheck_due }}</small>
             </span>
             <span class="chip chip-due">Kunan ulit</span>
         </a>
@@ -20,11 +20,11 @@
 {% endif %}
 
 <div class="card camera-container">
-    <div class="card-title">Kunan ang May Sakit na Dahon</div>
+    <div class="card-title">Picture-an ang Dahon</div>
     {% if parent %}
     <div class="notice">
-        Follow-up ng pagsusuri #{{ parent.id }} ({{ parent.disease_name_tl or parent.disease_name }},
-        {{ parent.timestamp | localtime('%b %d') }}). Kunan ang parehong halaman para makita kung gumaling o lumala.
+        Follow-up ng scan #{{ parent.id }} ({{ parent.disease_name_tl or parent.disease_name }},
+        {{ parent.timestamp | localtime('%b %d') }}). Picture-an ulit ang parehong halaman para makita kung gumaling o lumala.
         <input type="hidden" id="parent-id" value="{{ parent.id }}">
     </div>
     {% endif %}
@@ -36,7 +36,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
             </svg>
-            <div>Kunan ng litrato o pumili mula sa gallery</div>
+            <div>Mag-picture o pumili sa gallery</div>
         </div>
     </div>
 
@@ -73,18 +73,20 @@
     </div>
 
     <button type="button" id="analyze-btn" class="btn btn-accent" style="margin-top: 12px;" disabled>
-        🔍 Suriin ang Sakit
+        🔍 I-scan ang Dahon
     </button>
 </div>
 
+{% include '_dashboard.html' %}
+
 <!-- Tips Card -->
 <div class="card">
-    <div class="card-title">💡 Payo sa Pagkuha ng Litrato</div>
+    <div class="card-title">💡 Tips sa Pag-picture</div>
     <ul style="padding-left: 20px; font-size: 0.9rem; color: #555;">
-        <li>Siguraduhing maliwanag ang paligid</li>
-        <li>Itapat ang kamera sa apektadong dahon</li>
-        <li>Iwasan ang malabong kuha</li>
-        <li>Isang dahon lamang bawat litrato</li>
+        <li>Dapat maliwanag (mas maganda sa araw)</li>
+        <li>Itapat ang camera sa dahong may batik</li>
+        <li>Huwag malabo ang kuha</li>
+        <li>Isang dahon lang bawat picture</li>
     </ul>
 </div>
 {% endblock %}

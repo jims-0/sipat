@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="card">
-    <div class="card-title">Tungkol sa Sipat 🌱🔍</div>
+    <div class="card-title">Tungkol sa SIPAT 🌱🔍</div>
     <p style="margin-bottom: 12px; font-size: 0.95rem; line-height: 1.6;">
         Ang <strong>Sipat</strong> ay isang AI tool para sa mga Pilipinong magsasaka upang maagang matukoy ang sakit ng pananim gamit lamang ang litrato ng dahon.
     </p>
@@ -12,18 +12,18 @@
 </div>
 
 <div class="card">
-    <div class="card-title">✨ Mga Tampok</div>
+    <div class="card-title">✨ Mga Kaya Nitong Gawin</div>
     <ul style="padding-left: 20px; font-size: 0.9rem; line-height: 1.8; color: #444;">
         <li><strong>AI sa computer na ito:</strong> Tumatakbo ang model dito (TensorFlow Lite); hindi ipinapadala ang larawan sa internet</li>
         <li><strong>Heatmap:</strong> Ipinapakita kung aling bahagi ng dahon ang naging basehan ng AI</li>
         <li><strong>"Hindi sigurado":</strong> Kapag mababa ang kumpiyansa, hihilingin nitong kumuha ulit sa halip na manghula</li>
         <li><strong>Gabay sa Tagalog at English:</strong> May batayang sanggunian; sundin ang label at magtanong sa MAO para sa dami ng gamot</li>
-        <li><strong>Tagapayo:</strong> Magtanong tungkol sa resulta (kailangan ang Ollama sa computer)</li>
+        <li><strong>Magtanong sa AI:</strong> Magtanong tungkol sa resulta (kailangan ang Ollama sa computer)</li>
     </ul>
 </div>
 
 <div class="card">
-    <div class="card-title">🌾 Sinusuportahang Pananim</div>
+    <div class="card-title">🌾 Mga Pananim na Kilala Nito</div>
     <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
         <span style="background: #e8f5e9; padding: 6px 12px; border-radius: 16px; font-size: 0.85rem;">🍅 Kamatis</span>
         <span style="background: #e8f5e9; padding: 6px 12px; border-radius: 16px; font-size: 0.85rem;">🌶️ Sili</span>
@@ -35,7 +35,7 @@
 
 {% if report %}
 <div class="card">
-    <div class="card-title">📏 Sukat ng Model</div>
+    <div class="card-title">📏 Gaano Katama ang AI</div>
     <p class="result-meta">Sinukat sa {{ report.test_photos }} test na larawan na hindi ginamit sa training:</p>
     <ul style="padding-left: 20px; font-size: 0.9rem; line-height: 1.8; color: #444;">
         <li>Accuracy: <strong>{{ (report.accuracy * 100) | round(1) }}%</strong></li>

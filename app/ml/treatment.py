@@ -11,27 +11,27 @@ _HEADINGS = {
     "en": {"cause": "What it is", "signs": "Signs", "do_now": "Do now", "prevention": "Prevention",
            "chemical": "If you spray", "organic": "Organic options", "escalate": "When to get help",
            "sources": "Check against"},
-    "tl": {"cause": "Ano ito", "signs": "Mga palatandaan", "do_now": "Gawin ngayon", "prevention": "Pag-iwas",
-           "chemical": "Kung mag-i-spray", "organic": "Organikong paraan", "escalate": "Kailan hihingi ng tulong",
-           "sources": "Batayan"},
+    "tl": {"cause": "Ano ito", "signs": "Sintomas", "do_now": "Gawin ngayon", "prevention": "Para maiwasan",
+           "chemical": "Kung mag-i-spray", "organic": "Organic na paraan", "escalate": "Kailan magtatanong sa MAO",
+           "sources": "Sources"},
 }
 
 STATUS_MESSAGES = {
     "unsure": {
         "en": "**Not sure.** The model is not confident about this photo. Retake it in daylight: one leaf, "
               "filling most of the frame, in focus, with the spots visible. The closest guesses are listed below.",
-        "tl": "**Hindi sigurado.** Hindi kampante ang model sa larawang ito. Kumuha ulit sa liwanag ng araw: "
-              "isang dahon, sakop ang halos buong larawan, malinaw, at kita ang mga batik. Nasa ibaba ang pinakamalapit na hula.",
+        "tl": "**Hindi sigurado.** Hindi sure ang AI sa picture na ito. Kumuha ulit sa liwanag ng araw: "
+              "isang dahon lang, halos buong picture, malinaw, at kita ang mga batik. Nasa ibaba ang top 3 hula ng AI.",
     },
     "not_leaf": {
         "en": "**No leaf found.** Take a close photo of a single leaf from the affected plant.",
-        "tl": "**Walang nakitang dahon.** Kumuha ng malapitang larawan ng isang dahon mula sa apektadong halaman.",
+        "tl": "**Walang nakitang dahon.** Kumuha ng malapitang picture ng isang dahon mula sa halamang may sakit.",
     },
     "other_plant": {
         "en": "**Unsupported plant.** Sipat currently recognises tomato, pepper (sili), potato and corn "
               "leaves only. For other crops, ask your Municipal Agriculture Office.",
-        "tl": "**Hindi suportadong halaman.** Kamatis, sili, patatas at mais lamang ang kilala ngayon ng Sipat. "
-              "Para sa ibang pananim, magtanong sa inyong Municipal Agriculture Office.",
+        "tl": "**Hindi suportadong halaman.** Kamatis, sili, patatas at mais lang ang kilala ngayon ng SIPAT. "
+              "Para sa ibang tanim, magtanong sa Municipal Agriculture Office (MAO).",
     },
 }
 
@@ -62,5 +62,5 @@ def get_treatment_guidance(class_key: str, status: str = "ok") -> dict:
     if status in STATUS_MESSAGES:
         return dict(STATUS_MESSAGES[status])
     if class_key not in TREATMENTS:
-        return {"en": "No guidance on file for this result.", "tl": "Walang gabay para sa resultang ito."}
+        return {"en": "No guidance on file for this result.", "tl": "Wala pang gabay para sa resultang ito."}
     return {lang: render(class_key, lang) for lang in ("en", "tl")}

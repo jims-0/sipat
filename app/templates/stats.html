@@ -3,11 +3,11 @@
 {% block content %}
 {% set status_labels = {'ok': 'May resulta', 'unsure': 'Hindi sigurado', 'not_leaf': 'Hindi dahon', 'other_plant': 'Ibang halaman'} %}
 <div class="card">
-    <div class="card-title">📊 Estadistika ng Paggamit</div>
+    <div class="card-title">📊 Stats ng Paggamit</div>
     <div class="tiles">
         <div class="tile">
             <div class="num">{{ stats.total_diagnoses }}</div>
-            <div class="lbl">Kabuuang Pagsusuri</div>
+            <div class="lbl">Lahat ng Scan</div>
         </div>
         <div class="tile tile-warm">
             <div class="num">{% if stats.user_accuracy is not none %}{{ (stats.user_accuracy * 100) | round | int }}%{% else %}N/A{% endif %}</div>

@@ -6,8 +6,8 @@
  * a retrained model gets a new cache, and the old one is deleted on activate.
  * Bump APP_REV by hand when you change app.js / style.css / index.html.
  */
-const VERSION = "fe1abfd69cdb";
-const APP_REV = "3";
+const VERSION = "1a798af4c75e";
+const APP_REV = "5";
 const CACHE = `sipat-${VERSION}-${APP_REV}`;
 
 const CORE = [

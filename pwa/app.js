@@ -192,6 +192,53 @@
     </a>`;
   }
 
+  // ---------- dashboard ----------
+  // Same cards as the desktop home (templates/_dashboard.html), from the scans on this phone.
+  const localDay = (iso) => new Date(iso).toLocaleDateString("en-CA");
+  const KIND_LABEL = { healthy: "Malusog", sick: "May sakit", unsure: "Hindi sigurado / walang dahon" };
+
+  function dashboardHtml(scans) {
+    const d = C.dashboard(scans, DATA, today(), localDay);
+    if (!d.total) {
+      return `<div class="card dash"><div class="card-title">📊 Dashboard</div>
+        <p class="result-meta">Dito lalabas ang buod ng mga scan mo: ilan ang malusog, ilan ang may sakit, at ano ang pinakamadalas na sakit.
+        Ang mga picture ay naka-save lang sa teleponong ito; walang ipinapadala sa internet.</p></div>`;
+    }
+    const share = (n) => `${(100 * n / d.total).toFixed(0)}%`;
+    const peakWeek = Math.max(1, ...d.weeks.map((w) => w.count));
+    const peakTop = Math.max(1, ...d.top.map((t) => t.count));
+    const weekLabel = (iso) => new Date(iso + "T00:00:00").toLocaleDateString("en-PH", { month: "short", day: "numeric" });
+    return `<div class="card dash">
+      <div class="card-title">📊 Dashboard</div>
+      <div class="tiles tiles-4">
+        <a class="tile" href="#/history"><div class="num">${d.total}</div><div class="lbl">Lahat ng scan</div></a>
+        <div class="tile tile-good"><div class="num">${d.healthy}</div><div class="lbl">Malusog</div></div>
+        <div class="tile tile-warm"><div class="num">${d.sick}</div><div class="lbl">May sakit</div></div>
+        <div class="tile ${d.due ? "tile-alert" : ""}"><div class="num">${d.due}</div><div class="lbl">Balikan na</div></div>
+      </div>
+      <div class="mix" role="img" aria-label="Malusog ${share(d.healthy)}, may sakit ${share(d.sick)}, hindi sigurado ${share(d.unsure)}">
+        ${["healthy", "sick", "unsure"].map((k) => d[k] ? `<span class="mix-${k}" style="flex:${d[k]}"></span>` : "").join("")}
+      </div>
+      <div class="mix-legend">
+        ${["healthy", "sick", "unsure"].map((k) => `<span><i class="dot mix-${k}"></i>${KIND_LABEL[k]} ${share(d[k])}</span>`).join("")}
+      </div>
+
+      <div class="dash-title">Scan bawat linggo</div>
+      <div class="weeks">${d.weeks.map((w) => `<div><b>${w.count || ""}</b>
+        <span class="bar" style="height:${Math.round(100 * w.count / peakWeek)}%"></span>${weekLabel(w.week)}</div>`).join("")}</div>
+
+      ${d.top.length ? `<div class="dash-title">Pinakamadalas na sakit</div>
+        <ul class="bars">${d.top.map((t) => `<li><span>${esc(t.name_tl)}</span>
+          <span class="track"><span class="bar-sick" style="width:${Math.round(100 * t.count / peakTop)}%"></span></span>
+          <strong>${t.count}</strong></li>`).join("")}</ul>` : ""}
+
+      ${d.plots.length ? `<div class="dash-title">Kalagayan ng bawat taniman</div>
+        <div class="plot-list">${d.plots.map((p) => `<a href="#/history?plot=${encodeURIComponent(p.name)}" class="plot-row">
+          <i class="dot mix-${p.kind}"></i><strong>${esc(p.name)}</strong>
+          <span>${esc(nameOf(p.scan))} • ${when(p.scan.ts, { month: "short", day: "numeric" })}</span></a>`).join("")}</div>` : ""}
+    </div>`;
+  }
+
   // ---------- screens ----------
   async function home(params) {
     const scans = await allScans();
@@ -203,28 +250,28 @@
         <strong>${esc(nameOf(followOf))}</strong>. Kunan ulit ang parehong halaman.</div>` : ""}
       <div class="card scan-card">
         <div class="card-title">Kunan ang dahon</div>
-        <p class="result-meta">Isang dahon, sakop ang halos buong larawan, sa liwanag ng araw, malinaw ang mga batik.</p>
+        <p class="result-meta">Isang dahon lang, halos buong picture, sa liwanag ng araw, kita ang mga batik.</p>
         <label class="field-label" for="plot">Taniman (opsyonal)</label>
         <input id="plot" class="text-input" list="plot-list" maxlength="60" placeholder="hal. Kamatis sa likod-bahay" value="${esc(followOf ? followOf.plot || "" : "")}">
         <datalist id="plot-list">${plots.map((p) => `<option value="${esc(p)}">`).join("")}</datalist>
         <div class="scan-buttons">
-          <label class="btn btn-primary btn-large">📷 Kunan ng larawan
+          <label class="btn btn-primary btn-large">📷 Kunan ng picture
             <input type="file" accept="image/*" capture="environment" class="file-input" data-pick></label>
           <label class="btn btn-secondary">🖼️ Pumili sa gallery
             <input type="file" accept="image/*" class="file-input" data-pick></label>
         </div>
-        <div id="busy" class="busy" hidden><div class="spinner"></div><span>Sinusuri ng AI…</span></div>
+        <div id="busy" class="busy" hidden><div class="spinner"></div><span>Tinitingnan ng AI…</span></div>
         <p id="model-state" class="small-print"></p>
       </div>
-      ${due.length ? `<div class="card due-card"><div class="card-title">⏰ Dapat Balikan</div>
+      ${due.length ? `<div class="card due-card"><div class="card-title">⏰ Balikan Na</div>
         <div class="history-list">${due.map(scanItem).join("")}</div></div>` : ""}
+      ${dashboardHtml(scans)}
       ${scans.length ? `<div class="card"><div class="card-title">Mga huling scan</div>
         <div class="history-list">${scans.slice(0, 3).map(scanItem).join("")}</div>
-        <a href="#/history" class="small-print">Tingnan lahat →</a></div>`
-      : `<div class="card"><p class="result-meta">Wala pang scan. Ang mga larawan ay nananatili sa teleponong ito; walang ipinapadala sa internet.</p></div>`}`;
+        <a href="#/history" class="small-print">Tingnan lahat →</a></div>` : ""}`;
 
     const state = $("#model-state");
-    state.textContent = "Inihahanda ang AI…";
+    state.textContent = "Nilo-load ang AI…";
     loadModel().then(() => { state.textContent = "✓ Handa ang AI (gumagana kahit offline)"; })
       .catch(() => { state.textContent = "Hindi ma-load ang AI. Buksan ulit ang app habang may internet nang isang beses."; });
 
@@ -270,7 +317,7 @@
               not_leaf: "Walang nakitang dahon sa larawan",
               other_plant: "Hindi suportadong halaman" }[s.status]}</div>`}
         <div class="result-meta">${when(s.ts)}${s.plot ? ` • Taniman: <a href="#/history?plot=${encodeURIComponent(s.plot)}">${esc(s.plot)}</a>` : ""}</div>
-        <div class="card-title mt">Pinakamalapit na hula ng AI</div>
+        <div class="card-title mt">Top 3 hula ng AI</div>
         <ul class="top3">${s.top3.map((t) => `<li>
           <span>${esc(t.name_tl)} <small>(${esc(t.name)})</small></span>
           <span class="top3-bar"><span style="width:${Math.round(t.confidence * 100)}%"></span></span>
@@ -295,10 +342,10 @@
         <div class="history-list">${followups.map(scanItem).join("")}</div>${trendHtml(s, followups[followups.length - 1])}</div>` : ""}
 
       <div class="card">
-        <div class="card-title">🌱 Gabay sa Paggamot</div>
+        <div class="card-title">🌱 Ano ang Gagawin</div>
         ${langToggle()}
         <div class="treatment-content">${C.markdown(g[lang])}</div>
-        ${c.diagnosis ? `<p class="small-print"><a href="#/library/${c.slug}">📖 Tingnan sa Aklatan</a></p>` : ""}
+        ${c.diagnosis ? `<p class="small-print"><a href="#/library/${c.slug}">📖 Basahin pa tungkol dito</a></p>` : ""}
       </div>
 
       <div class="card">
@@ -318,10 +365,10 @@
       <div class="card">
         <div class="card-title">✅ Tama ba ang hula?</div>
         <p class="result-meta">Ang mga sagot dito ang bumubuo ng <em>field test set</em>: sinusukat nito kung gaano katama ang AI sa totoong bukid.</p>
-        ${labelled ? `<p class="label-done">Naitala: <strong>${esc((DATA.classes[labelled] || {}).name_tl || labelled)}</strong></p>` : ""}
+        ${labelled ? `<p class="label-done">Na-save: <strong>${esc((DATA.classes[labelled] || {}).name_tl || labelled)}</strong></p>` : ""}
         <div class="feedback-row">
           ${s.status === "ok" ? `<button class="btn btn-secondary" id="fb-yes">👍 Tama</button>` : ""}
-          <button class="btn btn-secondary" id="fb-no">${s.status === "ok" ? "👎 Mali" : "🏷️ Itala ang totoong sakit"}</button>
+          <button class="btn btn-secondary" id="fb-no">${s.status === "ok" ? "👎 Mali" : "🏷️ Ilagay ang totoong sakit"}</button>
         </div>
         <div id="fb-pick" hidden>
           <label class="field-label" for="fb-class">Ano talaga ito? (mas mabuti kung kinumpirma ng MAO)</label>
@@ -333,7 +380,7 @@
       </div>
 
       <div class="card">
-        <div class="card-title">📝 Tala at Paalala</div>
+        <div class="card-title">📝 Notes at Paalala</div>
         <label class="field-label" for="notes">Tala</label>
         <textarea id="notes" class="text-input" rows="3" maxlength="1000" placeholder="hal. Nag-spray noong Lunes">${esc(s.notes || "")}</textarea>
         <label class="field-label" for="recheck">Balikan sa petsang ito</label>
@@ -345,7 +392,7 @@
       <div class="actions">
         <a href="#/?follow=${s.id}" class="btn btn-primary">🔁 Follow-up na scan</a>
         <a href="#/" class="btn btn-secondary">📷 Bagong scan</a>
-        <button class="btn btn-danger" id="delete">🗑️ Burahin</button>
+        <button class="btn btn-danger" id="delete">🗑️ I-delete</button>
       </div>`;
 
     bindLang(() => result(id));
@@ -360,9 +407,9 @@
     $("#ask-form").addEventListener("submit", (e) => { e.preventDefault(); askQ($("#ask-q").value); $("#ask-q").value = ""; });
 
     const yes = $("#fb-yes");
-    if (yes) yes.addEventListener("click", async () => { s.true_class_key = s.class_key; await putScan(s); toast("Salamat! Naitala."); result(id); });
+    if (yes) yes.addEventListener("click", async () => { s.true_class_key = s.class_key; await putScan(s); toast("Salamat! Na-save."); result(id); });
     $("#fb-no").addEventListener("click", () => { $("#fb-pick").hidden = false; });
-    $("#fb-save").addEventListener("click", async () => { s.true_class_key = $("#fb-class").value; await putScan(s); toast("Naitala."); result(id); });
+    $("#fb-save").addEventListener("click", async () => { s.true_class_key = $("#fb-class").value; await putScan(s); toast("Na-save."); result(id); });
 
     view.querySelectorAll("[data-days]").forEach((b) => b.addEventListener("click", () => {
       const d = new Date(); d.setDate(d.getDate() + Number(b.dataset.days));
@@ -374,10 +421,10 @@
     });
     $("#delete").addEventListener("click", async (e) => {
       const btn = e.currentTarget;
-      if (btn.dataset.armed !== "1") { btn.dataset.armed = "1"; btn.textContent = "Pindutin ulit para burahin"; return; }
+      if (btn.dataset.armed !== "1") { btn.dataset.armed = "1"; btn.textContent = "Pindutin ulit para i-delete"; return; }
       for (const f of followups) { f.parent_id = null; await putScan(f); }
       await deleteScan(s.id);
-      toast("Nabura.");
+      toast("Na-delete.");
       location.hash = "#/history";
     });
   }
@@ -395,7 +442,7 @@
     const shown = scans.filter((s) => (!plot || s.plot === plot) && (!status || s.status === status));
     view.innerHTML = `
       <div class="card">
-        <div class="card-title">Kasaysayan (${shown.length})</div>
+        <div class="card-title">History (${shown.length})</div>
         <div class="filters">
           <select id="f-plot" class="text-input" aria-label="Taniman"><option value="">Lahat ng taniman</option>
             ${plots.map((p) => `<option ${p === plot ? "selected" : ""}>${esc(p)}</option>`).join("")}</select>
@@ -421,7 +468,7 @@
       if (c.diagnosis) (groups[c.crop] = groups[c.crop] || []).push(c);
     }
     view.innerHTML = `
-      <div class="card"><div class="card-title">📖 Aklatan ng Sakit</div>
+      <div class="card"><div class="card-title">📖 Mga Sakit</div>
         <p class="result-meta">Ang mga sakit na kilala ng Sipat. Halimbawang larawan: PlantVillage (CC BY 4.0).</p></div>
       ${Object.entries(groups).map(([crop, items]) => `
         <div class="card"><div class="card-title">${esc(DATA.crops[crop] || crop)}</div>
@@ -446,7 +493,7 @@
           kapag sinabi ng AI na ito, tama ito <strong>${pct(m.precision)}</strong> ng beses (lab na larawan).</p>` : ""}
       </div>
       <div class="card">${langToggle()}<div class="treatment-content">${C.markdown(DATA.guidance[key][lang])}</div></div>
-      <a href="#/library" class="btn btn-secondary">← Aklatan</a>`;
+      <a href="#/library" class="btn btn-secondary">← Mga Sakit</a>`;
     bindLang(() => libraryEntry(slug));
   }
 
@@ -461,7 +508,7 @@
     } catch (err) { /* not supported */ }
     view.innerHTML = `
       <div class="card">
-        <div class="card-title">Tungkol sa Sipat 🌱🔍</div>
+        <div class="card-title">Tungkol sa SIPAT 🌱🔍</div>
         <p>Ang <strong>Sipat</strong> ay tumutukoy sa sakit ng kamatis, sili, patatas at mais mula sa larawan ng isang dahon.</p>
         <ul class="plain-list">
           <li><strong>Sa telepono tumatakbo ang AI.</strong> Walang larawang ipinapadala sa internet.</li>
@@ -471,7 +518,7 @@
         </ul>
       </div>
       <div class="card">
-        <div class="card-title">📏 Sukat ng Model</div>
+        <div class="card-title">📏 Gaano Katama ang AI</div>
         <p class="result-meta">Sinukat sa ${e.test_photos.toLocaleString()} test na larawan na hindi ginamit sa training:</p>
         <ul class="plain-list">
           <li>Accuracy: <strong>${pct(e.accuracy)}</strong></li>

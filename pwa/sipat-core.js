@@ -176,6 +176,48 @@
     return { kind: "worse", text: "Ibang sakit na ang nakita - basahin ang bagong gabay." };
   }
 
+  // Home-screen dashboard (the phone's version of models.get_dashboard).
+  // scans: the stored scans; today: local "YYYY-MM-DD"; dayOf: ISO timestamp -> local "YYYY-MM-DD".
+  const DAY = 864e5;
+  const dayNum = (d) => Date.UTC(+d.slice(0, 4), +d.slice(5, 7) - 1, +d.slice(8, 10)) / DAY;
+  const mondayOf = (d) => { const n = dayNum(d); return n - ((new Date(n * DAY).getUTCDay() + 6) % 7); };
+  const isoOf = (n) => new Date(n * DAY).toISOString().slice(0, 10);
+
+  function kindOf(scan, data) {
+    if (scan.status !== "ok") return "unsure";
+    return (data.classes[scan.class_key] || {}).healthy ? "healthy" : "sick";
+  }
+
+  function dashboard(scans, data, today, dayOf) {
+    const counts = { healthy: 0, sick: 0, unsure: 0 };
+    const diseases = {};
+    for (const s of scans) {
+      const k = kindOf(s, data);
+      counts[k]++;
+      if (k === "sick") diseases[s.class_key] = (diseases[s.class_key] || 0) + 1;
+    }
+    const due = scans.filter((s) => s.recheck_due && s.recheck_due <= today
+      && !scans.some((f) => f.parent_id === s.id)).length;
+    const top = Object.entries(diseases)
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, 5)
+      .map(([key, count]) => ({ key, count, name_tl: data.classes[key].name_tl, name: data.classes[key].name }));
+    // Monday-start weeks, last 8, oldest first (same as models.get_stats).
+    const thisMonday = mondayOf(today);
+    const weeks = [];
+    for (let i = 7; i >= 0; i--) weeks.push({ week: isoOf(thisMonday - 7 * i), count: 0 });
+    for (const s of scans) {
+      const w = weeks.find((x) => x.week === isoOf(mondayOf(dayOf(s.ts))));
+      if (w) w.count++;
+    }
+    // Latest scan per plot; plots with a disease first.
+    const latest = {};
+    for (const s of scans) if (s.plot && (!latest[s.plot] || s.id > latest[s.plot].id)) latest[s.plot] = s;
+    const order = { sick: 0, unsure: 1, healthy: 2 };
+    const plots = Object.entries(latest).map(([name, s]) => ({ name, kind: kindOf(s, data), scan: s }))
+      .sort((a, b) => order[a.kind] - order[b.kind] || a.name.localeCompare(b.name));
+    return { total: scans.length, ...counts, due, top, weeks, plots };
+  }
+
   // The small markdown subset treatment.py writes: **bold**, _italic_, "1. " lists, blank-line paragraphs.
   function escapeHtml(s) {
     return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -257,5 +299,5 @@
     }).join(",");
   }
 
-  return { interpret, resizeBilinear, camMap, colorize, intentOf, ask, trend, markdown, escapeHtml, crc32, zip, csvRow };
+  return { interpret, resizeBilinear, camMap, colorize, intentOf, ask, trend, dashboard, markdown, escapeHtml, crc32, zip, csvRow };
 });

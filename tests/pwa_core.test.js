@@ -79,3 +79,20 @@ test("every diagnosis class has guidance in both languages", () => {
 test("crc32 known value", () => {
   assert.strictEqual(C.crc32(new TextEncoder().encode("123456789")), 0xcbf43926);
 });
+
+test("dashboard: counts, top diseases, weeks and plots (sick plots first)", () => {
+  const ts = (d) => `${d}T04:00:00.000Z`;
+  const dayOf = (iso) => iso.slice(0, 10);
+  const scans = [
+    { id: 1, ts: ts("2026-10-20"), status: "ok", class_key: "Tomato___Late_blight", plot: "Lote A", recheck_due: "2026-10-21" },
+    { id: 2, ts: ts("2026-10-21"), status: "ok", class_key: "Tomato___Late_blight", plot: "Lote B" },
+    { id: 3, ts: ts("2026-10-22"), status: "ok", class_key: "Tomato___healthy", plot: "Lote B" },
+    { id: 4, ts: ts("2026-10-13"), status: "unsure", class_key: "Corn___Common_rust" },
+  ];
+  const d = C.dashboard(scans, DATA, "2026-10-22", dayOf);
+  assert.deepStrictEqual([d.total, d.healthy, d.sick, d.unsure, d.due], [4, 1, 2, 1, 1]);
+  assert.deepStrictEqual(d.top.map((t) => [t.key, t.count]), [["Tomato___Late_blight", 2]]);
+  assert.strictEqual(d.weeks.length, 8);
+  assert.deepStrictEqual(d.weeks.slice(-2), [{ week: "2026-10-12", count: 1 }, { week: "2026-10-19", count: 3 }]);
+  assert.deepStrictEqual(d.plots.map((p) => [p.name, p.kind]), [["Lote A", "sick"], ["Lote B", "healthy"]]);
+});

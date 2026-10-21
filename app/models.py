@@ -282,3 +282,43 @@ def get_stats(today=None):
         'field_accuracy': (field['correct'] or 0) / field['labelled'] if field['labelled'] else None,
         'field_labelled_all': field_labelled_all,
     }
+
+
+def get_dashboard(today=None):
+    """Home-screen summary - the desktop twin of dashboard() in pwa/sipat-core.js:
+    healthy / sick / unsure counts, rechecks due, scans per week, the most common
+    diseases and the latest result of every plot."""
+    from datetime import date
+    from app.ml.classes import CLASSES
+
+    def kind(status, class_key):
+        if (status or 'ok') != 'ok':
+            return 'unsure'
+        return 'healthy' if CLASSES.get(class_key, {}).get('healthy') else 'sick'
+
+    today = today or date.today()
+    db = get_db()
+    counts = {'healthy': 0, 'sick': 0, 'unsure': 0}
+    diseases = {}
+    for row in db.execute('SELECT class_key, status FROM diagnoses'):
+        k = kind(row['status'], row['class_key'])
+        counts[k] += 1
+        if k == 'sick':
+            diseases[row['class_key']] = diseases.get(row['class_key'], 0) + 1
+    top = [{'key': key, 'count': n, 'name_tl': CLASSES[key]['name_tl'], 'name': CLASSES[key]['name']}
+           for key, n in sorted(diseases.items(), key=lambda kv: (-kv[1], kv[0]))[:5] if key in CLASSES]
+
+    plots = []
+    for row in db.execute('''
+        SELECT p.id AS plot_id, p.name, d.id, d.class_key, d.status, d.timestamp,
+               COALESCE(d.disease_name_tl, d.disease_name) AS result
+        FROM plots p JOIN diagnoses d ON d.id = (
+            SELECT l.id FROM diagnoses l WHERE l.plot_id = p.id ORDER BY l.timestamp DESC, l.id DESC LIMIT 1)
+    '''):
+        plots.append({**dict(row), 'kind': kind(row['status'], row['class_key'])})
+    order = {'sick': 0, 'unsure': 1, 'healthy': 2}
+    plots.sort(key=lambda p: (order[p['kind']], p['name'].lower()))
+
+    total = sum(counts.values())
+    return {'total': total, **counts, 'due': len(get_due_rechecks(today.isoformat())),
+            'top': top, 'weeks': get_stats(today)['by_week'], 'plots': plots}
