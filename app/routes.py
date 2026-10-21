@@ -132,6 +132,17 @@ def predict():
     })
 
 
+@bp.route('/m/')
+@bp.route('/m/<path:filename>')
+def phone_app(filename='index.html'):
+    """The phone app (pwa/), so a phone on the same Wi-Fi can open it from this
+    PC during a demo. Over plain http it runs but cannot install for offline
+    use - for that, host pwa/ on https (see pwa/README.md)."""
+    if filename.startswith('_parity/'):
+        abort(404)
+    return send_from_directory(os.path.join(os.path.dirname(current_app.root_path), 'pwa'), filename)
+
+
 @bp.route('/uploads/<path:filename>')
 def uploaded_file(filename):
     """Photos live in UPLOAD_FOLDER, which in the desktop build is a folder next

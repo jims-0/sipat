@@ -51,3 +51,6 @@ dist/
 app/static/uploads/*
 !app/static/uploads/20261008_173647_17914521949033171746575867417473.jpg
 !app/static/uploads/gradcam_20261008_173647_17914521949033171746575867417473.jpg
+
+# Phone app parity photos (scripts/pwa_parity.py)
+pwa/_parity/

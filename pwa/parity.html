@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sipat parity check</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Phone vs desktop on the same photos. Prepare with: python scripts/pwa_parity.py -->
+  <main class="container">
+    <div class="card">
+      <div class="card-title">Phone vs desktop parity</div>
+      <p class="result-meta" id="status">Running…</p>
+      <ul class="plain-list" id="summary"></ul>
+      <ul class="plain-list" id="mismatches"></ul>
+    </div>
+  </main>
+  <div id="view" hidden></div>
+  <script src="vendor/tf-core.min.js"></script>
+  <script src="vendor/tf-backend-cpu.min.js"></script>
+  <script src="vendor/tf-tflite.min.js"></script>
+  <script src="sipat-core.js"></script>
+  <script src="app.js"></script>
+  <script>
+    (async () => {
+      const status = document.getElementById("status");
+      try {
+        const res = await fetch("_parity/expected.json");
+        if (!res.ok) throw new Error("No _parity/expected.json - run python scripts/pwa_parity.py first");
+        const expected = await res.json();
+        while (!SipatDebug.data()) await new Promise((r) => setTimeout(r, 100));
+        await SipatDebug.loadModel();
+        let sameClass = 0, sameStatus = 0, correct = 0, maxDiff = 0;
+        const diffs = [], bad = [];
+        const t0 = performance.now();
+        for (const [i, row] of expected.entries()) {
+          status.textContent = `Photo ${i + 1} / ${expected.length}`;
+          const blob = await (await fetch("_parity/" + row.file)).blob();
+          const { d, probs } = await SipatDebug.analyse(new File([blob], row.file, { type: blob.type }));
+          const diff = Math.max(...probs.map((p, k) => Math.abs(p - row.probs[k])));
+          diffs.push(diff); maxDiff = Math.max(maxDiff, diff);
+          if (d.class_key === row.class_key) sameClass++; else bad.push(`${row.file}: desktop ${row.class_key}, phone ${d.class_key}`);
+          if (d.status === row.status) sameStatus++;
+          if (d.class_key === row.true) correct++;
+        }
+        diffs.sort((a, b) => a - b);
+        const n = expected.length;
+        const result = {
+          photos: n, same_class: sameClass, same_status: sameStatus, phone_correct: correct,
+          desktop_correct: expected.filter((r) => r.class_key === r.true).length,
+          median_prob_diff: diffs[Math.floor(n / 2)], max_prob_diff: maxDiff,
+          ms_per_photo: Math.round((performance.now() - t0) / n), user_agent: navigator.userAgent,
+        };
+        window.parityResult = result;
+        status.textContent = "Done.";
+        document.getElementById("summary").innerHTML = Object.entries(result)
+          .map(([k, v]) => `<li><strong>${k}</strong>: ${SipatCore.escapeHtml(typeof v === "number" && v > 0 && v < 1 ? v.toExponential(2) : v)}</li>`).join("");
+        document.getElementById("mismatches").innerHTML = bad.map((b) => `<li>${SipatCore.escapeHtml(b)}</li>`).join("");
+      } catch (e) {
+        status.textContent = e.message || String(e);
+      }
+    })();
+  </script>
+</body>
+</html>

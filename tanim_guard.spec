@@ -7,6 +7,7 @@ writes them to data/ next to itself (desktop.py).
 """
 
 from PyInstaller.utils.hooks import collect_all
+import glob
 import os
 
 litert_datas, litert_binaries, litert_hidden = collect_all('ai_edge_litert')
@@ -24,7 +25,8 @@ a = Analysis(
         ('app/ml/model/cam_weights.npy', 'app/ml/model'),
         ('app/ml/model/evaluation_report.json', 'app/ml/model'),
         ('app/static/library', 'app/static/library'),
-    ] + ([('app/ml/model/field_report.json', 'app/ml/model')]
+    ] + [(p, os.path.dirname(p)) for p in glob.glob('pwa/**/*', recursive=True)  # phone app at /m/
+         if os.path.isfile(p) and '_parity' not in p] + ([('app/ml/model/field_report.json', 'app/ml/model')]
          if os.path.exists('app/ml/model/field_report.json') else []) + litert_datas,
     hiddenimports=litert_hidden,
     excludes=['tensorflow', 'keras', 'matplotlib', 'tkinter', 'pytest', 'IPython'],

@@ -58,6 +58,7 @@ def main():
     print(f"\n  Sipat is running:  http://localhost:{port}")
     if (ip := lan_address()):
         print(f"  Sa cellphone (parehong Wi-Fi):  http://{ip}:{port}")
+        print(f"  Phone app (AI sa mismong cellphone):  http://{ip}:{port}/m/")
     print("  Close this window to stop.\n")
     threading.Timer(1.5, webbrowser.open, args=(f"http://localhost:{port}",)).start()
     app.run(host="0.0.0.0", port=port, debug=False, threaded=True)
