@@ -24,8 +24,15 @@ STATUS_MESSAGES = {
               "isang dahon lang, halos buong picture, malinaw, at kita ang mga batik. Nasa ibaba ang top 3 hula ng AI.",
     },
     "not_leaf": {
-        "en": "**No leaf found.** Take a close photo of a single leaf from the affected plant.",
-        "tl": "**Walang nakitang dahon.** Kumuha ng malapitang picture ng isang dahon mula sa halamang may sakit.",
+        # The model was trained on leaves against plain backgrounds, so a real leaf
+        # held up against a busy room can land here too - ask for a retake, do not
+        # tell the farmer there is no leaf.
+        "en": "**Leaf not clear.** The AI could not pick out a leaf in this photo. If there is one, the "
+              "background is probably confusing it: retake with the leaf on plain paper or a table, "
+              "filling most of the frame, in good light.",
+        "tl": "**Hindi malinaw ang dahon.** Hindi makita ng AI ang dahon sa picture na ito. Kung may dahon, "
+              "baka nalilito ito sa background: kunan ulit na nakapatong ang dahon sa plain na papel o mesa, "
+              "halos buong picture, at maliwanag.",
     },
     "other_plant": {
         "en": "**Unsupported plant.** Sipat currently recognises tomato, pepper (sili), potato and corn "

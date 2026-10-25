@@ -270,8 +270,8 @@
    "tl": "**Hindi sigurado.** Hindi sure ang AI sa picture na ito. Kumuha ulit sa liwanag ng araw: isang dahon lang, halos buong picture, malinaw, at kita ang mga batik. Nasa ibaba ang top 3 hula ng AI."
   },
   "not_leaf": {
-   "en": "**No leaf found.** Take a close photo of a single leaf from the affected plant.",
-   "tl": "**Walang nakitang dahon.** Kumuha ng malapitang picture ng isang dahon mula sa halamang may sakit."
+   "en": "**Leaf not clear.** The AI could not pick out a leaf in this photo. If there is one, the background is probably confusing it: retake with the leaf on plain paper or a table, filling most of the frame, in good light.",
+   "tl": "**Hindi malinaw ang dahon.** Hindi makita ng AI ang dahon sa picture na ito. Kung may dahon, baka nalilito ito sa background: kunan ulit na nakapatong ang dahon sa plain na papel o mesa, halos buong picture, at maliwanag."
   },
   "other_plant": {
    "en": "**Unsupported plant.** Sipat currently recognises tomato, pepper (sili), potato and corn leaves only. For other crops, ask your Municipal Agriculture Office.",

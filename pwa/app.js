@@ -314,7 +314,7 @@
              <div class="result-meta">Pananim: <strong>${esc(DATA.crops[s.crop_type] || s.crop_type)}</strong></div>`
           : `<div class="status-banner status-${s.status}">${{
               unsure: "Hindi sigurado ang AI - kumuha ulit ng larawan",
-              not_leaf: "Walang nakitang dahon sa larawan",
+              not_leaf: "Hindi malinaw ang dahon - kunan ulit sa plain na background",
               other_plant: "Hindi suportadong halaman" }[s.status]}</div>`}
         <div class="result-meta">${when(s.ts)}${s.plot ? ` • Taniman: <a href="#/history?plot=${encodeURIComponent(s.plot)}">${esc(s.plot)}</a>` : ""}</div>
         <div class="card-title mt">Top 3 hula ng AI</div>

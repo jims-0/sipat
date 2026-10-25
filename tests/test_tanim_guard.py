@@ -46,6 +46,15 @@ def test_not_a_leaf_and_other_plant_are_not_diagnoses():
     assert not is_diagnosis(NOT_A_LEAF) and not is_diagnosis(OTHER_PLANT)
 
 
+def test_not_leaf_asks_for_a_retake_not_a_verdict():
+    # A real leaf held against a busy background gets scored "not a leaf"
+    # (field photo, 2026-10-25), so the message must ask for a retake.
+    from app.ml.treatment import STATUS_MESSAGES
+    msg = STATUS_MESSAGES["not_leaf"]
+    assert "plain" in msg["en"] and "plain" in msg["tl"]
+    assert "Walang nakitang dahon" not in msg["tl"]
+
+
 def test_healthy_is_flagged():
     assert interpret(_probs("Potato___healthy", 0.95), LABELS, 0.6)["healthy"] is True
 
@@ -73,7 +82,7 @@ def test_guidance_never_invents_a_dose():
 
 def test_statuses_get_retake_or_unsupported_messages():
     assert "Retake" in get_treatment_guidance(None, "unsure")["en"]
-    assert "single leaf" in get_treatment_guidance(None, "not_leaf")["en"]
+    assert "retake" in get_treatment_guidance(None, "not_leaf")["en"]
     assert "tomato" in get_treatment_guidance(None, "other_plant")["en"].lower()
 
 

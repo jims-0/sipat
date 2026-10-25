@@ -37,7 +37,7 @@ test("unrecognised question -> safe answer, not a guess", () => {
 
 test("not a leaf / other plant -> the fixed guidance, whatever the question", () => {
   const a = C.ask({ status: "not_leaf", class_key: DATA.not_a_leaf }, "ano ang gamot?", "en", DATA);
-  assert.ok(a.answer.startsWith("No leaf found."));
+  assert.ok(a.answer.startsWith("Leaf not clear."));
 });
 
 test("CAM: relu, scaled so the peak is 1, uses the predicted class column", () => {
