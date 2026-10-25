@@ -19,6 +19,8 @@ if ($dirty) { Write-Host "Warning: uncommitted changes are not in the kit:`n$($d
 
 $zip = Join-Path (Split-Path -Parent $PSScriptRoot) ("Sipat_mac_kit_{0}.zip" -f (Get-Date -Format 'yyyyMMdd'))
 if (Test-Path $zip) { Remove-Item $zip -Force }
-git archive --format=zip --prefix=Sipat/ -o $zip HEAD:tanim_guard
+# From the repo root: run inside tanim_guard\, git archive would also cut the
+# tree down to the current folder and the zip comes out empty.
+git -C (git rev-parse --show-toplevel) archive --format=zip --prefix=Sipat/ -o $zip HEAD:tanim_guard
 if ($LASTEXITCODE -ne 0) { throw 'git archive failed.' }
 '{0} ({1:N0} MB)' -f $zip, ((Get-Item $zip).Length / 1MB) | Write-Host -ForegroundColor Green
