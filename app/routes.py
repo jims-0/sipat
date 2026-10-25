@@ -63,9 +63,9 @@ def predict():
     """Photo in, diagnosis out (saved to history)."""
     file = request.files.get('image')
     if file is None or file.filename == '':
-        return jsonify({'error': 'Walang larawan na na-upload'}), 400
+        return jsonify({'error': 'Walang picture na na-upload'}), 400
     if not allowed_file(file.filename):
-        return jsonify({'error': 'Mali ang format ng larawan. Gumamit ng JPG o PNG.'}), 400
+        return jsonify({'error': 'Mali ang format ng picture. JPG o PNG lang.'}), 400
 
     # Our own name, never the uploaded one: no collisions, nothing user-controlled on disk.
     filename = f"{datetime.now():%Y%m%d_%H%M%S}_{uuid.uuid4().hex[:8]}.jpg"
@@ -76,7 +76,7 @@ def predict():
             img.thumbnail((800, 800), Image.Resampling.LANCZOS)
             img.save(filepath, 'JPEG', quality=85, optimize=True)
     except (UnidentifiedImageError, OSError):
-        return jsonify({'error': 'Hindi mabasa ang larawan. Subukang kumuha ulit.'}), 400
+        return jsonify({'error': 'Hindi mabasa yung picture. Try ulit kumuha.'}), 400
 
     prediction = predict_disease(filepath)
     if prediction['status'] == 'error':
@@ -216,7 +216,7 @@ def ask_adviser(diagnosis_id):
     """Follow-up question about one diagnosis, answered by the local adviser."""
     diagnosis = get_diagnosis_by_id(diagnosis_id)
     if not diagnosis:
-        return jsonify({'error': 'Hindi makita ang pagsusuri'}), 404
+        return jsonify({'error': 'Hindi makita yung scan'}), 404
     data = request.get_json(silent=True) or {}
     question = (data.get('question') or '').strip()
     if not question:
@@ -233,7 +233,7 @@ def submit_feedback(diagnosis_id):
     labels an unsure / no-leaf result. These labels are the field test set."""
     diagnosis = get_diagnosis_by_id(diagnosis_id)
     if not diagnosis:
-        return jsonify({'error': 'Hindi makita ang pagsusuri'}), 404
+        return jsonify({'error': 'Hindi makita yung scan'}), 404
     data = request.get_json(silent=True) or {}
     true_key = data.get('true_class_key') or None
     if true_key is not None and true_key not in CLASSES:
@@ -252,7 +252,7 @@ def submit_feedback(diagnosis_id):
 @bp.route('/api/diagnosis/<int:diagnosis_id>/notes', methods=['POST'])
 def update_notes(diagnosis_id):
     if not get_diagnosis_by_id(diagnosis_id):
-        return jsonify({'error': 'Hindi makita ang pagsusuri'}), 404
+        return jsonify({'error': 'Hindi makita yung scan'}), 404
     notes = ((request.get_json(silent=True) or {}).get('notes') or '').strip()[:1000]
     save_notes(diagnosis_id, notes)
     return jsonify({'success': True})
@@ -262,14 +262,14 @@ def update_notes(diagnosis_id):
 def update_recheck(diagnosis_id):
     """{"days": 7} sets a reminder to re-scan in a week; {"days": null} clears it."""
     if not get_diagnosis_by_id(diagnosis_id):
-        return jsonify({'error': 'Hindi makita ang pagsusuri'}), 404
+        return jsonify({'error': 'Hindi makita yung scan'}), 404
     days = (request.get_json(silent=True) or {}).get('days')
     if days is None:
         set_recheck(diagnosis_id, None)
         return jsonify({'success': True, 'recheck_due': None})
     days = _int_or_none(days)
     if days is None or not 1 <= days <= 60:
-        return jsonify({'error': 'Pumili ng 1 hanggang 60 araw'}), 400
+        return jsonify({'error': 'Pumili ng 1 to 60 days'}), 400
     due = (date.today() + timedelta(days=days)).isoformat()
     set_recheck(diagnosis_id, due)
     return jsonify({'success': True, 'recheck_due': due})
