@@ -29,7 +29,10 @@ a = Analysis(
          if os.path.isfile(p) and '_parity' not in p] + ([('app/ml/model/field_report.json', 'app/ml/model')]
          if os.path.exists('app/ml/model/field_report.json') else []) + litert_datas,
     hiddenimports=litert_hidden,
-    excludes=['tensorflow', 'keras', 'matplotlib', 'tkinter', 'pytest', 'IPython'],
+    # scipy/pandas are never imported by the app; PyInstaller picks them up from
+    # whatever the build Python has installed (scipy alone added ~65 MB).
+    excludes=['tensorflow', 'keras', 'matplotlib', 'tkinter', 'pytest', 'IPython',
+              'scipy', 'pandas'],
     noarchive=False,
 )
 pyz = PYZ(a.pure)
