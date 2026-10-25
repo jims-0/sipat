@@ -36,11 +36,13 @@ MAX_QUESTION = 400
 
 OFFLINE = {
     "en": "The adviser is offline (Ollama is not running on this computer). The written guidance above still applies.",
-    "tl": "Hindi available ang AI na sumasagot (hindi naka-on ang Ollama sa computer na ito). Basahin muna ang gabay sa itaas.",
+    "tl": "Offline ang AI adviser (hindi naka-on ang Ollama sa computer na 'to). Basahin muna yung "
+          "guide sa taas.",
 }
 DONT_KNOW = {
     "en": "I can't answer that safely from Sipat's guidance. Read the guidance above, and ask your Municipal Agriculture Office (MAO).",
-    "tl": "Hindi ko iyan masasagot nang sigurado mula sa gabay ng SIPAT. Basahin ang gabay sa itaas at magtanong sa Municipal Agriculture Office (MAO).",
+    "tl": "Hindi ko 'yan masasagot nang sure base sa guide ng SIPAT. Basahin yung guide sa taas at "
+          "magtanong sa Municipal Agriculture Office (MAO).",
 }
 
 # Order matters: the first intent that matches wins. Dose comes first so
@@ -68,8 +70,8 @@ _DOSE_RE = re.compile(r"\d[\d.,]*\s*(g|gr|gram|gramo|grams|ml|mL|l|litro|liter|l
 _LABELS = {
     "en": {"chemical": "If you spray", "organic": "Organic options", "prevention": "Prevention",
            "cause": "What it is", "signs": "Signs", "do_now": "Do now", "escalate": "When to get help"},
-    "tl": {"chemical": "Kung mag-i-spray", "organic": "Organic na paraan", "prevention": "Para maiwasan",
-           "cause": "Ano ito", "signs": "Sintomas", "do_now": "Gawin ngayon", "escalate": "Kailan magtatanong sa MAO"},
+    "tl": {"chemical": "Kung mag-i-spray", "organic": "Organic options", "prevention": "Para maiwasan",
+           "cause": "Ano 'to", "signs": "Symptoms", "do_now": "Gawin agad", "escalate": "Kailan pupunta sa MAO"},
 }
 
 
@@ -122,7 +124,7 @@ def build_messages(diagnosis: dict, question: str, lang: str) -> list[dict]:
     status = diagnosis.get("status") or "ok"
     reference = get_treatment_guidance(key, status)["en"]
     crop = CLASSES.get(key, {}).get("name", diagnosis.get("disease_name", ""))
-    language = "Tagalog (Filipino), simple words" if lang == "tl" else "English, simple words"
+    language = "Taglish (casual modern Tagalog mixed with everyday English), simple words" if lang == "tl" else "English, simple words"
     system = (
         "You are Sipat's farm adviser for Filipino smallholder farmers. "
         f"The photo was diagnosed as: {crop} (status: {status}, model confidence "

@@ -10,9 +10,9 @@
         <div class="result-meta">Pananim: <strong>{{ diagnosis.crop_type | capitalize }}</strong></div>
     {% else %}
         <div class="status-banner status-{{ status }}">
-            {% if status == 'unsure' %}Hindi sigurado ang AI - kumuha ulit ng larawan
+            {% if status == 'unsure' %}Hindi sure ang AI - kunan ulit ng picture
             {% elif status == 'not_leaf' %}Hindi malinaw ang dahon - kunan ulit sa plain na background
-            {% elif status == 'other_plant' %}Hindi suportadong halaman
+            {% elif status == 'other_plant' %}Hindi supported na halaman
             {% endif %}
         </div>
     {% endif %}
@@ -23,7 +23,7 @@
     </div>
 
     {% if diagnosis.top3 %}
-    <div class="card-title" style="margin-top: 16px;">Top 3 hula ng AI</div>
+    <div class="card-title" style="margin-top: 16px;">Top 3 guesses ng AI</div>
     <ul class="top3">
         {% for guess in diagnosis.top3 %}
         <li>
@@ -37,7 +37,7 @@
 
     <div class="card-title" style="margin-top: 16px;">Paliwanag ng AI (Grad-CAM)</div>
     {% if diagnosis.gradcam_path %}
-    <p class="result-meta">Ang mapula/dilaw na bahagi ang pinagbatayan ng AI. Kung nasa labas ng dahon ito, kumuha ulit ng mas malinaw na larawan.</p>
+    <p class="result-meta">Yung red/yellow na part ang tiningnan ng AI. Kung nasa labas ng dahon, kunan ulit ng mas malinaw na picture.</p>
     <div class="image-comparison">
         <div class="image-comparison-item">
             <img src="{{ diagnosis.image_path }}" alt="Orihinal na Dahon">
@@ -62,15 +62,15 @@
     {% set b = classes.get(before.class_key or '', {}) %}
     {% set a = classes.get(after.class_key or '', {}) %}
     {% if (before.status or 'ok') != 'ok' or (after.status or 'ok') != 'ok' %}
-        <div class="trend trend-same">Hindi maihambing: may "hindi sigurado" o walang dahon sa isa sa mga larawan.</div>
+        <div class="trend trend-same">Hindi ma-compare: may "hindi sure" o walang dahon sa isa sa mga picture.</div>
     {% elif before.class_key == after.class_key %}
-        <div class="trend {{ 'trend-better' if a.healthy else 'trend-same' }}">{{ 'Malusog pa rin ✓' if a.healthy else 'Parehong sakit pa rin - ituloy ang gabay o magtanong sa MAO.' }}</div>
+        <div class="trend {{ 'trend-better' if a.healthy else 'trend-same' }}">{{ 'Healthy pa rin ✓' if a.healthy else 'Same na sakit pa rin - ituloy ang guide o magtanong sa MAO.' }}</div>
     {% elif a.healthy and not b.healthy %}
         <div class="trend trend-better">Mukhang gumaling ✓ - wala nang nakitang sakit.</div>
     {% elif b.healthy and not a.healthy %}
         <div class="trend trend-worse">Lumala: may nakitang sakit na wala noon.</div>
     {% else %}
-        <div class="trend trend-worse">Ibang sakit na ang nakita - basahin ang bagong gabay.</div>
+        <div class="trend trend-worse">Ibang sakit na ang nakita - basahin yung bagong guide.</div>
     {% endif %}
 {% endmacro %}
 
@@ -113,14 +113,14 @@
     </div>
     <div id="treatment-tl" class="treatment-content">{{ diagnosis.treatment_tl | markdown }}</div>
     <div id="treatment-en" class="treatment-content" style="display: none;">{{ diagnosis.treatment | markdown }}</div>
-    {% if library_slug %}<p class="small-print"><a href="{{ url_for('main.library_entry', name=library_slug) }}">📖 Basahin pa tungkol dito</a></p>{% endif %}
+    {% if library_slug %}<p class="small-print"><a href="{{ url_for('main.library_entry', name=library_slug) }}">📖 Read more tungkol dito</a></p>{% endif %}
 </div>
 
 <div class="card">
     <div class="card-title">💬 Magtanong</div>
-    <p class="result-meta">Sumasagot lamang mula sa gabay sa itaas. Para sa dami ng gamot, sundin ang label o magtanong sa MAO.</p>
+    <p class="result-meta">Sumasagot lang base sa guide sa taas. Para sa dami ng gamot, sundin ang label o magtanong sa MAO.</p>
     <div class="ask-row">
-        <input id="ask-input" type="text" maxlength="400" placeholder="Hal.: Puwede pa bang anihin ang bunga?">
+        <input id="ask-input" type="text" maxlength="400" placeholder="e.g. Pwede pa bang i-harvest yung bunga?">
         <button id="ask-btn" class="btn btn-primary" type="button">Itanong</button>
     </div>
     <div id="ask-answer" class="ask-answer" hidden></div>
@@ -131,11 +131,11 @@
         <div class="feedback-thanks">✓ Na-save: {{ classes[diagnosis.true_class_key].name_tl }}</div>
         <p class="small-print" style="text-align: center;"><a href="#" onclick="showLabel(); return false;">Baguhin</a></p>
     {% elif diagnosis.feedback is not none %}
-        <div class="feedback-thanks">✓ Maraming salamat sa iyong feedback!</div>
-        <p class="small-print" style="text-align: center;"><a href="#" onclick="showLabel(); return false;">Alam mo ang tamang sakit? Piliin</a></p>
+        <div class="feedback-thanks">✓ Thank you sa feedback!</div>
+        <p class="small-print" style="text-align: center;"><a href="#" onclick="showLabel(); return false;">Alam mo yung tamang sakit? Piliin dito</a></p>
     {% elif status == 'ok' %}
         <div id="feedback-ask">
-            <div class="card-title">Tama ba ang pagsusuri?</div>
+            <div class="card-title">Tama ba ang result?</div>
             <div class="btn-group">
                 <button class="btn btn-outline" onclick="sendFeedback({helpful: 1})">👍 Oo, tama</button>
                 <button class="btn btn-outline" onclick="showLabel()">👎 Hindi, mali</button>
@@ -143,13 +143,13 @@
         </div>
     {% else %}
         <div id="feedback-ask">
-            <div class="card-title">Alam mo ba kung ano talaga ito?</div>
-            <button class="btn btn-outline" onclick="showLabel()">Piliin ang tamang sagot</button>
+            <div class="card-title">Alam mo ba kung ano talaga 'to?</div>
+            <button class="btn btn-outline" onclick="showLabel()">Piliin yung tamang sagot</button>
         </div>
     {% endif %}
     <div id="label-box" hidden>
         <div class="field">
-            <label for="true-class">Ano talaga ito? (para masukat ang AI sa totoong bukid)</label>
+            <label for="true-class">Ano talaga 'to? (para ma-measure ang AI sa totoong bukid)</label>
             <select id="true-class">
                 <option value="">Hindi ko alam</option>
                 {% for group, items in choices %}
@@ -161,7 +161,7 @@
                 {% endfor %}
             </select>
         </div>
-        <p class="small-print">Pinakamainam kung kinumpirma ng MAO o agronomist ang sagot.</p>
+        <p class="small-print">Mas okay kung na-confirm ng MAO o agronomist yung sagot.</p>
         <button class="btn btn-primary" style="margin-top: 8px;" onclick="sendLabel()">I-save</button>
     </div>
 </div>
@@ -169,14 +169,14 @@
 <div class="card">
     <div class="card-title">📝 Tala at Pagbalik</div>
     <div class="field">
-        <label for="notes">Tala (hal.: ilang halaman ang apektado, ano ang na-spray)</label>
+        <label for="notes">Notes (e.g. ilang halaman ang apektado, ano ang na-spray)</label>
         <textarea id="notes" maxlength="1000">{{ diagnosis.notes or '' }}</textarea>
     </div>
-    <button class="btn btn-outline btn-small" style="margin-top: 8px;" onclick="saveNotes()">I-save ang tala</button>
+    <button class="btn btn-outline btn-small" style="margin-top: 8px;" onclick="saveNotes()">I-save ang notes</button>
     <span id="notes-saved" class="small-print" hidden>✓ Na-save</span>
 
     <div class="field" style="margin-top: 16px;">
-        <label>Paalala na kunan ulit</label>
+        <label>Reminder na kunan ulit</label>
         <div class="row-actions" style="margin-top: 0;">
             {% for d in recheck_days %}
             <button class="btn btn-outline" onclick="setRecheck({{ d }})">{{ d }} araw</button>
@@ -195,7 +195,7 @@
     <a href="{{ url_for('main.print_diagnosis', diagnosis_id=diagnosis.id) }}" target="_blank" class="btn btn-outline" id="print-link">🖨️ I-print para sa MAO</a>
 </div>
 <form method="post" action="{{ url_for('main.remove_diagnosis', diagnosis_id=diagnosis.id) }}"
-      onsubmit="return confirm('I-delete ang scan na ito at ang picture nito?');" style="margin-top: 16px; text-align: center;">
+      onsubmit="return confirm('I-delete ang scan pati picture nito?');" style="margin-top: 16px; text-align: center;">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <button class="btn btn-danger btn-small" type="submit">🗑️ I-delete ang scan</button>
 </form>
@@ -222,7 +222,7 @@ document.getElementById('ask-btn').addEventListener('click', async () => {
     const question = input.value.trim();
     if (!question) return;
     out.hidden = false;
-    out.textContent = lang === 'tl' ? 'Nag-iisip ang tagapayo...' : 'The adviser is thinking...';
+    out.textContent = lang === 'tl' ? 'Nag-iisip ang AI adviser...' : 'The adviser is thinking...';
     try {
         const res = await fetch('/api/ask/{{ diagnosis.id }}', {
             method: 'POST',
@@ -232,7 +232,7 @@ document.getElementById('ask-btn').addEventListener('click', async () => {
         const data = await res.json();
         out.textContent = data.answer || data.error || '';
     } catch (e) {
-        out.textContent = lang === 'tl' ? 'Hindi ma-connect sa server.' : 'Cannot reach the server.';
+        out.textContent = lang === 'tl' ? 'Hindi maka-connect sa server.' : 'Cannot reach the server.';
     }
 });
 document.getElementById('ask-input').addEventListener('keydown', (e) => {
@@ -259,7 +259,7 @@ async function sendFeedback(body) {
         const data = await postJSON('/api/feedback/{{ diagnosis.id }}', body);
         if (data.error) { alert(data.error); return; }
         document.getElementById('feedback-card').innerHTML =
-            '<div class="feedback-thanks">✓ Maraming salamat sa iyong feedback!</div>';
+            '<div class="feedback-thanks">✓ Thank you sa feedback!</div>';
     } catch (e) {
         console.error(e);
     }

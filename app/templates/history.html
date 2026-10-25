@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% set status_labels = {'ok': 'May resulta', 'unsure': 'Hindi sigurado', 'not_leaf': 'Hindi dahon', 'other_plant': 'Ibang halaman'} %}
+{% set status_labels = {'ok': 'May resulta', 'unsure': 'Hindi sure', 'not_leaf': 'Hindi malinaw ang dahon', 'other_plant': 'Ibang halaman'} %}
 <div class="card">
     <div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
         <span>History ng mga Scan</span>
@@ -31,7 +31,7 @@
         {% if filters.class_key %}<input type="hidden" name="disease" value="{{ request.args.get('disease') }}">{% endif %}
     </form>
     {% if filters.values() | select | list %}
-    <p class="result-meta">{{ diagnoses | length }} resulta • <a href="{{ url_for('main.history') }}">Alisin ang filter</a></p>
+    <p class="result-meta">{{ diagnoses | length }} resulta • <a href="{{ url_for('main.history') }}">I-clear ang filter</a></p>
     {% endif %}
 
     {% if diagnoses %}
@@ -54,10 +54,10 @@
             {% endfor %}
         </div>
     {% elif filters.values() | select | list %}
-        <p style="text-align: center; padding: 20px; color: #888;">Walang tugma sa filter.</p>
+        <p style="text-align: center; padding: 20px; color: #888;">Walang match sa filter.</p>
     {% else %}
         <div style="text-align: center; padding: 30px; color: #888;">
-            <p>Wala pang kasaysayan ng pagsusuri.</p>
+            <p>Wala ka pang scans.</p>
             <a href="{{ url_for('main.index') }}" class="btn btn-primary" style="margin-top: 16px; display: inline-block;">
                 Mag-scan na
             </a>

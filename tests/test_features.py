@@ -302,7 +302,7 @@ def test_library_lists_every_crop_disease_with_a_page(client):
 def test_library_counts_your_scans(client, model):
     scan(client)
     page = client.get("/library/tomato-early-blight").get_data(as_text=True)
-    assert "1 sa iyong mga scan" in page
+    assert "1 sa mga scan mo" in page
 
 
 # --- stats + misc -------------------------------------------------------------
@@ -348,7 +348,7 @@ def test_old_database_gains_plots_and_label_columns(tmp_path):
 
 def test_unknown_page_is_a_friendly_404(client):
     resp = client.get("/no-such-page")
-    assert resp.status_code == 404 and "Hindi makita" in resp.get_data(as_text=True)
+    assert resp.status_code == 404 and "Not found" in resp.get_data(as_text=True)
 
 
 # --- home dashboard (2026-10-22) ----------------------------------------------
@@ -372,7 +372,7 @@ def test_dashboard_counts_healthy_sick_unsure_and_plots(app, client, model):
 
 
 def test_home_shows_the_dashboard(client, model):
-    assert "Dito lalabas ang buod" in client.get("/").get_data(as_text=True)  # empty state
+    assert "Dito lalabas ang summary" in client.get("/").get_data(as_text=True)  # empty state
     scan(client, new_plot="Lote A")
     page = client.get("/").get_data(as_text=True)
     assert "📊 Dashboard" in page and "Pinakamadalas na sakit" in page and "Lote A" in page

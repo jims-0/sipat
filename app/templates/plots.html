@@ -3,7 +3,7 @@
 {% block content %}
 <div class="card">
     <div class="card-title">🌾 Mga Taniman</div>
-    <p class="result-meta">Lagyan ng taniman ang bawat scan para masubaybayan ang isang bukid sa paglipas ng panahon.</p>
+    <p class="result-meta">I-tag ang bawat scan sa taniman para ma-track mo ang isang bukid over time.</p>
     <form method="post" class="ask-row" style="margin-top: 8px;">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <input type="text" name="name" maxlength="60" required placeholder="Pangalan, hal.: Kamatis - Lote 2">
@@ -24,7 +24,7 @@
                 {% if plot.last_scan %}<div class="history-date">{{ plot.last_scan | localtime }}</div>{% endif %}
             </div>
             <form method="post" action="{{ url_for('main.remove_plot', plot_id=plot.id) }}"
-                  onsubmit="return confirm('Alisin ang taniman? Mananatili ang mga scan nito.');">
+                  onsubmit="return confirm('I-remove ang taniman? Maiiwan pa rin yung mga scan nito.');">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <button class="btn btn-danger btn-small" type="submit">Alisin</button>
             </form>

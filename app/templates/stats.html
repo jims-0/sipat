@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% set status_labels = {'ok': 'May resulta', 'unsure': 'Hindi sigurado', 'not_leaf': 'Hindi dahon', 'other_plant': 'Ibang halaman'} %}
+{% set status_labels = {'ok': 'May resulta', 'unsure': 'Hindi sure', 'not_leaf': 'Hindi malinaw ang dahon', 'other_plant': 'Ibang halaman'} %}
 <div class="card">
-    <div class="card-title">📊 Stats ng Paggamit</div>
+    <div class="card-title">📊 Usage Stats</div>
     <div class="tiles">
         <div class="tile">
             <div class="num">{{ stats.total_diagnoses }}</div>
@@ -42,12 +42,12 @@
         </div>
     </div>
     {% if stats.field_labelled < 30 %}
-    <p class="small-print">Kaunti pa ang datos ({{ stats.field_labelled }}). Kailangan ng hindi bababa sa ~30 bawat sakit bago ito maging maaasahang sukat.</p>
+    <p class="small-print">Konti pa ang data ({{ stats.field_labelled }}). Kailangan at least ~30 per sakit bago ito maging reliable na sukat.</p>
     {% endif %}
     {% else %}
-    <p class="result-meta">Wala pang label. Sa bawat resulta, pindutin ang 👍 o piliin ang tamang sakit. Iyon ang magiging field test set.</p>
+    <p class="result-meta">Wala pang label. Sa bawat result, i-tap ang 👍 o piliin yung tamang sakit. Yun ang magiging field test set.</p>
     {% endif %}
-    <p class="small-print">Ang label ay galing sa magsasaka; mas matibay kung kinumpirma ng MAO o agronomist.</p>
+    <p class="small-print">Galing sa magsasaka ang label; mas solid kung na-confirm ng MAO o agronomist.</p>
     {% if stats.field_labelled_all %}
     <a class="btn btn-outline btn-small" style="margin-top: 10px;" href="{{ url_for('main.export_field_set') }}">⬇️ I-download ang field test set (.zip)</a>
     <p class="small-print">Sukatin: <code>python scripts/evaluate_field.py &lt;zip&gt;</code></p>
@@ -63,7 +63,7 @@
 </div>
 
 <div class="card">
-    <div class="card-title">🧭 Uri ng Resulta</div>
+    <div class="card-title">🧭 Klase ng Result</div>
     {% if stats.by_status %}
     {% set total = stats.total_diagnoses %}
     <ul class="bars">
@@ -74,7 +74,7 @@
         {% endfor %}
     </ul>
     {% else %}
-    <p style="color: #888; font-size: 0.9rem;">Wala pang datos.</p>
+    <p style="color: #888; font-size: 0.9rem;">Wala pang data.</p>
     {% endif %}
 </div>
 
@@ -90,7 +90,7 @@
         {% endfor %}
     </ul>
     {% else %}
-    <p style="color: #888; font-size: 0.9rem;">Wala pang datos.</p>
+    <p style="color: #888; font-size: 0.9rem;">Wala pang data.</p>
     {% endif %}
 </div>
 
@@ -106,7 +106,7 @@
         {% endfor %}
     </ul>
     {% else %}
-    <p style="color: #888; font-size: 0.9rem;">Wala pang datos.</p>
+    <p style="color: #888; font-size: 0.9rem;">Wala pang data.</p>
     {% endif %}
 </div>
 {% endblock %}

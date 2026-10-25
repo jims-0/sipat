@@ -11,8 +11,8 @@ _HEADINGS = {
     "en": {"cause": "What it is", "signs": "Signs", "do_now": "Do now", "prevention": "Prevention",
            "chemical": "If you spray", "organic": "Organic options", "escalate": "When to get help",
            "sources": "Check against"},
-    "tl": {"cause": "Ano ito", "signs": "Sintomas", "do_now": "Gawin ngayon", "prevention": "Para maiwasan",
-           "chemical": "Kung mag-i-spray", "organic": "Organic na paraan", "escalate": "Kailan magtatanong sa MAO",
+    "tl": {"cause": "Ano 'to", "signs": "Symptoms", "do_now": "Gawin agad", "prevention": "Para maiwasan",
+           "chemical": "Kung mag-i-spray", "organic": "Organic options", "escalate": "Kailan pupunta sa MAO",
            "sources": "Sources"},
 }
 
@@ -20,8 +20,9 @@ STATUS_MESSAGES = {
     "unsure": {
         "en": "**Not sure.** The model is not confident about this photo. Retake it in daylight: one leaf, "
               "filling most of the frame, in focus, with the spots visible. The closest guesses are listed below.",
-        "tl": "**Hindi sigurado.** Hindi sure ang AI sa picture na ito. Kumuha ulit sa liwanag ng araw: "
-              "isang dahon lang, halos buong picture, malinaw, at kita ang mga batik. Nasa ibaba ang top 3 hula ng AI.",
+        "tl": "**Hindi sure ang AI.** Hindi confident ang AI sa picture na 'to. Kunan ulit sa daylight: "
+              "isang dahon lang, sakop halos buong picture, malinaw, at kita yung spots. Nasa baba ang "
+              "top 3 guesses ng AI.",
     },
     "not_leaf": {
         # The model was trained on leaves against plain backgrounds, so a real leaf
@@ -30,15 +31,15 @@ STATUS_MESSAGES = {
         "en": "**Leaf not clear.** The AI could not pick out a leaf in this photo. If there is one, the "
               "background is probably confusing it: retake with the leaf on plain paper or a table, "
               "filling most of the frame, in good light.",
-        "tl": "**Hindi malinaw ang dahon.** Hindi makita ng AI ang dahon sa picture na ito. Kung may dahon, "
-              "baka nalilito ito sa background: kunan ulit na nakapatong ang dahon sa plain na papel o mesa, "
-              "halos buong picture, at maliwanag.",
+        "tl": "**Hindi malinaw ang dahon.** Hindi makita ng AI yung dahon sa picture na 'to. Kung may "
+              "dahon naman, baka nalilito lang siya sa background: kunan ulit na nakapatong yung dahon "
+              "sa plain na papel o mesa, sakop halos buong picture, at maliwanag.",
     },
     "other_plant": {
         "en": "**Unsupported plant.** Sipat currently recognises tomato, pepper (sili), potato and corn "
               "leaves only. For other crops, ask your Municipal Agriculture Office.",
-        "tl": "**Hindi suportadong halaman.** Kamatis, sili, patatas at mais lang ang kilala ngayon ng SIPAT. "
-              "Para sa ibang tanim, magtanong sa Municipal Agriculture Office (MAO).",
+        "tl": "**Hindi supported na halaman.** Kamatis, sili, patatas at mais lang ang kaya ng SIPAT "
+              "for now. Para sa ibang tanim, magtanong sa Municipal Agriculture Office (MAO).",
     },
 }
 
@@ -69,5 +70,5 @@ def get_treatment_guidance(class_key: str, status: str = "ok") -> dict:
     if status in STATUS_MESSAGES:
         return dict(STATUS_MESSAGES[status])
     if class_key not in TREATMENTS:
-        return {"en": "No guidance on file for this result.", "tl": "Wala pang gabay para sa resultang ito."}
+        return {"en": "No guidance on file for this result.", "tl": "Wala pang guide para sa result na 'to."}
     return {lang: render(class_key, lang) for lang in ("en", "tl")}

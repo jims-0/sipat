@@ -50,7 +50,7 @@
 </header>
 
 <div class="meta">
-    <div><b>{{ 'Petsa ng scan' if tl else 'Scanned' }}:</b> {{ diagnosis.timestamp | localtime }}</div>
+    <div><b>{{ 'Date ng scan' if tl else 'Scanned' }}:</b> {{ diagnosis.timestamp | localtime }}</div>
     <div><b>{{ 'Na-print' if tl else 'Printed' }}:</b> {{ printed.strftime('%b %d, %Y %I:%M %p') }}</div>
     <div><b>{{ 'Pananim' if tl else 'Crop' }}:</b> {{ diagnosis.crop_type | capitalize }}</div>
     <div><b>{{ 'Taniman' if tl else 'Plot' }}:</b> {{ diagnosis.plot_name or '-' }}</div>
@@ -61,11 +61,11 @@
     <div class="name">{{ diagnosis.disease_name_tl if tl else diagnosis.disease_name }}</div>
     <div>{{ 'Gaano kasigurado ang AI' if tl else 'AI confidence' }}: <b>{{ (diagnosis.confidence * 100) | round(1) }}%</b></div>
     {% elif status == 'unsure' %}
-    <div class="name">{{ 'Hindi sigurado ang AI' if tl else 'AI not sure' }}</div>
+    <div class="name">{{ 'Hindi sure ang AI' if tl else 'AI not sure' }}</div>
     {% elif status == 'not_leaf' %}
     <div class="name">{{ 'Hindi malinaw ang dahon' if tl else 'Leaf not clear' }}</div>
     {% else %}
-    <div class="name">{{ 'Hindi suportadong halaman' if tl else 'Unsupported plant' }}</div>
+    <div class="name">{{ 'Hindi supported na halaman' if tl else 'Unsupported plant' }}</div>
     {% endif %}
     {% if true_class %}
     <div>{{ 'Kinumpirma ng magsasaka/MAO bilang' if tl else 'Confirmed by farmer/MAO as' }}: <b>{{ true_class.name_tl if tl else true_class.name }}</b></div>
@@ -101,8 +101,8 @@
 
 <p class="disclaimer">
     {% if tl %}
-    Ang Sipat ay pantulong lamang: AI na sinanay sa PlantVillage na larawan, hindi kapalit ng pagsusuri ng eksperto.
-    Gumamit lamang ng produktong rehistrado sa FPA at sundin ang label.
+    Pantulong lang ang Sipat: AI na trained sa PlantVillage photos, hindi kapalit ng check ng expert.
+    FPA-registered na products lang ang gamitin at sundin ang label.
     {% else %}
     Sipat is a decision aid: an AI trained on PlantVillage photos, not a substitute for an expert diagnosis.
     Use only FPA-registered products and follow the label.

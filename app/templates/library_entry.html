@@ -6,7 +6,7 @@
     <div class="disease-name">{{ info.name_tl }}</div>
     <div class="disease-name-tl">{{ info.name }}</div>
     <p class="result-meta" style="margin-top: 8px;">
-        {% if scans %}<a href="{{ url_for('main.history', disease=slug) }}">{{ scans }} sa iyong mga scan</a>{% else %}Wala pa sa iyong mga scan{% endif %}
+        {% if scans %}<a href="{{ url_for('main.history', disease=slug) }}">{{ scans }} sa mga scan mo</a>{% else %}Wala pa sa mga scan mo{% endif %}
     </p>
 </div>
 

@@ -1,10 +1,10 @@
 {# Home-screen dashboard; data from models.get_dashboard(). The phone app draws the same cards (pwa/app.js dashboardHtml). #}
 {% set d = dash %}
-{% set labels = {'healthy': 'Malusog', 'sick': 'May sakit', 'unsure': 'Hindi sigurado / walang dahon'} %}
+{% set labels = {'healthy': 'Healthy', 'sick': 'May sakit', 'unsure': 'Hindi sure / walang dahon'} %}
 <div class="card dash">
     <div class="card-title">📊 Dashboard</div>
     {% if not d.total %}
-    <p class="result-meta">Dito lalabas ang buod ng mga scan mo: ilan ang malusog, ilan ang may sakit, at ano ang pinakamadalas na sakit.</p>
+    <p class="result-meta">Dito lalabas ang summary ng mga scan mo: ilan ang healthy, ilan ang may sakit, at ano ang pinaka-common na sakit.</p>
     {% else %}
     <div class="tiles tiles-4">
         <a class="tile" href="{{ url_for('main.history') }}"><div class="num">{{ d.total }}</div><div class="lbl">Lahat ng scan</div></a>
@@ -38,7 +38,7 @@
     {% endif %}
 
     {% if d.plots %}
-    <div class="dash-title">Kalagayan ng bawat taniman</div>
+    <div class="dash-title">Status ng bawat taniman</div>
     <div class="plot-list">
         {% for p in d.plots %}
         <a class="plot-row" href="{{ url_for('main.history', plot=p.plot_id) }}"><i class="dot mix-{{ p.kind }}"></i><strong>{{ p.name }}</strong>
