@@ -498,7 +498,6 @@
   }
 
   async function about() {
-    const e = DATA.evaluation;
     const scans = await allScans();
     const labelled = scans.filter((s) => s.true_class_key);
     let usage = "";
@@ -516,18 +515,6 @@
           <li><strong>"Hindi sure"</strong> pag mas mababa sa ${Math.round(DATA.threshold * 100)}% ang confidence, instead na manghula.</li>
           <li><strong>Heat map</strong> na nagpapakita kung saan tumingin ang AI.</li>
         </ul>
-      </div>
-      <div class="card">
-        <div class="card-title">📏 Gaano ka-accurate ang AI</div>
-        <p class="result-meta">Sinukat sa ${e.test_photos.toLocaleString()} test photos na hindi ginamit sa training:</p>
-        <ul class="plain-list">
-          <li>Accuracy: <strong>${pct(e.accuracy)}</strong></li>
-          <li>Tamang sagot nasa top 3: <strong>${pct(e.top3_accuracy)}</strong></li>
-          <li>Macro F1: <strong>${e.macro_f1.toFixed(3)}</strong></li>
-          ${e.at_threshold ? `<li>Sa threshold ${DATA.threshold}: sumasagot sa ${pct(e.at_threshold.answered_share)} ng photos, tama ang ${pct(e.at_threshold.accuracy_when_answered)}</li>` : ""}
-        </ul>
-        <p class="result-meta">Lab photos ito (isang dahon, plain na background). Hindi pa nasusukat ang accuracy sa mga picture na kuha sa bukid: yun ang purpose ng field test set sa baba.</p>
-        <p class="small-print">${esc(e.architecture || "")} • ${esc(e.dataset || "")}</p>
       </div>
       <div class="card">
         <div class="card-title">📦 Field test set</div>

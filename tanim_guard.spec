@@ -20,6 +20,7 @@ a = Analysis(
         ('app/templates', 'app/templates'),
         ('app/static/css', 'app/static/css'),
         ('app/static/js', 'app/static/js'),
+        ('app/static/fonts', 'app/static/fonts'),
         ('app/ml/model/tanim_guard.tflite', 'app/ml/model'),
         ('app/ml/model/labels.json', 'app/ml/model'),
         ('app/ml/model/cam_weights.npy', 'app/ml/model'),

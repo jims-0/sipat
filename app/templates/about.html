@@ -33,18 +33,6 @@
     <p class="result-meta" style="margin-top: 10px;">Wala pang palay: walang rice photos sa PlantVillage dataset. Idadagdag pag may rice dataset na.</p>
 </div>
 
-{% if report %}
-<div class="card">
-    <div class="card-title">📏 Gaano ka-accurate ang AI</div>
-    <p class="result-meta">Sinukat sa {{ report.test_photos }} test photos na hindi ginamit sa training:</p>
-    <ul style="padding-left: 20px; font-size: 0.9rem; line-height: 1.8; color: #444;">
-        <li>Accuracy: <strong>{{ (report.accuracy * 100) | round(1) }}%</strong></li>
-        <li>Tamang sagot nasa top 3: <strong>{{ (report.top3_accuracy * 100) | round(1) }}%</strong></li>
-    </ul>
-    <p class="result-meta">Lab photos ito (isang dahon, plain na background). Expected na mas mababa ang accuracy sa mga picture na kuha sa bukid.</p>
-</div>
-{% endif %}
-
 <a href="{{ url_for('main.training') }}" class="card" style="display: block; text-decoration: none; color: inherit;">
     <div class="card-title">📊 Training Evidence →</div>
     <p class="result-meta">Dataset, accuracy kada epoch, confusion matrix, score kada sakit, at raw files.</p>

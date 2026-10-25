@@ -351,11 +351,8 @@ def stats():
 
 @bp.route('/about')
 def about():
-    """About page - with the measured model numbers, read from the report."""
-    from app.ml.inference import MODEL_DIR
-    report_path = MODEL_DIR / 'evaluation_report.json'
-    report = json.loads(report_path.read_text()) if report_path.exists() else None
-    return render_template('about.html', report=report)
+    """About page. The measured numbers live on /training, not here."""
+    return render_template('about.html')
 
 
 # The training/evaluation files the evidence page reads and offers as downloads.

@@ -7,12 +7,13 @@
  * Bump APP_REV by hand when you change app.js / style.css / index.html.
  */
 const VERSION = "c8a291fb5b44";
-const APP_REV = "5";
+const APP_REV = "6";
 const CACHE = `sipat-${VERSION}-${APP_REV}`;
 
 const CORE = [
   "./", "index.html", "style.css", "app.js", "sipat-core.js", "manifest.webmanifest",
   "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png",
+  "fonts/outfit-latin-wght.woff2",
   "data/sipat.json", "model/sipat.tflite", "model/cam_weights.bin",
   "vendor/tf-core.min.js", "vendor/tf-backend-cpu.min.js", "vendor/tf-tflite.min.js",
   "vendor/tflite_web_api_client.js",
