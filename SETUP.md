@@ -42,6 +42,30 @@
    - Desktop: `http://localhost:5000`
    - Mobile (same network): `http://<your-ip>:5000`
 
+## On a Mac (Apple Silicon: M1/M2/M3/M4)
+
+`Sipat.exe` is Windows-only. A Mac runs Sipat from source instead. The model
+runtime (`ai-edge-litert`) ships Apple Silicon builds for Python 3.10-3.14,
+macOS 12 or newer. Intel Macs have no build; use the phone app (`pwa/`) there.
+
+1. **On Windows, make the kit:** commit, then
+   `powershell -ExecutionPolicy Bypass -File make_mac_kit.ps1`.
+   This writes `..\Sipat_mac_kit_<date>.zip`: only the files git tracks, not the
+   1.7 GB folder (no datasets, .venv, photos, database or .env).
+2. **On the Mac, install Python 3.12** from https://www.python.org/downloads/macos/
+   (Apple's own `python3` is 3.9, which is too old).
+3. **Unzip, double-click `start.command`.** The first run sets up `.venv` (needs
+   internet once), then the browser opens Sipat. Close the Terminal window to stop.
+   - "cannot be opened": right-click `start.command` -> Open -> Open.
+   - "permission denied": in Terminal, `chmod +x start.command build_mac.sh`.
+   - Click Allow when macOS asks about incoming connections (phones need it).
+4. **Optional, a standalone build** (no Python needed on the next Mac):
+   `bash build_mac.sh` on the Mac. It runs the tests and makes
+   `../Sipat_mac_<date>.zip` with `Sipat.command` inside. This is a folder plus a
+   Terminal launcher, not a `Sipat.app`, because Sipat is a server: the Terminal
+   window shows the phone address and closing it stops Sipat, like `Sipat.exe`'s
+   black window.
+
 ## Project Structure
 
 ```
