@@ -19,8 +19,18 @@ if ($dirty) { Write-Host "Warning: uncommitted changes are not in the kit:`n$($d
 
 $zip = Join-Path (Split-Path -Parent $PSScriptRoot) ("Sipat_mac_kit_{0}.zip" -f (Get-Date -Format 'yyyyMMdd'))
 if (Test-Path $zip) { Remove-Item $zip -Force }
-# From the repo root: run inside tanim_guard\, git archive would also cut the
-# tree down to the current folder and the zip comes out empty.
-git -C (git rev-parse --show-toplevel) archive --format=zip --prefix=Sipat/ -o $zip HEAD:tanim_guard
-if ($LASTEXITCODE -ne 0) { throw 'git archive failed.' }
+# The step-by-step guide goes on top as "1 - START HERE (Mac).txt", so Finder
+# lists it first. --add-file keeps only the base name, hence the renamed copy.
+$guideDir = Join-Path ([IO.Path]::GetTempPath()) ('sipat_kit_' + [guid]::NewGuid().ToString('N'))
+New-Item -ItemType Directory -Path $guideDir | Out-Null
+$guide = Join-Path $guideDir '1 - START HERE (Mac).txt'
+Copy-Item 'docs\MAC_START_HERE.txt' $guide
+try {
+    # From the repo root: run inside tanim_guard\, git archive would also cut the
+    # tree down to the current folder and the zip comes out empty.
+    git -C (git rev-parse --show-toplevel) archive --format=zip --prefix=Sipat/ --add-file=$guide -o $zip HEAD:tanim_guard
+    if ($LASTEXITCODE -ne 0) { throw 'git archive failed.' }
+} finally {
+    Remove-Item $guideDir -Recurse -Force
+}
 '{0} ({1:N0} MB)' -f $zip, ((Get-Item $zip).Length / 1MB) | Write-Host -ForegroundColor Green

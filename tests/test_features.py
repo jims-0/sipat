@@ -377,3 +377,22 @@ def test_home_shows_the_dashboard(client, model):
     page = client.get("/").get_data(as_text=True)
     assert "📊 Dashboard" in page and "Pinakamadalas na sakit" in page and "Lote A" in page
     assert "Smart Image-based Plant Ailment Tracker" in page
+
+
+def test_training_evidence_page_shows_the_measured_numbers(client):
+    import json
+    from app.ml.inference import MODEL_DIR
+    report = json.loads((MODEL_DIR / "evaluation_report.json").read_text())
+    info = json.loads((MODEL_DIR / "training_info.json").read_text())
+    page = client.get("/training").get_data(as_text=True)
+    assert "Training Evidence" in page and info["run"] in page
+    assert f"{report['accuracy'] * 100:.1f}%" in page and "<polyline" in page
+    assert "Confusion Matrix" in page and "simula ng fine-tune" in page
+    assert "/training" in client.get("/about").get_data(as_text=True)  # linked from About
+
+
+def test_training_files_download_only_the_evidence_files(client):
+    resp = client.get("/training/training_history.csv")
+    assert resp.status_code == 200 and resp.data.startswith(b"epoch,accuracy")
+    assert client.get("/training/labels.json").status_code == 404
+    assert client.get("/training/..%2F..%2Froutes.py").status_code == 404

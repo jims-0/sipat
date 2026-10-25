@@ -62,6 +62,8 @@ Sipat (Mac)
    "Sa cellphone" address shown in the Terminal window.
 3. Photos and history are saved in the data/ folder next to Sipat.command.
    Copy that folder to keep them.
+4. Training evidence (dataset, accuracy per epoch, confusion matrix, score
+   per disease, raw files): in Sipat, About -> "Training Evidence".
 
 Optional - the adviser ("Magtanong" box) needs Ollama on this Mac:
   install from https://ollama.com, then run:  ollama pull qwen2.5:3b-instruct

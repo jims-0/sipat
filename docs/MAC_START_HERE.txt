@@ -1,0 +1,60 @@
+SIPAT ON A MAC - START HERE
+===========================
+
+For Apple Silicon Macs (M1, M2, M3, M4). Takes about 5 minutes the first time.
+
+
+STEP 1 - Install Python (one time only)
+---------------------------------------
+  Go to  https://www.python.org/downloads/macos/
+  Download "Python 3.12" (macOS 64-bit universal2 installer) and install it.
+  (The Python that comes with the Mac is too old.)
+
+
+STEP 2 - Open Sipat
+-------------------
+  Double-click  start.command  (in this folder).
+
+  The first time, macOS may block it:
+    -> Right-click start.command -> Open -> Open.
+
+  The first time it also sets itself up (needs internet, 1-2 minutes).
+  Then the browser opens Sipat by itself.
+
+  If macOS asks "accept incoming network connections?" -> click Allow
+  (so phones on the same Wi-Fi can open it).
+
+
+STEP 3 - Stop Sipat
+-------------------
+  Close the Terminal window.
+
+  Next time: just double-click start.command again. No setup anymore.
+
+
+WHERE IS THE TRAINING EVIDENCE?
+-------------------------------
+  In Sipat:  About (bottom menu) -> "Training Evidence"
+  It shows the dataset, accuracy per epoch, test results, confusion matrix,
+  score per disease, and download links for the raw training files.
+
+  The same evidence as files:
+    docs/EVALUATION.md                  full test report
+    docs/confusion_matrix.png           confusion matrix picture
+    app/ml/model/training_history.csv   accuracy + loss per epoch
+    app/ml/model/training_info.json     dataset split, epochs, training time
+
+
+PROBLEMS?
+---------
+  "Python 3.10 or newer was not found"  -> do Step 1, then try again.
+  "permission denied"                   -> open Terminal, type
+                                             chmod +x
+                                           (with a space after it), drag
+                                           start.command into the window,
+                                           press Enter, then try again.
+  "SETUP FAILED"                        -> check the internet, then
+                                           double-click start.command again.
+
+  You can ignore the other folders (app, scripts, tests...). They are the
+  program itself.

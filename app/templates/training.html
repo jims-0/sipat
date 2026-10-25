@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .ev-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    .ev-table th, .ev-table td { padding: 5px 6px; border-bottom: 1px solid #eee; text-align: left; }
+    .ev-table td.num, .ev-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .ev-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .ev-big { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+    .ev-big div { flex: 1 1 120px; background: #e8f5e9; border-radius: 10px; padding: 10px; text-align: center; }
+    .ev-big strong { display: block; font-size: 1.4rem; color: #1b5e20; }
+    .ev-big span { font-size: 0.75rem; color: #555; }
+    .cm { border-collapse: collapse; font-size: 0.68rem; }
+    .cm td, .cm th { width: 26px; height: 22px; text-align: center; border: 1px solid #f3f3f3; padding: 0; }
+    .cm th.row { width: auto; text-align: left; padding-right: 6px; white-space: nowrap; font-weight: normal; }
+    .weak { color: #b71c1c; font-weight: 600; }
+</style>
+
+<div class="card">
+    <div class="card-title">📊 Training Evidence</div>
+    <p style="font-size: 0.9rem; line-height: 1.6;">
+        Paano tinrain at tinest ang AI ng Sipat. Lahat ng numbers dito ay galing mismo sa files na
+        sinulat ng training at evaluation scripts. Walang tinype by hand.
+    </p>
+</div>
+
+{% if info %}
+<div class="card">
+    <div class="card-title">1. Dataset at Model</div>
+    <table class="ev-table">
+        <tr><th>Dataset</th><td>{{ info.dataset }}</td></tr>
+        <tr><th>Model</th><td>{{ info.architecture }}</td></tr>
+        <tr><th>Picture size</th><td>{{ info.image_size }} × {{ info.image_size }}</td></tr>
+        <tr><th>Classes</th><td>{{ info.classes }} (sakit + healthy + "hindi dahon" + "ibang halaman")</td></tr>
+        <tr><th>Training photos</th><td>{{ "{:,}".format(info.train_photos) }} (max {{ info.max_train_per_class }} per class)</td></tr>
+        <tr><th>Validation photos</th><td>{{ "{:,}".format(info.val_photos) }}</td></tr>
+        <tr><th>Test photos</th><td><strong>{{ "{:,}".format(info.test_photos) }}</strong>, hindi kailanman ginamit sa training</td></tr>
+        <tr><th>Epochs</th><td>{{ info.head_epochs }} head + {{ info.fine_epochs }} fine-tune (last {{ info.fine_tune_layers }} layers)</td></tr>
+        <tr><th>Training time</th><td>{{ info.training_minutes }} min sa CPU</td></tr>
+        <tr><th>Tools</th><td>TensorFlow {{ info.tensorflow }}, Keras {{ info.keras }}</td></tr>
+        <tr><th>Training run</th><td><code>{{ info.run }}</code></td></tr>
+    </table>
+    <p class="result-meta" style="margin-top: 8px;">
+        Hinati ang photos gamit ang hash ng file name, kaya hindi pwedeng mapunta ang isang photo sa training at test nang sabay.
+    </p>
+</div>
+{% endif %}
+
+{% if chart %}
+<div class="card">
+    <div class="card-title">2. Accuracy kada Epoch</div>
+    <div class="ev-scroll">
+    <svg viewBox="0 0 {{ chart.width }} {{ chart.height }}" width="100%" style="min-width: 320px; max-width: 640px;"
+         role="img" aria-label="Training at validation accuracy kada epoch">
+        {% for value, y in chart.ticks %}
+        <line x1="{{ chart.pad }}" x2="{{ chart.width - chart.pad }}" y1="{{ y }}" y2="{{ y }}" stroke="#eee"/>
+        <text x="{{ chart.pad - 6 }}" y="{{ y + 4 }}" font-size="11" text-anchor="end" fill="#777">{{ (value * 100) | int }}%</text>
+        {% endfor %}
+        {% for epoch, x in chart.epochs %}
+        <text x="{{ x }}" y="{{ chart.height - chart.pad + 16 }}" font-size="11" text-anchor="middle" fill="#777">{{ epoch }}</text>
+        {% endfor %}
+        {% if chart.fine_x %}
+        <line x1="{{ chart.fine_x }}" x2="{{ chart.fine_x }}" y1="{{ chart.pad }}" y2="{{ chart.height - chart.pad }}"
+              stroke="#999" stroke-dasharray="3 3"/>
+        <text x="{{ chart.fine_x + 4 }}" y="{{ chart.pad + 10 }}" font-size="11" fill="#666">simula ng fine-tune</text>
+        {% endif %}
+        <polyline points="{{ chart.train }}" fill="none" stroke="#2e7d32" stroke-width="2.5"/>
+        <polyline points="{{ chart.val }}" fill="none" stroke="#f57c00" stroke-width="2.5" stroke-dasharray="6 4"/>
+        <text x="{{ chart.width / 2 }}" y="{{ chart.height - 4 }}" font-size="11" text-anchor="middle" fill="#777">epoch</text>
+    </svg>
+    </div>
+    <p class="result-meta">
+        <span style="color: #2e7d32;">━━ training accuracy</span> &nbsp;
+        <span style="color: #f57c00;">╍╍ validation accuracy</span>.
+        Magkalapit ang dalawang line, ibig sabihin hindi nag-memorize (overfit) ang model.
+    </p>
+    <div class="ev-scroll">
+    <table class="ev-table" style="margin-top: 8px;">
+        <tr><th>Epoch</th><th class="num">Train acc</th><th class="num">Val acc</th><th class="num">Train loss</th><th class="num">Val loss</th></tr>
+        {% for row in history %}
+        <tr><td>{{ loop.index }}</td>
+            <td class="num">{{ "%.1f" | format(row.accuracy * 100) }}%</td>
+            <td class="num">{{ "%.1f" | format(row.val_accuracy * 100) }}%</td>
+            <td class="num">{{ "%.3f" | format(row.loss) }}</td>
+            <td class="num">{{ "%.3f" | format(row.val_loss) }}</td></tr>
+        {% endfor %}
+    </table>
+    </div>
+</div>
+{% endif %}
+
+{% if report %}
+<div class="card">
+    <div class="card-title">3. Resulta sa Test Set</div>
+    <p class="result-meta">{{ "{:,}".format(report.test_photos) }} photos na hindi nakita ng model habang nagte-train:</p>
+    <div class="ev-big">
+        <div><strong>{{ "%.1f" | format(report.accuracy * 100) }}%</strong><span>Accuracy</span></div>
+        <div><strong>{{ "%.1f" | format(report.top3_accuracy * 100) }}%</strong><span>Tamang sagot nasa top 3</span></div>
+        <div><strong>{{ "%.3f" | format(report.macro_f1) }}</strong><span>Macro F1</span></div>
+        <div><strong>{{ report.ms_per_photo_batched_cpu }} ms</strong><span>Bawat photo (CPU)</span></div>
+    </div>
+    <p class="result-meta" style="margin-top: 10px;">{{ report.note }}</p>
+</div>
+
+<div class="card">
+    <div class="card-title">4. "Hindi sure" Threshold</div>
+    <p class="result-meta">Pag mababa sa threshold ang confidence, nagpapa-retake ang app imbes na manghula.</p>
+    <table class="ev-table">
+        <tr><th>Threshold</th><th class="num">Sinagot</th><th class="num">Tama sa sinagot</th></tr>
+        {% for t in report.thresholds %}
+        <tr {% if t.threshold == report.recommended_threshold %}style="background: #e8f5e9; font-weight: 600;"{% endif %}>
+            <td>{{ t.threshold }}{% if t.threshold == report.recommended_threshold %} ← gamit ng app{% endif %}</td>
+            <td class="num">{{ "%.1f" | format(t.answered_share * 100) }}%</td>
+            <td class="num">{{ "%.1f" | format(t.accuracy_when_answered * 100) }}%</td></tr>
+        {% endfor %}
+    </table>
+</div>
+
+<div class="card">
+    <div class="card-title">5. Score kada Sakit</div>
+    <p class="result-meta">Naka-pula ang F1 na mas mababa sa 0.90, mga weak spot ng model.</p>
+    <div class="ev-scroll">
+    <table class="ev-table">
+        <tr><th>Class</th><th class="num">Precision</th><th class="num">Recall</th><th class="num">F1</th><th class="num">Photos</th></tr>
+        {% for c in report.per_class %}
+        <tr><td>{{ c.name }}</td>
+            <td class="num">{{ "%.3f" | format(c.precision) }}</td>
+            <td class="num">{{ "%.3f" | format(c.recall) }}</td>
+            <td class="num {% if c.f1 < 0.9 %}weak{% endif %}">{{ "%.3f" | format(c.f1) }}</td>
+            <td class="num">{{ c.support }}</td></tr>
+        {% endfor %}
+    </table>
+    </div>
+</div>
+
+{% if report.top_confusions %}
+<div class="card">
+    <div class="card-title">6. Madalas Mapagkamalan</div>
+    <table class="ev-table">
+        <tr><th>Totoong sakit</th><th>Sinagot ng AI</th><th class="num">Ilang beses</th></tr>
+        {% for c in report.top_confusions %}
+        <tr><td>{{ names.get(c.true, c.true) }}</td><td>{{ names.get(c.predicted, c.predicted) }}</td><td class="num">{{ c.count }}</td></tr>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
+
+{% if matrix %}
+<div class="card">
+    <div class="card-title">7. Confusion Matrix</div>
+    <p class="result-meta">
+        Row = totoong sakit, column = sagot ng AI (same order, 1 hanggang {{ matrix | length }}).
+        Mas madilim = mas marami. Ang diagonal ang mga tamang sagot.
+    </p>
+    <div class="ev-scroll">
+    <table class="cm">
+        <tr><th class="row"></th>{% for row in matrix %}<th>{{ loop.index }}</th>{% endfor %}</tr>
+        {% for row in matrix %}
+        {% set i = loop.index0 %}
+        <tr><th class="row">{{ loop.index }}. {{ row.name }}</th>
+            {% for n, share in row.cells %}
+            <td title="{{ row.name }} → {{ matrix[loop.index0].name }}: {{ n }}"
+                style="background: rgba({% if loop.index0 == i %}46,125,50{% else %}198,40,40{% endif %}, {{ '%.2f' | format(share if share == 0 else [share, 0.08] | max) }});
+                       color: {% if share > 0.5 %}#fff{% else %}#333{% endif %};">{% if n %}{{ n }}{% endif %}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    </div>
+</div>
+{% endif %}
+{% endif %}
+
+<div class="card">
+    <div class="card-title">8. Raw Files at Paano Ulitin</div>
+    {% if files %}
+    <p class="result-meta">I-download ang mismong files na pinanggalingan ng page na ito:</p>
+    <ul style="padding-left: 20px; font-size: 0.9rem; line-height: 1.8;">
+        {% for name in files %}<li><a href="{{ url_for('main.training_file', name=name) }}">{{ name }}</a></li>{% endfor %}
+    </ul>
+    {% endif %}
+    <p class="result-meta">Para ulitin ang training (nasa <code>TRAINING.md</code> ang detalye):</p>
+    <pre style="font-size: 0.75rem; background: #f5f5f5; padding: 8px; border-radius: 6px; overflow-x: auto;">python scripts/prepare_dataset.py
+python scripts/train_model.py
+python scripts/evaluate.py
+python scripts/export_tflite.py</pre>
+</div>
+{% endblock %}

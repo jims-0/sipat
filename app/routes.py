@@ -356,3 +356,63 @@ def about():
     report_path = MODEL_DIR / 'evaluation_report.json'
     report = json.loads(report_path.read_text()) if report_path.exists() else None
     return render_template('about.html', report=report)
+
+
+# The training/evaluation files the evidence page reads and offers as downloads.
+EVIDENCE_FILES = ('training_history.csv', 'training_info.json', 'evaluation_report.json')
+
+
+def _accuracy_chart(history, width=600, height=240, pad=36, low=0.5):
+    """SVG coordinates for train/val accuracy per epoch (y axis from `low` to 1.0)."""
+    last = max(len(history) - 1, 1)
+
+    def point(i, value):
+        x = pad + (width - 2 * pad) * i / last
+        y = pad + (height - 2 * pad) * (1 - (max(value, low) - low) / (1 - low))
+        return round(x, 1), round(y, 1)
+
+    def line(key):
+        return ' '.join(f'{x},{y}' for x, y in (point(i, row[key]) for i, row in enumerate(history)))
+
+    ticks = [(round(v, 1), point(0, v)[1]) for v in (0.5, 0.6, 0.7, 0.8, 0.9, 1.0)]
+    epochs = [(i + 1, point(i, low)[0]) for i in range(len(history))]
+    return {'width': width, 'height': height, 'pad': pad, 'train': line('accuracy'),
+            'val': line('val_accuracy'), 'ticks': ticks, 'epochs': epochs, 'point': point}
+
+
+@bp.route('/training')
+def training():
+    """Evidence of how the model was trained and tested, for the thesis panel:
+    everything here is read from the files training/evaluation wrote."""
+    from app.ml.inference import MODEL_DIR
+    paths = {name: MODEL_DIR / name for name in EVIDENCE_FILES}
+    info = json.loads(paths['training_info.json'].read_text()) \
+        if paths['training_info.json'].exists() else None
+    report = json.loads(paths['evaluation_report.json'].read_text()) \
+        if paths['evaluation_report.json'].exists() else None
+    history = []
+    if paths['training_history.csv'].exists():
+        with open(paths['training_history.csv'], newline='', encoding='utf-8') as handle:
+            history = [{k: float(v) for k, v in row.items()} for row in csv.DictReader(handle)]
+
+    chart = _accuracy_chart(history) if len(history) > 1 else None
+    if chart and info and info.get('head_epochs', 0) < len(history):
+        # The head-only epochs come first; fine-tuning starts right after them.
+        chart['fine_x'] = chart['point'](info['head_epochs'], 0.5)[0]
+    names = {row['class']: row['name'] for row in report['per_class']} if report else {}
+    matrix = None
+    if report and report.get('confusion_matrix'):
+        matrix = [{'name': row['name'], 'total': sum(cells),
+                   'cells': [(n, n / max(sum(cells), 1)) for n in cells]}
+                  for row, cells in zip(report['per_class'], report['confusion_matrix'])]
+    return render_template('training.html', info=info, report=report, history=history,
+                           chart=chart, names=names, matrix=matrix,
+                           files=[name for name, path in paths.items() if path.exists()])
+
+
+@bp.route('/training/<name>')
+def training_file(name):
+    if name not in EVIDENCE_FILES:
+        abort(404)
+    from app.ml.inference import MODEL_DIR
+    return send_from_directory(MODEL_DIR, name, as_attachment=True)
