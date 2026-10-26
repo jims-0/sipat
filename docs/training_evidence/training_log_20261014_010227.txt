@@ -1,0 +1,33 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1791910937.005727   25528 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1791910943.935271   25528 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1791910949.194118   25528 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE3 SSE4.1 SSE4.2 AVX AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+C:\Users\User\AppData\Roaming\Python\Python314\site-packages\keras\src\trainers\epoch_iterator.py:74: UserWarning: `shuffle=True` was passed, but will be ignored since the data `x` was provided as a tf.data.Dataset. The Dataset is expected to already be shuffled (via `.shuffle(buffer_size)`).
+  self.data_adapter = data_adapters.get_data_adapter(
+{'train': 13240, 'val': 4383, 'test': 4454} train photos per class: 101 - 700
+Epoch 1/6
+414/414 - 196s - 474ms/step - accuracy: 0.6227 - loss: 1.2918 - val_accuracy: 0.8040 - val_loss: 0.7094
+Epoch 2/6
+414/414 - 104s - 250ms/step - accuracy: 0.8094 - loss: 0.6212 - val_accuracy: 0.8465 - val_loss: 0.5270
+Epoch 3/6
+414/414 - 103s - 250ms/step - accuracy: 0.8474 - loss: 0.4890 - val_accuracy: 0.8597 - val_loss: 0.4716
+Epoch 4/6
+414/414 - 163s - 394ms/step - accuracy: 0.8643 - loss: 0.4287 - val_accuracy: 0.8766 - val_loss: 0.4143
+Epoch 5/6
+414/414 - 160s - 387ms/step - accuracy: 0.8747 - loss: 0.3893 - val_accuracy: 0.8727 - val_loss: 0.4182
+Epoch 6/6
+414/414 - 128s - 308ms/step - accuracy: 0.8826 - loss: 0.3667 - val_accuracy: 0.8789 - val_loss: 0.3865
+Epoch 7/11
+W0000 00:00:1791911819.587841   25528 prefetch_dataset_op.cc:476] SEVERE STARVATION: Element UID 1791911806197534900 in buffer 'PrefetchDataset/_20' sat unconsumed for 13.3463 seconds!
+414/414 - 170s - 411ms/step - accuracy: 0.9089 - loss: 0.2646 - val_accuracy: 0.9245 - val_loss: 0.2362
+Epoch 8/11
+414/414 - 150s - 363ms/step - accuracy: 0.9319 - loss: 0.1976 - val_accuracy: 0.9345 - val_loss: 0.2083
+Epoch 9/11
+414/414 - 190s - 458ms/step - accuracy: 0.9474 - loss: 0.1572 - val_accuracy: 0.9439 - val_loss: 0.1648
+Epoch 10/11
+414/414 - 172s - 417ms/step - accuracy: 0.9532 - loss: 0.1313 - val_accuracy: 0.9466 - val_loss: 0.1637
+Epoch 11/11
+414/414 - 144s - 348ms/step - accuracy: 0.9573 - loss: 0.1168 - val_accuracy: 0.9423 - val_loss: 0.1684
+saved C:\Users\User\Downloads\Main\tanim_guard\app\ml\model\tanim_guard.keras {'architecture': 'MobileNetV3Small (ImageNet) + GAP + Dropout 0.25 + Dense softmax', 'image_size': 224, 'classes': 21, 'train_photos': 13240, 'val_photos': 4383, 'test_photos': 4454, 'max_train_per_class': 700, 'head_epochs': 6, 'fine_epochs': 5, 'fine_tune_layers': 40, 'training_minutes': 28.1, 'tensorflow': '2.22.0-rc0', 'keras': '3.16.0.dev2026100804', 'run': '20261014_010227', 'dataset': 'PlantVillage, Mendeley Data doi:10.17632/tywbtsjrjv.1 (without augmentation)'}

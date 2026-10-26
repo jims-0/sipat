@@ -39,10 +39,13 @@ WHERE IS THE TRAINING EVIDENCE?
   score per disease, and download links for the raw training files.
 
   The same evidence as files:
+    TRAINING.md                         how the model was trained, step by step
+    docs/training_evidence/             raw console log of the training run
     docs/EVALUATION.md                  full test report
     docs/confusion_matrix.png           confusion matrix picture
     app/ml/model/training_history.csv   accuracy + loss per epoch
     app/ml/model/training_info.json     dataset split, epochs, training time
+    scripts/train_model.py              the training code
 
 
 PROBLEMS?
