@@ -27,6 +27,7 @@ a = Analysis(
         ('app/ml/model/evaluation_report.json', 'app/ml/model'),
         ('app/ml/model/training_history.csv', 'app/ml/model'),  # /training evidence page
         ('app/ml/model/training_info.json', 'app/ml/model'),
+        ('app/ml/model/field_benchmark.json', 'app/ml/model'),  # real-world (PlantDoc) results
         ('app/static/library', 'app/static/library'),
     ] + [(p, os.path.dirname(p)) for p in glob.glob('pwa/**/*', recursive=True)  # phone app at /m/
          if os.path.isfile(p) and '_parity' not in p] + ([('app/ml/model/field_report.json', 'app/ml/model')]
