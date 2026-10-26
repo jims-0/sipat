@@ -95,4 +95,6 @@ test("dashboard: counts, top diseases, weeks and plots (sick plots first)", () =
   assert.strictEqual(d.weeks.length, 8);
   assert.deepStrictEqual(d.weeks.slice(-2), [{ week: "2026-10-12", count: 1 }, { week: "2026-10-19", count: 3 }]);
   assert.deepStrictEqual(d.plots.map((p) => [p.name, p.kind]), [["Lote A", "sick"], ["Lote B", "healthy"]]);
+  assert.deepStrictEqual(d.recent.map((r) => [r.scan.id, r.kind]), [[4, "unsure"], [3, "healthy"], [2, "sick"]]);
+  assert.deepStrictEqual(d.week, { total: 3, sick: 2, top: DATA.classes.Tomato___Late_blight.name_tl });
 });

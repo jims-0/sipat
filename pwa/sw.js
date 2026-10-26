@@ -7,7 +7,7 @@
  * Bump APP_REV by hand when you change app.js / style.css / index.html.
  */
 const VERSION = "931d2fddfa74";
-const APP_REV = "6";
+const APP_REV = "7";
 const CACHE = `sipat-${VERSION}-${APP_REV}`;
 
 const CORE = [

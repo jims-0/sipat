@@ -205,13 +205,13 @@ def test_recheck_reminder_shows_when_due_and_clears_after_rescan(app, client, mo
     d = scan(client)
     resp = client.post(f"/api/diagnosis/{d}/recheck", json={"days": 7})
     assert resp.status_code == 200 and resp.get_json()["recheck_due"]
-    assert "⏰ Balikan Na<" not in client.get("/").get_data(as_text=True)  # not due yet
+    assert "⏰ Check ulit today<" not in client.get("/").get_data(as_text=True)  # not due yet
     with app.app_context():
         from app.models import set_recheck
         set_recheck(d, "2026-01-01")  # overdue
-    assert "⏰ Balikan Na<" in client.get("/").get_data(as_text=True)
+    assert "⏰ Check ulit today<" in client.get("/").get_data(as_text=True)
     scan(client, parent_id=str(d))
-    assert "Dapat Balikan" not in client.get("/").get_data(as_text=True)
+    assert "⏰ Check ulit today<" not in client.get("/").get_data(as_text=True)
 
 
 def test_recheck_validation_and_clearing(app, client, model):
@@ -369,13 +369,18 @@ def test_dashboard_counts_healthy_sick_unsure_and_plots(app, client, model):
     assert [p["name"] for p in d["plots"]] == ["Lote A", "Lote B"]  # sick plot first
     assert [p["kind"] for p in d["plots"]] == ["sick", "healthy"]
     assert len(d["weeks"]) == 8 and d["weeks"][-1]["count"] == 4
+    assert [r["kind"] for r in d["recent"]] == ["unsure", "healthy", "sick"]  # newest first, 3 max
+    assert d["week"] == {"total": 4, "sick": 2, "top": d["top"][0]["name_tl"]}
 
 
 def test_home_shows_the_dashboard(client, model):
-    assert "Dito lalabas ang summary" in client.get("/").get_data(as_text=True)  # empty state
+    page = client.get("/").get_data(as_text=True)
+    assert "Welcome sa Sipat" in page and "Recent scans" not in page  # empty state
+    assert 'id="intro"' in page and "home-scan" in page  # opening animation + side scan panel
     scan(client, new_plot="Lote A")
     page = client.get("/").get_data(as_text=True)
-    assert "📊 Dashboard" in page and "Pinakamadalas na sakit" in page and "Lote A" in page
+    assert "🌿 Recent scans" in page and "Tingnan lahat" in page and "Lote A" in page
+    assert "This week:</strong>" in page and "1 scan, 1 may sakit" in page
     assert "Smart Image-based Plant Ailment Tracker" in page
 
 

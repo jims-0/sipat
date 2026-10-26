@@ -12,6 +12,44 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Opening animation (twin of app/templates/_intro.html): once per session, tap to skip. -->
+  <div id="intro" class="intro" hidden aria-hidden="true">
+      <div class="intro-leaf">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+              <path d="M60 8 C96 22 112 62 60 112 C8 62 24 22 60 8 Z" fill="#66bb6a"/>
+              <path d="M60 8 C96 22 112 62 60 112 Z" fill="#81c784"/>
+              <path d="M60 14 L60 106 M60 40 L80 30 M60 58 L84 48 M60 76 L80 68 M60 46 L40 36 M60 64 L36 56 M60 82 L42 76"
+                    stroke="#2e7d32" stroke-width="3" stroke-linecap="round" fill="none"/>
+              <circle class="intro-spot s1" cx="46" cy="50" r="7" fill="#8d4f2b" stroke="#ff7043" stroke-width="3"/>
+              <circle class="intro-spot s2" cx="72" cy="74" r="6" fill="#8d4f2b" stroke="#ff7043" stroke-width="3"/>
+          </svg>
+          <div class="intro-beam"></div>
+      </div>
+      <div class="intro-name">SIPAT</div>
+      <div class="intro-tag">Smart Image-based Plant Ailment Tracker</div>
+      <div class="intro-skip">Tap para mag-skip</div>
+  </div>
+  <script>
+  (function () {
+      var el = document.getElementById('intro');
+      if (!el) return;
+      var seen = '1';
+      try { seen = sessionStorage.getItem('sipat-intro'); sessionStorage.setItem('sipat-intro', '1'); } catch (e) { /* no storage: skip */ }
+      var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (seen || still) { el.remove(); return; }
+      el.hidden = false;
+      var gone = false;
+      function done() {
+          if (gone) return;
+          gone = true;
+          el.classList.add('intro-out');
+          setTimeout(function () { el.remove(); }, 450);
+      }
+      el.addEventListener('click', done);
+      setTimeout(done, 3400);
+  })();
+  </script>
+
   <header class="app-header">
     <div class="app-title"><span aria-hidden="true">🌱</span> SIPAT</div>
     <div class="app-subtitle">Smart Image-based Plant Ailment Tracker</div>

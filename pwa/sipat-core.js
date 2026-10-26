@@ -215,7 +215,20 @@
     const order = { sick: 0, unsure: 1, healthy: 2 };
     const plots = Object.entries(latest).map(([name, s]) => ({ name, kind: kindOf(s, data), scan: s }))
       .sort((a, b) => order[a.kind] - order[b.kind] || a.name.localeCompare(b.name));
-    return { total: scans.length, ...counts, due, top, weeks, plots };
+    // Last 3 scans, newest first.
+    const recent = [...scans].sort((a, b) => b.id - a.id).slice(0, 3).map((s) => ({ scan: s, kind: kindOf(s, data) }));
+    // "This week" = since Monday: how many scans, how many sick, the most common disease.
+    const weekSick = {};
+    let weekTotal = 0;
+    for (const s of scans) {
+      if (mondayOf(dayOf(s.ts)) !== thisMonday) continue;
+      weekTotal++;
+      if (kindOf(s, data) === "sick") weekSick[s.class_key] = (weekSick[s.class_key] || 0) + 1;
+    }
+    const topWeek = Object.entries(weekSick).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0];
+    const week = { total: weekTotal, sick: Object.values(weekSick).reduce((a, b) => a + b, 0),
+                   top: topWeek && data.classes[topWeek[0]] ? data.classes[topWeek[0]].name_tl : null };
+    return { total: scans.length, ...counts, due, top, weeks, plots, recent, week };
   }
 
   // The small markdown subset treatment.py writes: **bold**, _italic_, "1. " lists, blank-line paragraphs.

@@ -287,8 +287,9 @@ def get_stats(today=None):
 def get_dashboard(today=None):
     """Home-screen summary - the desktop twin of dashboard() in pwa/sipat-core.js:
     healthy / sick / unsure counts, rechecks due, scans per week, the most common
-    diseases and the latest result of every plot."""
-    from datetime import date
+    diseases, the latest result of every plot, the last 3 scans and this week's
+    line (scans since Monday, how many sick, the most common disease)."""
+    from datetime import date, timedelta
     from app.ml.classes import CLASSES
 
     def kind(status, class_key):
@@ -319,6 +320,24 @@ def get_dashboard(today=None):
     order = {'sick': 0, 'unsure': 1, 'healthy': 2}
     plots.sort(key=lambda p: (order[p['kind']], p['name'].lower()))
 
+    recent = [{**dict(row), 'kind': kind(row['status'], row['class_key'])} for row in db.execute('''
+        SELECT d.id, d.image_path, d.class_key, d.status, d.timestamp, p.name AS plot_name,
+               COALESCE(d.disease_name_tl, d.disease_name) AS result
+        FROM diagnoses d LEFT JOIN plots p ON p.id = d.plot_id
+        ORDER BY d.timestamp DESC, d.id DESC LIMIT 3''')]
+
+    # "This week" = since Monday, same weeks as get_stats.
+    monday = (today - timedelta(days=today.weekday())).isoformat()
+    week_total, week_sick = 0, {}
+    for row in db.execute('SELECT class_key, status FROM diagnoses WHERE date(timestamp) >= ?', (monday,)):
+        week_total += 1
+        if kind(row['status'], row['class_key']) == 'sick':
+            week_sick[row['class_key']] = week_sick.get(row['class_key'], 0) + 1
+    top_week = min(week_sick, key=lambda key: (-week_sick[key], key)) if week_sick else None
+    week = {'total': week_total, 'sick': sum(week_sick.values()),
+            'top': CLASSES[top_week]['name_tl'] if top_week in CLASSES else None}
+
     total = sum(counts.values())
     return {'total': total, **counts, 'due': len(get_due_rechecks(today.isoformat())),
-            'top': top, 'weeks': get_stats(today)['by_week'], 'plots': plots}
+            'top': top, 'weeks': get_stats(today)['by_week'], 'plots': plots,
+            'recent': recent, 'week': week}

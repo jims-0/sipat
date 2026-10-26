@@ -1,30 +1,17 @@
 {% extends "base.html" %}
 
-{% block content %}
-{% if due %}
-<div class="card">
-    <div class="card-title">⏰ Balikan Na</div>
-    <div class="due-list">
-        {% for item in due %}
-        <a href="{{ url_for('main.index', followup=item.id) }}">
-            <img src="{{ item.image_path }}" alt="">
-            <span style="flex: 1;">
-                <strong>{{ item.disease_name_tl or item.disease_name }}</strong><br>
-                <small>{% if item.plot_name %}{{ item.plot_name }} • {% endif %}i-check ulit sa {{ item.recheck_due }}</small>
-            </span>
-            <span class="chip chip-due">Kunan ulit</span>
-        </a>
-        {% endfor %}
-    </div>
-</div>
-{% endif %}
+{% block main_class %}home-wide{% endblock %}
 
+{% block content %}
+{% include '_intro.html' %}
+<div class="home-grid">
+<aside class="home-scan">
 <div class="card camera-container">
-    <div class="card-title">Picture-an ang Dahon</div>
+    <div class="card-title">📷 I-scan ang dahon</div>
     {% if parent %}
     <div class="notice">
         Follow-up ng scan #{{ parent.id }} ({{ parent.disease_name_tl or parent.disease_name }},
-        {{ parent.timestamp | localtime('%b %d') }}). Picture-an ulit yung same na halaman para makita kung gumaling o lumala.
+        {{ parent.timestamp | localtime('%b %d') }}). Kunan ulit yung same na halaman para makita kung gumaling o lumala.
         <input type="hidden" id="parent-id" value="{{ parent.id }}">
     </div>
     {% endif %}
@@ -36,7 +23,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
             </svg>
-            <div>Mag-picture o pumili sa gallery</div>
+            <div>Kunan ng picture o mag-upload ng photo</div>
         </div>
     </div>
 
@@ -50,13 +37,13 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
             </svg>
-            Kamera
+            Camera
         </button>
         <button type="button" class="btn btn-outline" onclick="document.getElementById('file-input').click()">
             <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
             </svg>
-            Gallery
+            Upload
         </button>
     </div>
 
@@ -73,20 +60,14 @@
     </div>
 
     <button type="button" id="analyze-btn" class="btn btn-accent" style="margin-top: 12px;" disabled>
-        🔍 I-scan ang Dahon
+        🔍 I-check ang dahon
     </button>
+    <p class="home-tip">💡 Isang dahon lang, sa maliwanag. Ilapit ang camera, iwas sa shadow at blur.</p>
 </div>
+</aside>
 
+<section class="home-main">
 {% include '_dashboard.html' %}
-
-<!-- Tips Card -->
-<div class="card">
-    <div class="card-title">💡 Tips sa Pag-picture</div>
-    <ul style="padding-left: 20px; font-size: 0.9rem; color: #555;">
-        <li>Dapat maliwanag (mas okay sa daylight)</li>
-        <li>Itapat ang camera sa dahon na may spots</li>
-        <li>Wag blurry ang kuha</li>
-        <li>Isang dahon lang bawat picture</li>
-    </ul>
+</section>
 </div>
 {% endblock %}

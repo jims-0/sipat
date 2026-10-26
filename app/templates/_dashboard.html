@@ -1,50 +1,55 @@
-{# Home-screen dashboard; data from models.get_dashboard(). The phone app draws the same cards (pwa/app.js dashboardHtml). #}
+{# Home dashboard; data from models.get_dashboard() (+ due from get_due_rechecks).
+   The phone app draws the same cards: pwa/app.js dashboardHtml. #}
 {% set d = dash %}
-{% set labels = {'healthy': 'Healthy', 'sick': 'May sakit', 'unsure': 'Hindi sure / walang dahon'} %}
-<div class="card dash">
-    <div class="card-title">📊 Dashboard</div>
-    {% if not d.total %}
-    <p class="result-meta">Dito lalabas ang summary ng mga scan mo: ilan ang healthy, ilan ang may sakit, at ano ang pinaka-common na sakit.</p>
-    {% else %}
-    <div class="tiles tiles-4">
-        <a class="tile" href="{{ url_for('main.history') }}"><div class="num">{{ d.total }}</div><div class="lbl">Lahat ng scan</div></a>
-        <div class="tile tile-good"><div class="num">{{ d.healthy }}</div><div class="lbl">Malusog</div></div>
-        <div class="tile tile-warm"><div class="num">{{ d.sick }}</div><div class="lbl">May sakit</div></div>
-        <div class="tile {{ 'tile-alert' if d.due }}"><div class="num">{{ d.due }}</div><div class="lbl">Balikan na</div></div>
-    </div>
-    <div class="mix" role="img" aria-label="Malusog {{ (100 * d.healthy / d.total) | round | int }}%, may sakit {{ (100 * d.sick / d.total) | round | int }}%">
-        {% for k in ['healthy', 'sick', 'unsure'] if d[k] %}<span class="mix-{{ k }}" style="flex: {{ d[k] }}"></span>{% endfor %}
-    </div>
-    <div class="mix-legend">
-        {% for k in ['healthy', 'sick', 'unsure'] %}<span><i class="dot mix-{{ k }}"></i>{{ labels[k] }} {{ (100 * d[k] / d.total) | round | int }}%</span>{% endfor %}
-    </div>
-
-    {% set peak = ([1] + d.weeks | map(attribute='count') | list) | max %}
-    <div class="dash-title">Scan bawat linggo</div>
-    <div class="weeks">
-        {% for w in d.weeks %}
-        <div><b>{{ w.count or '' }}</b><span class="bar" style="height: {{ (100 * w.count / peak) | round | int }}%"></span>{{ w.week[5:7] | int }}/{{ w.week[8:] | int }}</div>
-        {% endfor %}
-    </div>
-
-    {% if d.top %}
-    {% set top_peak = d.top[0].count %}
-    <div class="dash-title">Pinakamadalas na sakit</div>
-    <ul class="bars">
-        {% for t in d.top %}
-        <li><span>{{ t.name_tl }}</span><span class="track"><span class="bar-sick" style="width: {{ (100 * t.count / top_peak) | round | int }}%"></span></span><strong>{{ t.count }}</strong></li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-
-    {% if d.plots %}
-    <div class="dash-title">Status ng bawat taniman</div>
-    <div class="plot-list">
-        {% for p in d.plots %}
-        <a class="plot-row" href="{{ url_for('main.history', plot=p.plot_id) }}"><i class="dot mix-{{ p.kind }}"></i><strong>{{ p.name }}</strong>
-            <span>{{ p.result }} • {{ p.timestamp | localtime('%b %d') }}</span></a>
-        {% endfor %}
-    </div>
-    {% endif %}
-    {% endif %}
+{% set kinds = {'healthy': 'Malusog', 'sick': 'May sakit', 'unsure': 'Hindi sure'} %}
+{% if not d.total %}
+<div class="card">
+    <p class="home-hello"><strong>👋 Welcome sa Sipat!</strong>
+        I-scan ang unang dahon mo. Dito lalabas ang results mo, pati ang mga tanim na kailangan i-check ulit.</p>
 </div>
+{% else %}
+{% if due %}
+<div class="card">
+    <div class="card-title">⏰ Check ulit today</div>
+    <div class="due-list">
+        {% for item in due %}
+        <a href="{{ url_for('main.index', followup=item.id) }}">
+            <img src="{{ item.image_path }}" alt="">
+            <span style="flex: 1;">
+                <strong>{{ item.disease_name_tl or item.disease_name }}</strong><br>
+                <small>{% if item.plot_name %}{{ item.plot_name }} • {% endif %}dapat i-check {{ item.recheck_due }}</small>
+            </span>
+            <span class="chip chip-due">I-scan ulit</span>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<div class="card">
+    <div class="home-head">
+        <div class="card-title">🌿 Recent scans</div>
+        <a href="{{ url_for('main.history') }}">Tingnan lahat →</a>
+    </div>
+    <div class="recent-grid">
+        {% for r in d.recent %}
+        <a class="recent-tile" href="{{ url_for('main.view_diagnosis', diagnosis_id=r.id) }}">
+            <img src="{{ r.image_path }}" alt="">
+            <span class="kind-pill kind-{{ r.kind }}">{{ kinds[r.kind] }}</span>
+            <strong>{{ r.result }}</strong>
+            <small>{% if r.plot_name %}{{ r.plot_name }} • {% endif %}{{ r.timestamp | localtime('%b %d') }}</small>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="card">
+    <p class="week-line">📊 <strong>This week:</strong>
+    {% if d.week.total %}
+        {{ d.week.total }} scan{{ 's' if d.week.total != 1 }}, {{ d.week.sick }} may sakit{% if d.week.top %} ({{ d.week.top }}){% endif %}
+    {% else %}
+        wala pang scan this week.
+    {% endif %}
+    </p>
+</div>
+{% endif %}

@@ -195,48 +195,30 @@
   // ---------- dashboard ----------
   // Same cards as the desktop home (templates/_dashboard.html), from the scans on this phone.
   const localDay = (iso) => new Date(iso).toLocaleDateString("en-CA");
-  const KIND_LABEL = { healthy: "Healthy", sick: "May sakit", unsure: "Hindi sure / walang dahon" };
+  const KIND_LABEL = { healthy: "Malusog", sick: "May sakit", unsure: "Hindi sure" };
 
-  function dashboardHtml(scans) {
+  function dashboardHtml(scans, due) {
     const d = C.dashboard(scans, DATA, today(), localDay);
     if (!d.total) {
-      return `<div class="card dash"><div class="card-title">📊 Dashboard</div>
-        <p class="result-meta">Dito lalabas ang summary ng mga scan mo: ilan ang healthy, ilan ang may sakit, at ano ang pinaka-common na sakit.
+      return `<div class="card"><p class="home-hello"><strong>👋 Welcome sa Sipat!</strong>
+        I-scan ang unang dahon mo. Dito lalabas ang results mo, pati ang mga tanim na kailangan i-check ulit.
         Naka-save lang sa phone na 'to ang mga picture; walang sine-send sa internet.</p></div>`;
     }
-    const share = (n) => `${(100 * n / d.total).toFixed(0)}%`;
-    const peakWeek = Math.max(1, ...d.weeks.map((w) => w.count));
-    const peakTop = Math.max(1, ...d.top.map((t) => t.count));
-    const weekLabel = (iso) => new Date(iso + "T00:00:00").toLocaleDateString("en-PH", { month: "short", day: "numeric" });
-    return `<div class="card dash">
-      <div class="card-title">📊 Dashboard</div>
-      <div class="tiles tiles-4">
-        <a class="tile" href="#/history"><div class="num">${d.total}</div><div class="lbl">Lahat ng scan</div></a>
-        <div class="tile tile-good"><div class="num">${d.healthy}</div><div class="lbl">Malusog</div></div>
-        <div class="tile tile-warm"><div class="num">${d.sick}</div><div class="lbl">May sakit</div></div>
-        <div class="tile ${d.due ? "tile-alert" : ""}"><div class="num">${d.due}</div><div class="lbl">Balikan na</div></div>
+    const w = d.week;
+    return `
+      ${due.length ? `<div class="card due-card"><div class="card-title">⏰ Check ulit today</div>
+        <div class="history-list">${due.map(scanItem).join("")}</div></div>` : ""}
+      <div class="card">
+        <div class="home-head"><div class="card-title">🌿 Recent scans</div><a href="#/history">Tingnan lahat →</a></div>
+        <div class="recent-grid">${d.recent.map((r) => `<a class="recent-tile" href="#/scan/${r.scan.id}">
+          <img src="${blobUrl(r.scan.photo)}" alt="">
+          <span class="kind-pill kind-${r.kind}">${KIND_LABEL[r.kind]}</span>
+          <strong>${esc(nameOf(r.scan))}</strong>
+          <small>${r.scan.plot ? esc(r.scan.plot) + " • " : ""}${when(r.scan.ts, { month: "short", day: "numeric" })}</small></a>`).join("")}</div>
       </div>
-      <div class="mix" role="img" aria-label="Malusog ${share(d.healthy)}, may sakit ${share(d.sick)}, hindi sigurado ${share(d.unsure)}">
-        ${["healthy", "sick", "unsure"].map((k) => d[k] ? `<span class="mix-${k}" style="flex:${d[k]}"></span>` : "").join("")}
-      </div>
-      <div class="mix-legend">
-        ${["healthy", "sick", "unsure"].map((k) => `<span><i class="dot mix-${k}"></i>${KIND_LABEL[k]} ${share(d[k])}</span>`).join("")}
-      </div>
-
-      <div class="dash-title">Scan bawat linggo</div>
-      <div class="weeks">${d.weeks.map((w) => `<div><b>${w.count || ""}</b>
-        <span class="bar" style="height:${Math.round(100 * w.count / peakWeek)}%"></span>${weekLabel(w.week)}</div>`).join("")}</div>
-
-      ${d.top.length ? `<div class="dash-title">Pinakamadalas na sakit</div>
-        <ul class="bars">${d.top.map((t) => `<li><span>${esc(t.name_tl)}</span>
-          <span class="track"><span class="bar-sick" style="width:${Math.round(100 * t.count / peakTop)}%"></span></span>
-          <strong>${t.count}</strong></li>`).join("")}</ul>` : ""}
-
-      ${d.plots.length ? `<div class="dash-title">Status ng bawat taniman</div>
-        <div class="plot-list">${d.plots.map((p) => `<a href="#/history?plot=${encodeURIComponent(p.name)}" class="plot-row">
-          <i class="dot mix-${p.kind}"></i><strong>${esc(p.name)}</strong>
-          <span>${esc(nameOf(p.scan))} • ${when(p.scan.ts, { month: "short", day: "numeric" })}</span></a>`).join("")}</div>` : ""}
-    </div>`;
+      <div class="card"><p class="week-line">📊 <strong>This week:</strong>
+        ${w.total ? `${w.total} scan${w.total !== 1 ? "s" : ""}, ${w.sick} may sakit${w.top ? ` (${esc(w.top)})` : ""}`
+                  : "wala pang scan this week."}</p></div>`;
   }
 
   // ---------- screens ----------
@@ -245,30 +227,25 @@
     const followOf = params.get("follow") ? await getScan(params.get("follow")) : null;
     const due = scans.filter((s) => s.recheck_due && s.recheck_due <= today() && !scans.some((f) => f.parent_id === s.id));
     const plots = [...new Set(scans.map((s) => s.plot).filter(Boolean))];
-    view.innerHTML = `
+    view.innerHTML = `<div class="home-grid"><aside class="home-scan">
       ${followOf ? `<div class="card follow-banner">🔁 Follow-up ng scan noong ${when(followOf.ts, { dateStyle: "medium" })}:
         <strong>${esc(nameOf(followOf))}</strong>. Kunan ulit yung same na halaman.</div>` : ""}
       <div class="card scan-card">
-        <div class="card-title">Kunan ang dahon</div>
-        <p class="result-meta">Isang dahon lang, sakop halos buong picture, sa daylight, kita yung spots.</p>
+        <div class="card-title">📷 I-scan ang dahon</div>
         <label class="field-label" for="plot">Taniman (opsyonal)</label>
         <input id="plot" class="text-input" list="plot-list" maxlength="60" placeholder="e.g. Kamatis sa likod-bahay" value="${esc(followOf ? followOf.plot || "" : "")}">
         <datalist id="plot-list">${plots.map((p) => `<option value="${esc(p)}">`).join("")}</datalist>
         <div class="scan-buttons">
           <label class="btn btn-primary btn-large">📷 Kunan ng picture
             <input type="file" accept="image/*" capture="environment" class="file-input" data-pick></label>
-          <label class="btn btn-secondary">🖼️ Pumili sa gallery
+          <label class="btn btn-secondary">🖼️ Upload ng photo
             <input type="file" accept="image/*" class="file-input" data-pick></label>
         </div>
         <div id="busy" class="busy" hidden><div class="spinner"></div><span>Chine-check ng AI…</span></div>
         <p id="model-state" class="small-print"></p>
-      </div>
-      ${due.length ? `<div class="card due-card"><div class="card-title">⏰ Balikan Na</div>
-        <div class="history-list">${due.map(scanItem).join("")}</div></div>` : ""}
-      ${dashboardHtml(scans)}
-      ${scans.length ? `<div class="card"><div class="card-title">Mga huling scan</div>
-        <div class="history-list">${scans.slice(0, 3).map(scanItem).join("")}</div>
-        <a href="#/history" class="small-print">Tingnan lahat →</a></div>` : ""}`;
+        <p class="home-tip">💡 Isang dahon lang, sa maliwanag. Ilapit ang camera, iwas sa shadow at blur.</p>
+      </div></aside>
+      <section class="home-main">${dashboardHtml(scans, due)}</section></div>`;
 
     const state = $("#model-state");
     state.textContent = "Nilo-load ang AI…";
@@ -575,6 +552,7 @@
     const parts = path.split("/").filter(Boolean);
     const nav = { history: "history", library: "library", about: "about" }[parts[0]] || (parts.length ? "" : "home");
     document.querySelectorAll("[data-nav]").forEach((a) => a.classList.toggle("active", a.dataset.nav === nav));
+    view.classList.toggle("home-wide", !parts.length);  // dashboard + side scan panel on wide screens
     window.scrollTo(0, 0);
     try {
       if (!parts.length) await home(params);
