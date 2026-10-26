@@ -49,20 +49,22 @@ retraining; do not edit numbers by hand):
 | | |
 |---|---|
 | Test photos (never seen in training) | 4,454 |
-| Accuracy | 95.0 % |
-| Correct answer in the top 3 | 99.5 % |
-| Macro F1 | 0.941 |
-| Answered at the 0.7 threshold / accuracy on those | 93.7 % / 97.6 % |
+| Accuracy | 95.1 % |
+| Correct answer in the top 3 | 99.2 % |
+| Macro F1 | 0.939 |
+| Answered at the 0.7 threshold / accuracy on those | 93.2 % / 97.9 % |
+| **Real-world photos (PlantDoc test split, 128 of the 4 crops)** | **43.8 %** (top 3: 85.6 % of all 236) |
 | App model (TensorFlow Lite, float32) | 3.8 MB; same top answer as the trained model on 179/179 checked photos |
 
-Weakest classes: Tomato Early Blight is often confused with Late Blight
-(recall 0.77); some unsupported-plant leaves are called Potato Healthy
-(precision 0.70); Corn Northern Leaf Blight vs Gray Leaf Spot.
+Weakest classes: some unsupported-plant leaves are called Potato Healthy
+(Potato Healthy precision 0.56, only 28 test photos); Tomato Early Blight
+(recall 0.86); Tomato Target Spot vs Spider Mites.
 
-**Limits.** These are PlantVillage lab photos (one leaf, plain background, even
-light). Accuracy on photos taken in a field is expected to be lower and **has
-not been measured yet** - the field test set workflow above is how to measure it
-(see `TRAINING.md`, "Measuring on field photos"). There is **no rice** - PlantVillage has no rice photos.
+**Lab vs field.** The 95 % is on PlantVillage lab photos (one leaf, plain
+background, even light). On real-world photos from PlantDoc (Singh et al. 2020),
+which the model never trained on, it is **43.8 %** for the 4 crops - up from
+20.3 % before PlantDoc's training photos were added. Quote both numbers
+(`docs/FIELD_BENCHMARK.md`, `TRAINING.md` "Measuring on field photos"). There is **no rice** - PlantVillage has no rice photos.
 No field trial with farmers has been done.
 
 ## Run it

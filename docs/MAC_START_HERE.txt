@@ -42,6 +42,7 @@ WHERE IS THE TRAINING EVIDENCE?
     TRAINING.md                         how the model was trained, step by step
     docs/training_evidence/             raw console log of the training run
     docs/EVALUATION.md                  full test report
+    docs/FIELD_BENCHMARK.md             results on real-world photos
     docs/confusion_matrix.png           confusion matrix picture
     app/ml/model/training_history.csv   accuracy + loss per epoch
     app/ml/model/training_info.json     dataset split, epochs, training time

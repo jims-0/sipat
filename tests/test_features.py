@@ -391,6 +391,23 @@ def test_training_evidence_page_shows_the_measured_numbers(client):
     assert "/training" in client.get("/about").get_data(as_text=True)  # linked from About
 
 
+def test_training_page_shows_the_field_benchmark(client, monkeypatch, tmp_path):
+    import json
+    import shutil
+    from app.ml.inference import MODEL_DIR
+    for name in ("training_history.csv", "training_info.json", "evaluation_report.json"):
+        shutil.copy(MODEL_DIR / name, tmp_path / name)
+    monkeypatch.setattr("app.ml.inference.MODEL_DIR", tmp_path)
+    assert "Totoong Field Photos" not in client.get("/training").get_data(as_text=True)
+    (tmp_path / "field_benchmark.json").write_text(json.dumps({
+        "photos": 236, "accuracy": 0.6, "crop_photos": 128, "crop_accuracy": 0.5, "top3_accuracy": 0.8,
+        "note": "PlantDoc test split", "before": {"crop_accuracy": 0.2031}}))
+    page = client.get("/training").get_data(as_text=True)
+    assert "Totoong Field Photos" in page and "50.0%" in page and "20.3%" in page
+    assert "Transfer learning" in page
+    assert client.get("/training/field_benchmark.json").status_code == 200
+
+
 def test_training_files_download_only_the_evidence_files(client):
     resp = client.get("/training/training_history.csv")
     assert resp.status_code == 200 and resp.data.startswith(b"epoch,accuracy")

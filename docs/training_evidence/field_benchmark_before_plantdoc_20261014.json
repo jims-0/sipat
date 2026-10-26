@@ -1,0 +1,3044 @@
+{
+ "generated": "2026-10-27",
+ "photos": 236,
+ "accuracy": 0.4703,
+ "top3_accuracy": 0.6864,
+ "answered_share": 0.7034,
+ "crop_photos": 128,
+ "crop_accuracy": 0.2031,
+ "accuracy_when_answered": 0.5783,
+ "per_class": [
+  {
+   "class": "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+   "name": "Corn Gray Leaf Spot",
+   "photos": 4,
+   "recall": 0.5,
+   "precision": 0.1538,
+   "unsure": 1,
+   "enough_data": false
+  },
+  {
+   "class": "Corn___Common_rust",
+   "name": "Corn Common Rust",
+   "photos": 10,
+   "recall": 0.2,
+   "precision": 0.2857,
+   "unsure": 4,
+   "enough_data": false
+  },
+  {
+   "class": "Corn___Northern_Leaf_Blight",
+   "name": "Corn Northern Leaf Blight",
+   "photos": 12,
+   "recall": 0.4167,
+   "precision": 0.5,
+   "unsure": 2,
+   "enough_data": false
+  },
+  {
+   "class": "Other_plant",
+   "name": "Unsupported plant",
+   "photos": 108,
+   "recall": 0.787,
+   "precision": 0.9043,
+   "unsure": 21,
+   "enough_data": true
+  },
+  {
+   "class": "Pepper,_bell___Bacterial_spot",
+   "name": "Pepper Bacterial Spot",
+   "photos": 9,
+   "recall": 0.4444,
+   "precision": 0.3636,
+   "unsure": 3,
+   "enough_data": false
+  },
+  {
+   "class": "Pepper,_bell___healthy",
+   "name": "Pepper Healthy",
+   "photos": 8,
+   "recall": 0.25,
+   "precision": 0.5,
+   "unsure": 5,
+   "enough_data": false
+  },
+  {
+   "class": "Potato___Early_blight",
+   "name": "Potato Early Blight",
+   "photos": 8,
+   "recall": 0.125,
+   "precision": 0.1667,
+   "unsure": 5,
+   "enough_data": false
+  },
+  {
+   "class": "Potato___Late_blight",
+   "name": "Potato Late Blight",
+   "photos": 8,
+   "recall": 0.125,
+   "precision": 0.5,
+   "unsure": 3,
+   "enough_data": false
+  },
+  {
+   "class": "Tomato___Bacterial_spot",
+   "name": "Tomato Bacterial Spot",
+   "photos": 9,
+   "recall": 0.1111,
+   "precision": 0.2,
+   "unsure": 2,
+   "enough_data": false
+  },
+  {
+   "class": "Tomato___Early_blight",
+   "name": "Tomato Early Blight",
+   "photos": 9,
+   "recall": 0.2222,
+   "precision": 0.1333,
+   "unsure": 4,
+   "enough_data": false
+  },
+  {
+   "class": "Tomato___Late_blight",
+   "name": "Tomato Late Blight",
+   "photos": 10,
+   "recall": 0.6,
+   "precision": 0.2727,
+   "unsure": 5,
+   "enough_data": false
+  },
+  {
+   "class": "Tomato___Leaf_Mold",
+   "name": "Tomato Leaf Mold",
+   "photos": 6,
+   "recall": 0.0,
+   "precision": null,
+   "unsure": 0,
+   "enough_data": false
+  },
+  {
+   "class": "Tomato___Septoria_leaf_spot",
+   "name": "Tomato Septoria Leaf Spot",
+   "photos": 11,
+   "recall": 0.0,
+   "precision": null,
+   "unsure": 5,
+   "enough_data": false
+  },
+  {
+   "class": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+   "name": "Tomato Yellow Leaf Curl Virus",
+   "photos": 6,
+   "recall": 0.0,
+   "precision": 0.0,
+   "unsure": 2,
+   "enough_data": false
+  },
+  {
+   "class": "Tomato___Tomato_mosaic_virus",
+   "name": "Tomato Mosaic Virus",
+   "photos": 10,
+   "recall": 0.0,
+   "precision": null,
+   "unsure": 4,
+   "enough_data": false
+  },
+  {
+   "class": "Tomato___healthy",
+   "name": "Tomato Healthy",
+   "photos": 8,
+   "recall": 0.0,
+   "precision": null,
+   "unsure": 4,
+   "enough_data": false
+  }
+ ],
+ "top_mistakes": [
+  {
+   "count": 7,
+   "true": "Corn___Northern_Leaf_Blight",
+   "predicted": "Corn___Cercospora_leaf_spot Gray_leaf_spot"
+  },
+  {
+   "count": 7,
+   "true": "Other_plant",
+   "predicted": "Background_without_leaves"
+  },
+  {
+   "count": 5,
+   "true": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+   "predicted": "Background_without_leaves"
+  },
+  {
+   "count": 4,
+   "true": "Corn___Common_rust",
+   "predicted": "Corn___Cercospora_leaf_spot Gray_leaf_spot"
+  },
+  {
+   "count": 4,
+   "true": "Tomato___Early_blight",
+   "predicted": "Background_without_leaves"
+  },
+  {
+   "count": 4,
+   "true": "Tomato___Tomato_mosaic_virus",
+   "predicted": "Tomato___Late_blight"
+  },
+  {
+   "count": 4,
+   "true": "Tomato___Tomato_mosaic_virus",
+   "predicted": "Background_without_leaves"
+  },
+  {
+   "count": 3,
+   "true": "Corn___Common_rust",
+   "predicted": "Corn___Northern_Leaf_Blight"
+  },
+  {
+   "count": 3,
+   "true": "Other_plant",
+   "predicted": "Tomato___Late_blight"
+  },
+  {
+   "count": 3,
+   "true": "Other_plant",
+   "predicted": "Corn___Common_rust"
+  }
+ ],
+ "rows": [
+  {
+   "file": "plantdoc_0001.jpg",
+   "true": "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+   "predicted": "Corn___Northern_Leaf_Blight",
+   "status": "unsure",
+   "confidence": 0.4449,
+   "top3": [
+    "Corn___Northern_Leaf_Blight",
+    "Corn___healthy",
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0002.jpg",
+   "true": "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+   "predicted": "Corn___Northern_Leaf_Blight",
+   "status": "ok",
+   "confidence": 0.9969,
+   "top3": [
+    "Corn___Northern_Leaf_Blight",
+    "Corn___Common_rust",
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0003.jpg",
+   "true": "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+   "predicted": "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+   "status": "ok",
+   "confidence": 0.9987,
+   "top3": [
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+    "Corn___Northern_Leaf_Blight",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0004.jpg",
+   "true": "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+   "predicted": "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+   "status": "ok",
+   "confidence": 0.9995,
+   "top3": [
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+    "Background_without_leaves",
+    "Corn___Northern_Leaf_Blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0001.jpg",
+   "true": "Corn___Common_rust",
+   "predicted": "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+   "status": "unsure",
+   "confidence": 0.6913,
+   "top3": [
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+    "Corn___Northern_Leaf_Blight",
+    "Corn___Common_rust"
+   ]
+  },
+  {
+   "file": "plantdoc_0002.jpg",
+   "true": "Corn___Common_rust",
+   "predicted": "Corn___Northern_Leaf_Blight",
+   "status": "ok",
+   "confidence": 0.7391,
+   "top3": [
+    "Corn___Northern_Leaf_Blight",
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+    "Corn___Common_rust"
+   ]
+  },
+  {
+   "file": "plantdoc_0003.jpg",
+   "true": "Corn___Common_rust",
+   "predicted": "Corn___Common_rust",
+   "status": "ok",
+   "confidence": 0.9042,
+   "top3": [
+    "Corn___Common_rust",
+    "Pepper,_bell___Bacterial_spot",
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0004.jpg",
+   "true": "Corn___Common_rust",
+   "predicted": "Corn___Northern_Leaf_Blight",
+   "status": "unsure",
+   "confidence": 0.5955,
+   "top3": [
+    "Corn___Northern_Leaf_Blight",
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+    "Tomato___Bacterial_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0005.jpg",
+   "true": "Corn___Common_rust",
+   "predicted": "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+   "status": "ok",
+   "confidence": 0.9182,
+   "top3": [
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+    "Corn___Northern_Leaf_Blight",
+    "Corn___Common_rust"
+   ]
+  },
+  {
+   "file": "plantdoc_0006.jpg",
+   "true": "Corn___Common_rust",
+   "predicted": "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+   "status": "unsure",
+   "confidence": 0.4481,
+   "top3": [
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+    "Corn___Northern_Leaf_Blight",
+    "Pepper,_bell___Bacterial_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0007.jpg",
+   "true": "Corn___Common_rust",
+   "predicted": "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+   "status": "ok",
+   "confidence": 0.8685,
+   "top3": [
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+    "Corn___Northern_Leaf_Blight",
+    "Corn___Common_rust"
+   ]
+  },
+  {
+   "file": "plantdoc_0008.jpg",
+   "true": "Corn___Common_rust",
+   "predicted": "Background_without_leaves",
+   "status": "unsure",
+   "confidence": 0.6146,
+   "top3": [
+    "Background_without_leaves",
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+    "Corn___Northern_Leaf_Blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0009.jpg",
+   "true": "Corn___Common_rust",
+   "predicted": "Corn___Northern_Leaf_Blight",
+   "status": "ok",
+   "confidence": 0.72,
+   "top3": [
+    "Corn___Northern_Leaf_Blight",
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+    "Corn___Common_rust"
+   ]
+  },
+  {
+   "file": "plantdoc_0010.jpg",
+   "true": "Corn___Common_rust",
+   "predicted": "Corn___Common_rust",
+   "status": "ok",
+   "confidence": 0.8115,
+   "top3": [
+    "Corn___Common_rust",
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+    "Pepper,_bell___Bacterial_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0001.jpg",
+   "true": "Corn___Northern_Leaf_Blight",
+   "predicted": "Corn___Northern_Leaf_Blight",
+   "status": "ok",
+   "confidence": 0.9149,
+   "top3": [
+    "Corn___Northern_Leaf_Blight",
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0002.jpg",
+   "true": "Corn___Northern_Leaf_Blight",
+   "predicted": "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+   "status": "ok",
+   "confidence": 0.9989,
+   "top3": [
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+    "Corn___Common_rust",
+    "Corn___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0003.jpg",
+   "true": "Corn___Northern_Leaf_Blight",
+   "predicted": "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+   "status": "ok",
+   "confidence": 0.9619,
+   "top3": [
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+    "Corn___Northern_Leaf_Blight",
+    "Corn___Common_rust"
+   ]
+  },
+  {
+   "file": "plantdoc_0004.jpg",
+   "true": "Corn___Northern_Leaf_Blight",
+   "predicted": "Corn___Northern_Leaf_Blight",
+   "status": "ok",
+   "confidence": 0.7243,
+   "top3": [
+    "Corn___Northern_Leaf_Blight",
+    "Corn___healthy",
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0005.jpg",
+   "true": "Corn___Northern_Leaf_Blight",
+   "predicted": "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+   "status": "ok",
+   "confidence": 0.9903,
+   "top3": [
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+    "Background_without_leaves",
+    "Corn___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0006.jpg",
+   "true": "Corn___Northern_Leaf_Blight",
+   "predicted": "Corn___Northern_Leaf_Blight",
+   "status": "ok",
+   "confidence": 0.9769,
+   "top3": [
+    "Corn___Northern_Leaf_Blight",
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+    "Corn___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0007.jpg",
+   "true": "Corn___Northern_Leaf_Blight",
+   "predicted": "Corn___Northern_Leaf_Blight",
+   "status": "unsure",
+   "confidence": 0.4775,
+   "top3": [
+    "Corn___Northern_Leaf_Blight",
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+    "Corn___Common_rust"
+   ]
+  },
+  {
+   "file": "plantdoc_0008.jpg",
+   "true": "Corn___Northern_Leaf_Blight",
+   "predicted": "Corn___Northern_Leaf_Blight",
+   "status": "ok",
+   "confidence": 0.949,
+   "top3": [
+    "Corn___Northern_Leaf_Blight",
+    "Corn___healthy",
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0009.jpg",
+   "true": "Corn___Northern_Leaf_Blight",
+   "predicted": "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+   "status": "ok",
+   "confidence": 0.8661,
+   "top3": [
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+    "Pepper,_bell___Bacterial_spot",
+    "Corn___Northern_Leaf_Blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0010.jpg",
+   "true": "Corn___Northern_Leaf_Blight",
+   "predicted": "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+   "status": "unsure",
+   "confidence": 0.5732,
+   "top3": [
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+    "Corn___Northern_Leaf_Blight",
+    "Corn___Common_rust"
+   ]
+  },
+  {
+   "file": "plantdoc_0011.jpg",
+   "true": "Corn___Northern_Leaf_Blight",
+   "predicted": "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+   "status": "ok",
+   "confidence": 0.9995,
+   "top3": [
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+    "Corn___Northern_Leaf_Blight",
+    "Corn___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0012.jpg",
+   "true": "Corn___Northern_Leaf_Blight",
+   "predicted": "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+   "status": "ok",
+   "confidence": 0.9752,
+   "top3": [
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+    "Corn___Common_rust",
+    "Corn___Northern_Leaf_Blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0001.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "unsure",
+   "confidence": 0.5117,
+   "top3": [
+    "Other_plant",
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+    "Tomato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0002.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.7144,
+   "top3": [
+    "Other_plant",
+    "Tomato___Bacterial_spot",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0003.jpg",
+   "true": "Other_plant",
+   "predicted": "Tomato___Late_blight",
+   "status": "unsure",
+   "confidence": 0.4383,
+   "top3": [
+    "Tomato___Late_blight",
+    "Background_without_leaves",
+    "Other_plant"
+   ]
+  },
+  {
+   "file": "plantdoc_0004.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9991,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Tomato___Septoria_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0005.jpg",
+   "true": "Other_plant",
+   "predicted": "Potato___Early_blight",
+   "status": "ok",
+   "confidence": 0.9766,
+   "top3": [
+    "Potato___Early_blight",
+    "Other_plant",
+    "Corn___Common_rust"
+   ]
+  },
+  {
+   "file": "plantdoc_0006.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9493,
+   "top3": [
+    "Other_plant",
+    "Potato___Early_blight",
+    "Potato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0007.jpg",
+   "true": "Other_plant",
+   "predicted": "Tomato___Bacterial_spot",
+   "status": "unsure",
+   "confidence": 0.3408,
+   "top3": [
+    "Tomato___Bacterial_spot",
+    "Background_without_leaves",
+    "Tomato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0008.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.8111,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Tomato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0009.jpg",
+   "true": "Other_plant",
+   "predicted": "Potato___Early_blight",
+   "status": "ok",
+   "confidence": 0.7508,
+   "top3": [
+    "Potato___Early_blight",
+    "Other_plant",
+    "Pepper,_bell___Bacterial_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0010.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9981,
+   "top3": [
+    "Other_plant",
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+    "Tomato___Bacterial_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0011.jpg",
+   "true": "Other_plant",
+   "predicted": "Tomato___Early_blight",
+   "status": "unsure",
+   "confidence": 0.5396,
+   "top3": [
+    "Tomato___Early_blight",
+    "Background_without_leaves",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0012.jpg",
+   "true": "Other_plant",
+   "predicted": "Background_without_leaves",
+   "status": "unsure",
+   "confidence": 0.5266,
+   "top3": [
+    "Background_without_leaves",
+    "Other_plant",
+    "Tomato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0013.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9997,
+   "top3": [
+    "Other_plant",
+    "Potato___Late_blight",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0014.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9999,
+   "top3": [
+    "Other_plant",
+    "Tomato___Late_blight",
+    "Tomato___Bacterial_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0015.jpg",
+   "true": "Other_plant",
+   "predicted": "Tomato___Late_blight",
+   "status": "ok",
+   "confidence": 0.8762,
+   "top3": [
+    "Tomato___Late_blight",
+    "Background_without_leaves",
+    "Other_plant"
+   ]
+  },
+  {
+   "file": "plantdoc_0016.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9999,
+   "top3": [
+    "Other_plant",
+    "Potato___healthy",
+    "Corn___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0017.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9981,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Tomato___Septoria_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0018.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 1.0,
+   "top3": [
+    "Other_plant",
+    "Pepper,_bell___healthy",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0019.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 1.0,
+   "top3": [
+    "Other_plant",
+    "Corn___healthy",
+    "Pepper,_bell___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0020.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "unsure",
+   "confidence": 0.4683,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0021.jpg",
+   "true": "Other_plant",
+   "predicted": "Pepper,_bell___Bacterial_spot",
+   "status": "unsure",
+   "confidence": 0.6216,
+   "top3": [
+    "Pepper,_bell___Bacterial_spot",
+    "Other_plant",
+    "Corn___Common_rust"
+   ]
+  },
+  {
+   "file": "plantdoc_0022.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9783,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0023.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9386,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Pepper,_bell___Bacterial_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0024.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9993,
+   "top3": [
+    "Other_plant",
+    "Pepper,_bell___Bacterial_spot",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0025.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "unsure",
+   "confidence": 0.5191,
+   "top3": [
+    "Other_plant",
+    "Potato___Early_blight",
+    "Corn___Common_rust"
+   ]
+  },
+  {
+   "file": "plantdoc_0026.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.8454,
+   "top3": [
+    "Other_plant",
+    "Tomato___Early_blight",
+    "Pepper,_bell___Bacterial_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0027.jpg",
+   "true": "Other_plant",
+   "predicted": "Tomato___Bacterial_spot",
+   "status": "unsure",
+   "confidence": 0.453,
+   "top3": [
+    "Tomato___Bacterial_spot",
+    "Other_plant",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0028.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.7123,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Pepper,_bell___Bacterial_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0029.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9972,
+   "top3": [
+    "Other_plant",
+    "Corn___Common_rust",
+    "Pepper,_bell___Bacterial_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0030.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9999,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Pepper,_bell___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0031.jpg",
+   "true": "Other_plant",
+   "predicted": "Corn___Common_rust",
+   "status": "unsure",
+   "confidence": 0.5504,
+   "top3": [
+    "Corn___Common_rust",
+    "Potato___Early_blight",
+    "Other_plant"
+   ]
+  },
+  {
+   "file": "plantdoc_0032.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "unsure",
+   "confidence": 0.5748,
+   "top3": [
+    "Other_plant",
+    "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0033.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9991,
+   "top3": [
+    "Other_plant",
+    "Tomato___Bacterial_spot",
+    "Potato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0034.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.7058,
+   "top3": [
+    "Other_plant",
+    "Pepper,_bell___healthy",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0035.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9119,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Tomato___Bacterial_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0036.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9993,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Pepper,_bell___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0037.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9867,
+   "top3": [
+    "Other_plant",
+    "Potato___healthy",
+    "Potato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0038.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9963,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Pepper,_bell___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0039.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "unsure",
+   "confidence": 0.3822,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Pepper,_bell___Bacterial_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0040.jpg",
+   "true": "Other_plant",
+   "predicted": "Pepper,_bell___healthy",
+   "status": "ok",
+   "confidence": 0.8165,
+   "top3": [
+    "Pepper,_bell___healthy",
+    "Tomato___Late_blight",
+    "Other_plant"
+   ]
+  },
+  {
+   "file": "plantdoc_0041.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9986,
+   "top3": [
+    "Other_plant",
+    "Tomato___Late_blight",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0042.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9993,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Corn___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0043.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 1.0,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0044.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 1.0,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Tomato___Septoria_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0045.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.996,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Pepper,_bell___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0046.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9999,
+   "top3": [
+    "Other_plant",
+    "Pepper,_bell___Bacterial_spot",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0047.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 1.0,
+   "top3": [
+    "Other_plant",
+    "Corn___healthy",
+    "Pepper,_bell___Bacterial_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0048.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9992,
+   "top3": [
+    "Other_plant",
+    "Potato___Early_blight",
+    "Corn___Common_rust"
+   ]
+  },
+  {
+   "file": "plantdoc_0049.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9847,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Pepper,_bell___Bacterial_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0050.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.7285,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Pepper,_bell___Bacterial_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0051.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9223,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Corn___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0052.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.8796,
+   "top3": [
+    "Other_plant",
+    "Tomato___Late_blight",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0053.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9619,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Corn___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0054.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9955,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Potato___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0055.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9997,
+   "top3": [
+    "Other_plant",
+    "Pepper,_bell___healthy",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0056.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9997,
+   "top3": [
+    "Other_plant",
+    "Tomato___Late_blight",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0057.jpg",
+   "true": "Other_plant",
+   "predicted": "Tomato___Late_blight",
+   "status": "unsure",
+   "confidence": 0.3411,
+   "top3": [
+    "Tomato___Late_blight",
+    "Other_plant",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0058.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9588,
+   "top3": [
+    "Other_plant",
+    "Pepper,_bell___healthy",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0059.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "unsure",
+   "confidence": 0.6519,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Corn___Common_rust"
+   ]
+  },
+  {
+   "file": "plantdoc_0060.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9636,
+   "top3": [
+    "Other_plant",
+    "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+    "Tomato___Leaf_Mold"
+   ]
+  },
+  {
+   "file": "plantdoc_0061.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9999,
+   "top3": [
+    "Other_plant",
+    "Corn___healthy",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0062.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9999,
+   "top3": [
+    "Other_plant",
+    "Tomato___Septoria_leaf_spot",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0063.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 1.0,
+   "top3": [
+    "Other_plant",
+    "Tomato___Septoria_leaf_spot",
+    "Corn___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0064.jpg",
+   "true": "Other_plant",
+   "predicted": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+   "status": "unsure",
+   "confidence": 0.6831,
+   "top3": [
+    "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+    "Other_plant",
+    "Tomato___Leaf_Mold"
+   ]
+  },
+  {
+   "file": "plantdoc_0065.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 1.0,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Tomato___Septoria_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0066.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.8676,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Tomato___Tomato_Yellow_Leaf_Curl_Virus"
+   ]
+  },
+  {
+   "file": "plantdoc_0067.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9974,
+   "top3": [
+    "Other_plant",
+    "Tomato___Septoria_leaf_spot",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0068.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9997,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Potato___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0069.jpg",
+   "true": "Other_plant",
+   "predicted": "Pepper,_bell___healthy",
+   "status": "unsure",
+   "confidence": 0.5184,
+   "top3": [
+    "Pepper,_bell___healthy",
+    "Other_plant",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0070.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9943,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Pepper,_bell___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0071.jpg",
+   "true": "Other_plant",
+   "predicted": "Corn___Common_rust",
+   "status": "unsure",
+   "confidence": 0.5627,
+   "top3": [
+    "Corn___Common_rust",
+    "Other_plant",
+    "Potato___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0072.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.981,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Corn___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0073.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9622,
+   "top3": [
+    "Other_plant",
+    "Tomato___Late_blight",
+    "Tomato___Septoria_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0074.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9439,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Tomato___Septoria_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0075.jpg",
+   "true": "Other_plant",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.9442,
+   "top3": [
+    "Background_without_leaves",
+    "Corn___Common_rust",
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0076.jpg",
+   "true": "Other_plant",
+   "predicted": "Corn___Common_rust",
+   "status": "unsure",
+   "confidence": 0.67,
+   "top3": [
+    "Corn___Common_rust",
+    "Tomato___Late_blight",
+    "Tomato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0077.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.971,
+   "top3": [
+    "Other_plant",
+    "Tomato___healthy",
+    "Tomato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0078.jpg",
+   "true": "Other_plant",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.792,
+   "top3": [
+    "Background_without_leaves",
+    "Other_plant",
+    "Tomato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0079.jpg",
+   "true": "Other_plant",
+   "predicted": "Background_without_leaves",
+   "status": "unsure",
+   "confidence": 0.5053,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Early_blight",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0080.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.7841,
+   "top3": [
+    "Other_plant",
+    "Pepper,_bell___Bacterial_spot",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0081.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.7647,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Corn___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0082.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 1.0,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Corn___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0083.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9561,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Tomato___Tomato_Yellow_Leaf_Curl_Virus"
+   ]
+  },
+  {
+   "file": "plantdoc_0084.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9918,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Tomato___Tomato_Yellow_Leaf_Curl_Virus"
+   ]
+  },
+  {
+   "file": "plantdoc_0085.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9998,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Tomato___Septoria_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0086.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9963,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Tomato___Septoria_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0087.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9951,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Tomato___Septoria_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0088.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.8391,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0089.jpg",
+   "true": "Other_plant",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.9978,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Late_blight",
+    "Other_plant"
+   ]
+  },
+  {
+   "file": "plantdoc_0090.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9793,
+   "top3": [
+    "Other_plant",
+    "Tomato___Early_blight",
+    "Tomato___Septoria_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0091.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9999,
+   "top3": [
+    "Other_plant",
+    "Tomato___Septoria_leaf_spot",
+    "Tomato___Bacterial_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0092.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.999,
+   "top3": [
+    "Other_plant",
+    "Pepper,_bell___Bacterial_spot",
+    "Corn___Common_rust"
+   ]
+  },
+  {
+   "file": "plantdoc_0093.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9913,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Pepper,_bell___Bacterial_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0094.jpg",
+   "true": "Other_plant",
+   "predicted": "Tomato___Early_blight",
+   "status": "unsure",
+   "confidence": 0.6076,
+   "top3": [
+    "Tomato___Early_blight",
+    "Other_plant",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0095.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9756,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Tomato___Septoria_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0096.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 1.0,
+   "top3": [
+    "Other_plant",
+    "Tomato___Septoria_leaf_spot",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0097.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.7843,
+   "top3": [
+    "Other_plant",
+    "Tomato___Late_blight",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0098.jpg",
+   "true": "Other_plant",
+   "predicted": "Background_without_leaves",
+   "status": "unsure",
+   "confidence": 0.6058,
+   "top3": [
+    "Background_without_leaves",
+    "Other_plant",
+    "Tomato___Septoria_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0099.jpg",
+   "true": "Other_plant",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.7659,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Late_blight",
+    "Other_plant"
+   ]
+  },
+  {
+   "file": "plantdoc_0100.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9452,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Corn___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0101.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 1.0,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Corn___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0102.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9993,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0103.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9996,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Tomato___Septoria_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0104.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 1.0,
+   "top3": [
+    "Other_plant",
+    "Tomato___Septoria_leaf_spot",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0105.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.994,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0106.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9582,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Corn___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0107.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9998,
+   "top3": [
+    "Other_plant",
+    "Tomato___Septoria_leaf_spot",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0108.jpg",
+   "true": "Other_plant",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9955,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Corn___Common_rust"
+   ]
+  },
+  {
+   "file": "plantdoc_0001.jpg",
+   "true": "Pepper,_bell___Bacterial_spot",
+   "predicted": "Pepper,_bell___Bacterial_spot",
+   "status": "unsure",
+   "confidence": 0.4252,
+   "top3": [
+    "Pepper,_bell___Bacterial_spot",
+    "Tomato___Early_blight",
+    "Potato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0002.jpg",
+   "true": "Pepper,_bell___Bacterial_spot",
+   "predicted": "Tomato___Early_blight",
+   "status": "ok",
+   "confidence": 0.9693,
+   "top3": [
+    "Tomato___Early_blight",
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+    "Corn___Northern_Leaf_Blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0003.jpg",
+   "true": "Pepper,_bell___Bacterial_spot",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.8042,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Early_blight",
+    "Tomato___Tomato_Yellow_Leaf_Curl_Virus"
+   ]
+  },
+  {
+   "file": "plantdoc_0004.jpg",
+   "true": "Pepper,_bell___Bacterial_spot",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.951,
+   "top3": [
+    "Other_plant",
+    "Pepper,_bell___Bacterial_spot",
+    "Corn___Common_rust"
+   ]
+  },
+  {
+   "file": "plantdoc_0005.jpg",
+   "true": "Pepper,_bell___Bacterial_spot",
+   "predicted": "Tomato___Early_blight",
+   "status": "unsure",
+   "confidence": 0.5821,
+   "top3": [
+    "Tomato___Early_blight",
+    "Pepper,_bell___Bacterial_spot",
+    "Other_plant"
+   ]
+  },
+  {
+   "file": "plantdoc_0006.jpg",
+   "true": "Pepper,_bell___Bacterial_spot",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.8223,
+   "top3": [
+    "Background_without_leaves",
+    "Other_plant",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0007.jpg",
+   "true": "Pepper,_bell___Bacterial_spot",
+   "predicted": "Pepper,_bell___Bacterial_spot",
+   "status": "ok",
+   "confidence": 0.9996,
+   "top3": [
+    "Pepper,_bell___Bacterial_spot",
+    "Background_without_leaves",
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0008.jpg",
+   "true": "Pepper,_bell___Bacterial_spot",
+   "predicted": "Pepper,_bell___Bacterial_spot",
+   "status": "ok",
+   "confidence": 0.9478,
+   "top3": [
+    "Pepper,_bell___Bacterial_spot",
+    "Corn___Common_rust",
+    "Potato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0009.jpg",
+   "true": "Pepper,_bell___Bacterial_spot",
+   "predicted": "Pepper,_bell___Bacterial_spot",
+   "status": "unsure",
+   "confidence": 0.6543,
+   "top3": [
+    "Pepper,_bell___Bacterial_spot",
+    "Pepper,_bell___healthy",
+    "Tomato___Tomato_Yellow_Leaf_Curl_Virus"
+   ]
+  },
+  {
+   "file": "plantdoc_0001.jpg",
+   "true": "Pepper,_bell___healthy",
+   "predicted": "Pepper,_bell___healthy",
+   "status": "ok",
+   "confidence": 1.0,
+   "top3": [
+    "Pepper,_bell___healthy",
+    "Pepper,_bell___Bacterial_spot",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0002.jpg",
+   "true": "Pepper,_bell___healthy",
+   "predicted": "Tomato___Late_blight",
+   "status": "unsure",
+   "confidence": 0.4889,
+   "top3": [
+    "Tomato___Late_blight",
+    "Pepper,_bell___healthy",
+    "Pepper,_bell___Bacterial_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0003.jpg",
+   "true": "Pepper,_bell___healthy",
+   "predicted": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+   "status": "unsure",
+   "confidence": 0.3279,
+   "top3": [
+    "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+    "Background_without_leaves",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0004.jpg",
+   "true": "Pepper,_bell___healthy",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.7077,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Late_blight",
+    "Pepper,_bell___Bacterial_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0005.jpg",
+   "true": "Pepper,_bell___healthy",
+   "predicted": "Background_without_leaves",
+   "status": "unsure",
+   "confidence": 0.5939,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Late_blight",
+    "Pepper,_bell___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0006.jpg",
+   "true": "Pepper,_bell___healthy",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.7385,
+   "top3": [
+    "Background_without_leaves",
+    "Corn___healthy",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0007.jpg",
+   "true": "Pepper,_bell___healthy",
+   "predicted": "Corn___healthy",
+   "status": "unsure",
+   "confidence": 0.6721,
+   "top3": [
+    "Corn___healthy",
+    "Pepper,_bell___Bacterial_spot",
+    "Pepper,_bell___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0008.jpg",
+   "true": "Pepper,_bell___healthy",
+   "predicted": "Pepper,_bell___healthy",
+   "status": "unsure",
+   "confidence": 0.516,
+   "top3": [
+    "Pepper,_bell___healthy",
+    "Pepper,_bell___Bacterial_spot",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0001.jpg",
+   "true": "Potato___Early_blight",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.9154,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Early_blight",
+    "Other_plant"
+   ]
+  },
+  {
+   "file": "plantdoc_0002.jpg",
+   "true": "Potato___Early_blight",
+   "predicted": "Background_without_leaves",
+   "status": "unsure",
+   "confidence": 0.5803,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Late_blight",
+    "Tomato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0003.jpg",
+   "true": "Potato___Early_blight",
+   "predicted": "Corn___Common_rust",
+   "status": "unsure",
+   "confidence": 0.4418,
+   "top3": [
+    "Corn___Common_rust",
+    "Pepper,_bell___Bacterial_spot",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0004.jpg",
+   "true": "Potato___Early_blight",
+   "predicted": "Tomato___Late_blight",
+   "status": "unsure",
+   "confidence": 0.6396,
+   "top3": [
+    "Tomato___Late_blight",
+    "Pepper,_bell___Bacterial_spot",
+    "Corn___Common_rust"
+   ]
+  },
+  {
+   "file": "plantdoc_0005.jpg",
+   "true": "Potato___Early_blight",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.8033,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Late_blight",
+    "Potato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0006.jpg",
+   "true": "Potato___Early_blight",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9883,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Tomato___Septoria_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0007.jpg",
+   "true": "Potato___Early_blight",
+   "predicted": "Potato___Early_blight",
+   "status": "unsure",
+   "confidence": 0.6038,
+   "top3": [
+    "Potato___Early_blight",
+    "Corn___Common_rust",
+    "Tomato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0008.jpg",
+   "true": "Potato___Early_blight",
+   "predicted": "Tomato___Bacterial_spot",
+   "status": "unsure",
+   "confidence": 0.5093,
+   "top3": [
+    "Tomato___Bacterial_spot",
+    "Background_without_leaves",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0001.jpg",
+   "true": "Potato___Late_blight",
+   "predicted": "Potato___Late_blight",
+   "status": "ok",
+   "confidence": 0.9401,
+   "top3": [
+    "Potato___Late_blight",
+    "Potato___Early_blight",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0002.jpg",
+   "true": "Potato___Late_blight",
+   "predicted": "Tomato___Late_blight",
+   "status": "ok",
+   "confidence": 0.9095,
+   "top3": [
+    "Tomato___Late_blight",
+    "Background_without_leaves",
+    "Tomato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0003.jpg",
+   "true": "Potato___Late_blight",
+   "predicted": "Tomato___Late_blight",
+   "status": "ok",
+   "confidence": 0.9853,
+   "top3": [
+    "Tomato___Late_blight",
+    "Tomato___Early_blight",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0004.jpg",
+   "true": "Potato___Late_blight",
+   "predicted": "Tomato___Late_blight",
+   "status": "ok",
+   "confidence": 0.8232,
+   "top3": [
+    "Tomato___Late_blight",
+    "Background_without_leaves",
+    "Corn___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0005.jpg",
+   "true": "Potato___Late_blight",
+   "predicted": "Background_without_leaves",
+   "status": "unsure",
+   "confidence": 0.581,
+   "top3": [
+    "Background_without_leaves",
+    "Potato___Early_blight",
+    "Tomato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0006.jpg",
+   "true": "Potato___Late_blight",
+   "predicted": "Potato___Early_blight",
+   "status": "unsure",
+   "confidence": 0.3606,
+   "top3": [
+    "Potato___Early_blight",
+    "Corn___Northern_Leaf_Blight",
+    "Tomato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0007.jpg",
+   "true": "Potato___Late_blight",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.9323,
+   "top3": [
+    "Background_without_leaves",
+    "Other_plant",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0008.jpg",
+   "true": "Potato___Late_blight",
+   "predicted": "Background_without_leaves",
+   "status": "unsure",
+   "confidence": 0.5966,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Late_blight",
+    "Other_plant"
+   ]
+  },
+  {
+   "file": "plantdoc_0001.jpg",
+   "true": "Tomato___Bacterial_spot",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.9899,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+    "Tomato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0002.jpg",
+   "true": "Tomato___Bacterial_spot",
+   "predicted": "Pepper,_bell___Bacterial_spot",
+   "status": "ok",
+   "confidence": 0.8573,
+   "top3": [
+    "Pepper,_bell___Bacterial_spot",
+    "Tomato___Late_blight",
+    "Other_plant"
+   ]
+  },
+  {
+   "file": "plantdoc_0003.jpg",
+   "true": "Tomato___Bacterial_spot",
+   "predicted": "Pepper,_bell___Bacterial_spot",
+   "status": "ok",
+   "confidence": 0.7803,
+   "top3": [
+    "Pepper,_bell___Bacterial_spot",
+    "Tomato___Late_blight",
+    "Other_plant"
+   ]
+  },
+  {
+   "file": "plantdoc_0004.jpg",
+   "true": "Tomato___Bacterial_spot",
+   "predicted": "Tomato___Late_blight",
+   "status": "ok",
+   "confidence": 0.983,
+   "top3": [
+    "Tomato___Late_blight",
+    "Background_without_leaves",
+    "Corn___Common_rust"
+   ]
+  },
+  {
+   "file": "plantdoc_0005.jpg",
+   "true": "Tomato___Bacterial_spot",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.9934,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Early_blight",
+    "Tomato___Septoria_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0006.jpg",
+   "true": "Tomato___Bacterial_spot",
+   "predicted": "Tomato___Early_blight",
+   "status": "ok",
+   "confidence": 0.9543,
+   "top3": [
+    "Tomato___Early_blight",
+    "Background_without_leaves",
+    "Pepper,_bell___Bacterial_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0007.jpg",
+   "true": "Tomato___Bacterial_spot",
+   "predicted": "Pepper,_bell___Bacterial_spot",
+   "status": "unsure",
+   "confidence": 0.5532,
+   "top3": [
+    "Pepper,_bell___Bacterial_spot",
+    "Other_plant",
+    "Potato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0008.jpg",
+   "true": "Tomato___Bacterial_spot",
+   "predicted": "Tomato___Bacterial_spot",
+   "status": "unsure",
+   "confidence": 0.4867,
+   "top3": [
+    "Tomato___Bacterial_spot",
+    "Tomato___Septoria_leaf_spot",
+    "Tomato___Leaf_Mold"
+   ]
+  },
+  {
+   "file": "plantdoc_0009.jpg",
+   "true": "Tomato___Bacterial_spot",
+   "predicted": "Potato___Early_blight",
+   "status": "ok",
+   "confidence": 0.9917,
+   "top3": [
+    "Potato___Early_blight",
+    "Other_plant",
+    "Tomato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0001.jpg",
+   "true": "Tomato___Early_blight",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.9991,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Early_blight",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0002.jpg",
+   "true": "Tomato___Early_blight",
+   "predicted": "Tomato___Early_blight",
+   "status": "ok",
+   "confidence": 0.9068,
+   "top3": [
+    "Tomato___Early_blight",
+    "Background_without_leaves",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0003.jpg",
+   "true": "Tomato___Early_blight",
+   "predicted": "Tomato___Early_blight",
+   "status": "unsure",
+   "confidence": 0.5659,
+   "top3": [
+    "Tomato___Early_blight",
+    "Background_without_leaves",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0004.jpg",
+   "true": "Tomato___Early_blight",
+   "predicted": "Other_plant",
+   "status": "unsure",
+   "confidence": 0.5818,
+   "top3": [
+    "Other_plant",
+    "Tomato___Early_blight",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0005.jpg",
+   "true": "Tomato___Early_blight",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.9999,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Early_blight",
+    "Other_plant"
+   ]
+  },
+  {
+   "file": "plantdoc_0006.jpg",
+   "true": "Tomato___Early_blight",
+   "predicted": "Pepper,_bell___Bacterial_spot",
+   "status": "unsure",
+   "confidence": 0.523,
+   "top3": [
+    "Pepper,_bell___Bacterial_spot",
+    "Tomato___Early_blight",
+    "Tomato___Bacterial_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0007.jpg",
+   "true": "Tomato___Early_blight",
+   "predicted": "Background_without_leaves",
+   "status": "unsure",
+   "confidence": 0.6945,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Early_blight",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0008.jpg",
+   "true": "Tomato___Early_blight",
+   "predicted": "Pepper,_bell___Bacterial_spot",
+   "status": "ok",
+   "confidence": 0.7724,
+   "top3": [
+    "Pepper,_bell___Bacterial_spot",
+    "Background_without_leaves",
+    "Corn___Northern_Leaf_Blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0009.jpg",
+   "true": "Tomato___Early_blight",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.9424,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Early_blight",
+    "Pepper,_bell___Bacterial_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0001.jpg",
+   "true": "Tomato___healthy",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9297,
+   "top3": [
+    "Other_plant",
+    "Tomato___Late_blight",
+    "Tomato___Septoria_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0002.jpg",
+   "true": "Tomato___healthy",
+   "predicted": "Tomato___Early_blight",
+   "status": "unsure",
+   "confidence": 0.5778,
+   "top3": [
+    "Tomato___Early_blight",
+    "Other_plant",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0003.jpg",
+   "true": "Tomato___healthy",
+   "predicted": "Tomato___Late_blight",
+   "status": "unsure",
+   "confidence": 0.4239,
+   "top3": [
+    "Tomato___Late_blight",
+    "Tomato___Early_blight",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0004.jpg",
+   "true": "Tomato___healthy",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.9918,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Late_blight",
+    "Tomato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0005.jpg",
+   "true": "Tomato___healthy",
+   "predicted": "Other_plant",
+   "status": "unsure",
+   "confidence": 0.3951,
+   "top3": [
+    "Other_plant",
+    "Pepper,_bell___Bacterial_spot",
+    "Corn___healthy"
+   ]
+  },
+  {
+   "file": "plantdoc_0006.jpg",
+   "true": "Tomato___healthy",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 1.0,
+   "top3": [
+    "Background_without_leaves",
+    "Corn___Northern_Leaf_Blight",
+    "Tomato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0007.jpg",
+   "true": "Tomato___healthy",
+   "predicted": "Tomato___Late_blight",
+   "status": "unsure",
+   "confidence": 0.3479,
+   "top3": [
+    "Tomato___Late_blight",
+    "Background_without_leaves",
+    "Tomato___Leaf_Mold"
+   ]
+  },
+  {
+   "file": "plantdoc_0008.jpg",
+   "true": "Tomato___healthy",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.9699,
+   "top3": [
+    "Other_plant",
+    "Pepper,_bell___healthy",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0001.jpg",
+   "true": "Tomato___Late_blight",
+   "predicted": "Tomato___Late_blight",
+   "status": "unsure",
+   "confidence": 0.5519,
+   "top3": [
+    "Tomato___Late_blight",
+    "Tomato___Early_blight",
+    "Potato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0002.jpg",
+   "true": "Tomato___Late_blight",
+   "predicted": "Tomato___Late_blight",
+   "status": "ok",
+   "confidence": 0.7165,
+   "top3": [
+    "Tomato___Late_blight",
+    "Tomato___Early_blight",
+    "Potato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0003.jpg",
+   "true": "Tomato___Late_blight",
+   "predicted": "Potato___Late_blight",
+   "status": "unsure",
+   "confidence": 0.628,
+   "top3": [
+    "Potato___Late_blight",
+    "Tomato___Late_blight",
+    "Tomato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0004.jpg",
+   "true": "Tomato___Late_blight",
+   "predicted": "Background_without_leaves",
+   "status": "unsure",
+   "confidence": 0.3021,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Early_blight",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0005.jpg",
+   "true": "Tomato___Late_blight",
+   "predicted": "Tomato___Late_blight",
+   "status": "ok",
+   "confidence": 0.9949,
+   "top3": [
+    "Tomato___Late_blight",
+    "Tomato___Early_blight",
+    "Tomato___Septoria_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0006.jpg",
+   "true": "Tomato___Late_blight",
+   "predicted": "Background_without_leaves",
+   "status": "unsure",
+   "confidence": 0.5706,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Late_blight",
+    "Pepper,_bell___Bacterial_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0007.jpg",
+   "true": "Tomato___Late_blight",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.9976,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Early_blight",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0008.jpg",
+   "true": "Tomato___Late_blight",
+   "predicted": "Tomato___Late_blight",
+   "status": "ok",
+   "confidence": 0.8667,
+   "top3": [
+    "Tomato___Late_blight",
+    "Background_without_leaves",
+    "Tomato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0009.jpg",
+   "true": "Tomato___Late_blight",
+   "predicted": "Tomato___Late_blight",
+   "status": "unsure",
+   "confidence": 0.5589,
+   "top3": [
+    "Tomato___Late_blight",
+    "Tomato___Early_blight",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0010.jpg",
+   "true": "Tomato___Late_blight",
+   "predicted": "Tomato___Late_blight",
+   "status": "ok",
+   "confidence": 0.9992,
+   "top3": [
+    "Tomato___Late_blight",
+    "Potato___Late_blight",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0001.jpg",
+   "true": "Tomato___Leaf_Mold",
+   "predicted": "Tomato___Early_blight",
+   "status": "ok",
+   "confidence": 0.7518,
+   "top3": [
+    "Tomato___Early_blight",
+    "Tomato___Bacterial_spot",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0002.jpg",
+   "true": "Tomato___Leaf_Mold",
+   "predicted": "Tomato___Bacterial_spot",
+   "status": "ok",
+   "confidence": 0.8654,
+   "top3": [
+    "Tomato___Bacterial_spot",
+    "Tomato___Early_blight",
+    "Tomato___Tomato_Yellow_Leaf_Curl_Virus"
+   ]
+  },
+  {
+   "file": "plantdoc_0003.jpg",
+   "true": "Tomato___Leaf_Mold",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.9985,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Early_blight",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0004.jpg",
+   "true": "Tomato___Leaf_Mold",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.9999,
+   "top3": [
+    "Background_without_leaves",
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+    "Tomato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0005.jpg",
+   "true": "Tomato___Leaf_Mold",
+   "predicted": "Tomato___Late_blight",
+   "status": "ok",
+   "confidence": 0.7833,
+   "top3": [
+    "Tomato___Late_blight",
+    "Background_without_leaves",
+    "Tomato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0006.jpg",
+   "true": "Tomato___Leaf_Mold",
+   "predicted": "Tomato___Early_blight",
+   "status": "ok",
+   "confidence": 0.7238,
+   "top3": [
+    "Tomato___Early_blight",
+    "Background_without_leaves",
+    "Tomato___Septoria_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0001.jpg",
+   "true": "Tomato___Septoria_leaf_spot",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.7324,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Late_blight",
+    "Tomato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0002.jpg",
+   "true": "Tomato___Septoria_leaf_spot",
+   "predicted": "Other_plant",
+   "status": "other_plant",
+   "confidence": 0.8428,
+   "top3": [
+    "Other_plant",
+    "Tomato___Septoria_leaf_spot",
+    "Tomato___Bacterial_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0003.jpg",
+   "true": "Tomato___Septoria_leaf_spot",
+   "predicted": "Corn___Common_rust",
+   "status": "unsure",
+   "confidence": 0.5842,
+   "top3": [
+    "Corn___Common_rust",
+    "Tomato___Septoria_leaf_spot",
+    "Potato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0004.jpg",
+   "true": "Tomato___Septoria_leaf_spot",
+   "predicted": "Pepper,_bell___Bacterial_spot",
+   "status": "unsure",
+   "confidence": 0.2794,
+   "top3": [
+    "Pepper,_bell___Bacterial_spot",
+    "Tomato___Septoria_leaf_spot",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0005.jpg",
+   "true": "Tomato___Septoria_leaf_spot",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.9956,
+   "top3": [
+    "Background_without_leaves",
+    "Corn___Northern_Leaf_Blight",
+    "Tomato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0006.jpg",
+   "true": "Tomato___Septoria_leaf_spot",
+   "predicted": "Tomato___Early_blight",
+   "status": "unsure",
+   "confidence": 0.6657,
+   "top3": [
+    "Tomato___Early_blight",
+    "Background_without_leaves",
+    "Potato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0007.jpg",
+   "true": "Tomato___Septoria_leaf_spot",
+   "predicted": "Other_plant",
+   "status": "unsure",
+   "confidence": 0.571,
+   "top3": [
+    "Other_plant",
+    "Pepper,_bell___Bacterial_spot",
+    "Tomato___Bacterial_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0008.jpg",
+   "true": "Tomato___Septoria_leaf_spot",
+   "predicted": "Potato___Early_blight",
+   "status": "ok",
+   "confidence": 0.8941,
+   "top3": [
+    "Potato___Early_blight",
+    "Background_without_leaves",
+    "Corn___Cercospora_leaf_spot Gray_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0009.jpg",
+   "true": "Tomato___Septoria_leaf_spot",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.7548,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Early_blight",
+    "Tomato___Bacterial_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0010.jpg",
+   "true": "Tomato___Septoria_leaf_spot",
+   "predicted": "Tomato___Early_blight",
+   "status": "unsure",
+   "confidence": 0.347,
+   "top3": [
+    "Tomato___Early_blight",
+    "Background_without_leaves",
+    "Tomato___Septoria_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0011.jpg",
+   "true": "Tomato___Septoria_leaf_spot",
+   "predicted": "Tomato___Early_blight",
+   "status": "ok",
+   "confidence": 0.9734,
+   "top3": [
+    "Tomato___Early_blight",
+    "Tomato___Bacterial_spot",
+    "Tomato___Septoria_leaf_spot"
+   ]
+  },
+  {
+   "file": "plantdoc_0001.jpg",
+   "true": "Tomato___Tomato_mosaic_virus",
+   "predicted": "Other_plant",
+   "status": "unsure",
+   "confidence": 0.5526,
+   "top3": [
+    "Other_plant",
+    "Background_without_leaves",
+    "Tomato___Tomato_Yellow_Leaf_Curl_Virus"
+   ]
+  },
+  {
+   "file": "plantdoc_0002.jpg",
+   "true": "Tomato___Tomato_mosaic_virus",
+   "predicted": "Tomato___Late_blight",
+   "status": "ok",
+   "confidence": 0.8737,
+   "top3": [
+    "Tomato___Late_blight",
+    "Background_without_leaves",
+    "Other_plant"
+   ]
+  },
+  {
+   "file": "plantdoc_0003.jpg",
+   "true": "Tomato___Tomato_mosaic_virus",
+   "predicted": "Tomato___Late_blight",
+   "status": "ok",
+   "confidence": 0.9148,
+   "top3": [
+    "Tomato___Late_blight",
+    "Background_without_leaves",
+    "Corn___Common_rust"
+   ]
+  },
+  {
+   "file": "plantdoc_0004.jpg",
+   "true": "Tomato___Tomato_mosaic_virus",
+   "predicted": "Background_without_leaves",
+   "status": "unsure",
+   "confidence": 0.6312,
+   "top3": [
+    "Background_without_leaves",
+    "Other_plant",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0005.jpg",
+   "true": "Tomato___Tomato_mosaic_virus",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.8534,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Late_blight",
+    "Tomato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0006.jpg",
+   "true": "Tomato___Tomato_mosaic_virus",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.9952,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Early_blight",
+    "Other_plant"
+   ]
+  },
+  {
+   "file": "plantdoc_0007.jpg",
+   "true": "Tomato___Tomato_mosaic_virus",
+   "predicted": "Tomato___Late_blight",
+   "status": "unsure",
+   "confidence": 0.5487,
+   "top3": [
+    "Tomato___Late_blight",
+    "Tomato___Bacterial_spot",
+    "Tomato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0008.jpg",
+   "true": "Tomato___Tomato_mosaic_virus",
+   "predicted": "Tomato___Late_blight",
+   "status": "ok",
+   "confidence": 0.8158,
+   "top3": [
+    "Tomato___Late_blight",
+    "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+    "Other_plant"
+   ]
+  },
+  {
+   "file": "plantdoc_0009.jpg",
+   "true": "Tomato___Tomato_mosaic_virus",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.9729,
+   "top3": [
+    "Background_without_leaves",
+    "Pepper,_bell___Bacterial_spot",
+    "Corn___Common_rust"
+   ]
+  },
+  {
+   "file": "plantdoc_0010.jpg",
+   "true": "Tomato___Tomato_mosaic_virus",
+   "predicted": "Tomato___Early_blight",
+   "status": "unsure",
+   "confidence": 0.5055,
+   "top3": [
+    "Tomato___Early_blight",
+    "Tomato___Late_blight",
+    "Background_without_leaves"
+   ]
+  },
+  {
+   "file": "plantdoc_0001.jpg",
+   "true": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+   "predicted": "Background_without_leaves",
+   "status": "unsure",
+   "confidence": 0.6465,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+    "Other_plant"
+   ]
+  },
+  {
+   "file": "plantdoc_0002.jpg",
+   "true": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.9925,
+   "top3": [
+    "Background_without_leaves",
+    "Other_plant",
+    "Tomato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0003.jpg",
+   "true": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+   "predicted": "Tomato___Early_blight",
+   "status": "unsure",
+   "confidence": 0.4368,
+   "top3": [
+    "Tomato___Early_blight",
+    "Pepper,_bell___Bacterial_spot",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0004.jpg",
+   "true": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.729,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Late_blight",
+    "Tomato___Early_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0005.jpg",
+   "true": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.9926,
+   "top3": [
+    "Background_without_leaves",
+    "Corn___healthy",
+    "Tomato___Late_blight"
+   ]
+  },
+  {
+   "file": "plantdoc_0006.jpg",
+   "true": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+   "predicted": "Background_without_leaves",
+   "status": "not_leaf",
+   "confidence": 0.9079,
+   "top3": [
+    "Background_without_leaves",
+    "Tomato___Late_blight",
+    "Tomato___Early_blight"
+   ]
+  }
+ ],
+ "note": "PlantDoc test split (Singh et al. 2020, CODS-COMAD; CC BY 4.0): real-world leaf photos - fields, gardens, hands, cluttered backgrounds - that the model never trained on. Labels are PlantDoc's. Off-list crops (apple, grape, ...) count as correct only when the app answers 'other plant'.",
+ "model": "run 20261014_010227 (PlantVillage, Mendeley Data doi:10.17632/tywbtsjrjv.1 (without augmentation))"
+}

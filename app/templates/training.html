@@ -30,6 +30,8 @@
     <table class="ev-table">
         <tr><th>Dataset</th><td>{{ info.dataset }}</td></tr>
         <tr><th>Model</th><td>{{ info.architecture }}</td></tr>
+        <tr><th>Paraan</th><td>Transfer learning: MobileNetV3-Small na naka-pretrain na sa ImageNet (general na pictures), tapos ni-retrain namin sa leaf photos para matuto ng sakit ng halaman</td></tr>
+        {% if info.plantdoc_train_photos %}<tr><th>Field photos sa training</th><td>{{ "{:,}".format(info.plantdoc_train_photos) }} PlantDoc photos (×{{ info.plantdoc_repeat }}), + {{ info.plantdoc_val_photos }} sa validation</td></tr>{% endif %}
         <tr><th>Picture size</th><td>{{ info.image_size }} × {{ info.image_size }}</td></tr>
         <tr><th>Classes</th><td>{{ info.classes }} (sakit + healthy + "hindi dahon" + "ibang halaman")</td></tr>
         <tr><th>Training photos</th><td>{{ "{:,}".format(info.train_photos) }} (max {{ info.max_train_per_class }} per class)</td></tr>
@@ -102,8 +104,39 @@
     <p class="result-meta" style="margin-top: 10px;">{{ report.note }}</p>
 </div>
 
+{% if benchmark %}
 <div class="card">
-    <div class="card-title">4. "Hindi sure" Threshold</div>
+    <div class="card-title">4. Resulta sa Totoong Field Photos (PlantDoc)</div>
+    <p class="result-meta">
+        Ang test set sa taas ay lab photos (isang dahon, plain na background). Dito, {{ benchmark.photos }} photos
+        na kinunan sa labas: sa field, sa garden, hawak ng kamay, magulo ang background. Hindi pa nakita ng model
+        ang kahit isa sa mga ito.
+    </p>
+    <div class="ev-big">
+        {% if benchmark.crop_accuracy is not none %}
+        <div><strong>{{ "%.1f" | format(benchmark.crop_accuracy * 100) }}%</strong><span>Tama sa {{ benchmark.crop_photos }} photos ng tomato, sili, patatas, mais</span></div>
+        {% endif %}
+        <div><strong>{{ "%.1f" | format(benchmark.accuracy * 100) }}%</strong><span>Tama sa lahat (kasama ibang halaman)</span></div>
+        <div><strong>{{ "%.1f" | format(benchmark.top3_accuracy * 100) }}%</strong><span>Tamang sagot nasa top 3</span></div>
+    </div>
+    {% if benchmark.before and benchmark.before.crop_accuracy is not none %}
+    <p style="font-size: 0.9rem; margin-top: 10px;">
+        Bago namin idinagdag ang PlantDoc photos sa training:
+        <strong>{{ "%.1f" | format(benchmark.before.crop_accuracy * 100) }}%</strong> lang sa mga pananim.
+        Ngayon: <strong>{{ "%.1f" | format(benchmark.crop_accuracy * 100) }}%</strong>.
+    </p>
+    {% endif %}
+    <p class="result-meta" style="margin-top: 8px;">
+        Mas mababa ito sa lab number, at ganun talaga: mas mahirap ang totoong photos. Ito ang mas tapat na
+        sukat kung gaano kagaling ang app sa farm. Kaunti pa ang photos kada sakit (wala pang 30), kaya ang
+        kabuuan ang tingnan, hindi ang bawat sakit.
+    </p>
+    <p class="result-meta">{{ benchmark.note }}</p>
+</div>
+{% endif %}
+
+<div class="card">
+    <div class="card-title">5. "Hindi sure" Threshold</div>
     <p class="result-meta">Pag mababa sa threshold ang confidence, nagpapa-retake ang app imbes na manghula.</p>
     <table class="ev-table">
         <tr><th>Threshold</th><th class="num">Sinagot</th><th class="num">Tama sa sinagot</th></tr>
@@ -117,7 +150,7 @@
 </div>
 
 <div class="card">
-    <div class="card-title">5. Score kada Sakit</div>
+    <div class="card-title">6. Score kada Sakit</div>
     <p class="result-meta">Naka-pula ang F1 na mas mababa sa 0.90, mga weak spot ng model.</p>
     <div class="ev-scroll">
     <table class="ev-table">
@@ -135,7 +168,7 @@
 
 {% if report.top_confusions %}
 <div class="card">
-    <div class="card-title">6. Madalas Mapagkamalan</div>
+    <div class="card-title">7. Madalas Mapagkamalan</div>
     <table class="ev-table">
         <tr><th>Totoong sakit</th><th>Sinagot ng AI</th><th class="num">Ilang beses</th></tr>
         {% for c in report.top_confusions %}
@@ -147,7 +180,7 @@
 
 {% if matrix %}
 <div class="card">
-    <div class="card-title">7. Confusion Matrix</div>
+    <div class="card-title">8. Confusion Matrix</div>
     <p class="result-meta">
         Row = totoong sakit, column = sagot ng AI (same order, 1 hanggang {{ matrix | length }}).
         Mas madilim = mas marami. Ang diagonal ang mga tamang sagot.
@@ -172,7 +205,7 @@
 {% endif %}
 
 <div class="card">
-    <div class="card-title">8. Raw Files at Paano Ulitin</div>
+    <div class="card-title">9. Raw Files at Paano Ulitin</div>
     {% if files %}
     <p class="result-meta">I-download ang mismong files na pinanggalingan ng page na ito:</p>
     <ul style="padding-left: 20px; font-size: 0.9rem; line-height: 1.8;">

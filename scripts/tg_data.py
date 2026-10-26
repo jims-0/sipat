@@ -16,6 +16,12 @@ sys.path.insert(0, str(ROOT))
 from app.ml.classes import CLASSES  # noqa: E402
 
 DATA_DIR = ROOT / "datasets" / "plantvillage"
+# Real-world photos (PlantDoc train split, scripts/make_plantdoc_field_set.py).
+# Training only: they go to train/val, never to the lab test set, and the
+# PlantDoc TEST split is kept apart for evaluate_field.py.
+PLANTDOC_DIR = ROOT / "datasets" / "plantdoc_train"
+PLANTDOC_REPEAT = 3        # ~1,300 field photos next to ~13,000 lab ones
+PLANTDOC_MAX_OTHER = 300   # PlantDoc has ~1,000 off-list crops; keep them from dominating
 MODEL_DIR = ROOT / "app" / "ml" / "model"
 RUNS_DIR = ROOT / "training_runs"
 IMG_SIZE = 224
@@ -33,8 +39,13 @@ def bucket(filename: str) -> str:
     return "test"
 
 
-def split_files(max_train_per_class: int | None = None) -> dict[str, list[tuple[str, int]]]:
-    """{"train"|"val"|"test": [(path, label_index), ...]}."""
+def split_files(max_train_per_class: int | None = None,
+                field_photos: bool = False) -> dict[str, list[tuple[str, int]]]:
+    """{"train"|"val"|"test": [(path, label_index), ...]}.
+
+    field_photos=True (training) also mixes in PlantDoc: 85% to train (each
+    repeated PLANTDOC_REPEAT times), 15% to val. The test list is the same
+    PlantVillage test set either way."""
     out = {"train": [], "val": [], "test": []}
     for idx, folder in enumerate(LABELS):
         files = sorted(p for p in (DATA_DIR / folder).glob("*")
@@ -48,6 +59,19 @@ def split_files(max_train_per_class: int | None = None) -> dict[str, list[tuple[
             per["train"] = per["train"][:max_train_per_class]
         for k in out:
             out[k].extend(per[k])
+        if field_photos:
+            extra = sorted(p for p in (PLANTDOC_DIR / folder).glob("*")
+                           if p.suffix.lower() in (".jpg", ".jpeg", ".png"))
+            if folder == "Other_plant":
+                extra = extra[:PLANTDOC_MAX_OTHER]
+            for p in extra:
+                h = int(hashlib.md5(p.name.encode("utf-8")).hexdigest(), 16) % 100
+                if h < 85:
+                    out["train"].extend([(str(p), idx)] * PLANTDOC_REPEAT)
+                else:
+                    out["val"].append((str(p), idx))
+    if field_photos and not PLANTDOC_DIR.exists():
+        raise SystemExit(f"No {PLANTDOC_DIR} - run make_plantdoc_field_set.py first")
     return out
 
 

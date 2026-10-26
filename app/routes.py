@@ -356,7 +356,8 @@ def about():
 
 
 # The training/evaluation files the evidence page reads and offers as downloads.
-EVIDENCE_FILES = ('training_history.csv', 'training_info.json', 'evaluation_report.json')
+EVIDENCE_FILES = ('training_history.csv', 'training_info.json', 'evaluation_report.json',
+                  'field_benchmark.json')
 
 
 def _accuracy_chart(history, width=600, height=240, pad=36, low=0.5):
@@ -387,6 +388,8 @@ def training():
         if paths['training_info.json'].exists() else None
     report = json.loads(paths['evaluation_report.json'].read_text()) \
         if paths['evaluation_report.json'].exists() else None
+    benchmark = json.loads(paths['field_benchmark.json'].read_text()) \
+        if paths['field_benchmark.json'].exists() else None
     history = []
     if paths['training_history.csv'].exists():
         with open(paths['training_history.csv'], newline='', encoding='utf-8') as handle:
@@ -403,7 +406,7 @@ def training():
                    'cells': [(n, n / max(sum(cells), 1)) for n in cells]}
                   for row, cells in zip(report['per_class'], report['confusion_matrix'])]
     return render_template('training.html', info=info, report=report, history=history,
-                           chart=chart, names=names, matrix=matrix,
+                           chart=chart, names=names, matrix=matrix, benchmark=benchmark,
                            files=[name for name, path in paths.items() if path.exists()])
 
 

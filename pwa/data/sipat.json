@@ -1,5 +1,5 @@
 {
- "model_version": "c8a291fb5b44",
+ "model_version": "931d2fddfa74",
  "img_size": 224,
  "labels": [
   "Tomato___Bacterial_spot",
@@ -1243,186 +1243,186 @@
  },
  "evaluation": {
   "test_photos": 4454,
-  "accuracy": 0.9497,
-  "top3_accuracy": 0.9948,
-  "macro_f1": 0.9412,
+  "accuracy": 0.9511,
+  "top3_accuracy": 0.9924,
+  "macro_f1": 0.9393,
   "at_threshold": {
    "threshold": 0.7,
-   "answered_share": 0.9371,
-   "accuracy_when_answered": 0.9756
+   "answered_share": 0.9317,
+   "accuracy_when_answered": 0.9786
   },
   "per_class": [
    {
     "class": "Tomato___Bacterial_spot",
     "name": "Tomato Bacterial Spot",
-    "precision": 0.9832,
-    "recall": 0.904,
-    "f1": 0.9419,
+    "precision": 0.9642,
+    "recall": 0.9164,
+    "f1": 0.9397,
     "support": 323
    },
    {
     "class": "Tomato___Early_blight",
     "name": "Tomato Early Blight",
-    "precision": 0.9675,
-    "recall": 0.7677,
-    "f1": 0.8561,
+    "precision": 0.8933,
+    "recall": 0.8645,
+    "f1": 0.8787,
     "support": 155
    },
    {
     "class": "Tomato___Late_blight",
     "name": "Tomato Late Blight",
-    "precision": 0.9049,
-    "recall": 0.942,
-    "f1": 0.9231,
+    "precision": 0.9386,
+    "recall": 0.9386,
+    "f1": 0.9386,
     "support": 293
    },
    {
     "class": "Tomato___Leaf_Mold",
     "name": "Tomato Leaf Mold",
-    "precision": 0.9481,
-    "recall": 0.9799,
-    "f1": 0.9637,
+    "precision": 0.9597,
+    "recall": 0.9597,
+    "f1": 0.9597,
     "support": 149
    },
    {
     "class": "Tomato___Septoria_leaf_spot",
     "name": "Tomato Septoria Leaf Spot",
-    "precision": 0.8901,
-    "recall": 0.9366,
-    "f1": 0.9127,
+    "precision": 0.8897,
+    "recall": 0.9328,
+    "f1": 0.9107,
     "support": 268
    },
    {
     "class": "Tomato___Spider_mites Two-spotted_spider_mite",
     "name": "Tomato Spider Mites",
-    "precision": 0.9323,
-    "recall": 0.9213,
-    "f1": 0.9267,
+    "precision": 0.9163,
+    "recall": 0.9488,
+    "f1": 0.9323,
     "support": 254
    },
    {
     "class": "Tomato___Target_Spot",
     "name": "Tomato Target Spot",
-    "precision": 0.8091,
-    "recall": 0.9198,
-    "f1": 0.8609,
+    "precision": 0.8509,
+    "recall": 0.9151,
+    "f1": 0.8818,
     "support": 212
    },
    {
     "class": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
     "name": "Tomato Yellow Leaf Curl Virus",
-    "precision": 0.9974,
-    "recall": 0.9787,
-    "f1": 0.988,
+    "precision": 0.9949,
+    "recall": 0.9775,
+    "f1": 0.9861,
     "support": 799
    },
    {
     "class": "Tomato___Tomato_mosaic_virus",
     "name": "Tomato Mosaic Virus",
-    "precision": 0.9844,
-    "recall": 0.9692,
-    "f1": 0.9767,
+    "precision": 0.9701,
+    "recall": 1.0,
+    "f1": 0.9848,
     "support": 65
    },
    {
     "class": "Tomato___healthy",
     "name": "Tomato Healthy",
-    "precision": 0.9198,
-    "recall": 0.9959,
-    "f1": 0.9563,
+    "precision": 0.9794,
+    "recall": 0.9835,
+    "f1": 0.9814,
     "support": 242
    },
    {
     "class": "Pepper,_bell___Bacterial_spot",
     "name": "Pepper Bacterial Spot",
-    "precision": 0.9565,
-    "recall": 0.9935,
-    "f1": 0.9747,
+    "precision": 0.9623,
+    "recall": 0.9871,
+    "f1": 0.9745,
     "support": 155
    },
    {
     "class": "Pepper,_bell___healthy",
     "name": "Pepper Healthy",
-    "precision": 0.991,
-    "recall": 0.9955,
-    "f1": 0.9932,
+    "precision": 0.9735,
+    "recall": 1.0,
+    "f1": 0.9865,
     "support": 220
    },
    {
     "class": "Potato___Early_blight",
     "name": "Potato Early Blight",
-    "precision": 0.9748,
+    "precision": 0.9568,
     "recall": 1.0,
-    "f1": 0.9873,
+    "f1": 0.9779,
     "support": 155
    },
    {
     "class": "Potato___Late_blight",
     "name": "Potato Late Blight",
-    "precision": 0.9387,
-    "recall": 0.9871,
-    "f1": 0.9623,
+    "precision": 0.9618,
+    "recall": 0.9742,
+    "f1": 0.9679,
     "support": 155
    },
    {
     "class": "Potato___healthy",
     "name": "Potato Healthy",
-    "precision": 0.7,
+    "precision": 0.56,
     "recall": 1.0,
-    "f1": 0.8235,
+    "f1": 0.7179,
     "support": 28
    },
    {
     "class": "Corn___Cercospora_leaf_spot Gray_leaf_spot",
     "name": "Corn Gray Leaf Spot",
-    "precision": 0.8421,
-    "recall": 0.9524,
-    "f1": 0.8939,
+    "precision": 0.8864,
+    "recall": 0.9286,
+    "f1": 0.907,
     "support": 84
    },
    {
     "class": "Corn___Common_rust",
     "name": "Corn Common Rust",
-    "precision": 1.0,
+    "precision": 0.9895,
     "recall": 1.0,
-    "f1": 1.0,
+    "f1": 0.9947,
     "support": 188
    },
    {
     "class": "Corn___Northern_Leaf_Blight",
     "name": "Corn Northern Leaf Blight",
-    "precision": 0.9712,
-    "recall": 0.894,
-    "f1": 0.931,
+    "precision": 0.9655,
+    "recall": 0.9272,
+    "f1": 0.9459,
     "support": 151
    },
    {
     "class": "Corn___healthy",
     "name": "Corn Healthy",
-    "precision": 1.0,
-    "recall": 0.994,
+    "precision": 0.994,
+    "recall": 1.0,
     "f1": 0.997,
     "support": 167
    },
    {
     "class": "Background_without_leaves",
     "name": "Not a leaf",
-    "precision": 1.0,
-    "recall": 1.0,
-    "f1": 1.0,
+    "precision": 0.9938,
+    "recall": 0.9877,
+    "f1": 0.9907,
     "support": 162
    },
    {
     "class": "Other_plant",
     "name": "Unsupported plant",
-    "precision": 0.9695,
-    "recall": 0.8341,
-    "f1": 0.8967,
+    "precision": 0.9835,
+    "recall": 0.7817,
+    "f1": 0.871,
     "support": 229
    }
   ],
   "architecture": "MobileNetV3Small (ImageNet) + GAP + Dropout 0.25 + Dense softmax",
-  "dataset": "PlantVillage, Mendeley Data doi:10.17632/tywbtsjrjv.1 (without augmentation)"
+  "dataset": "PlantVillage, Mendeley Data doi:10.17632/tywbtsjrjv.1 (without augmentation) + PlantDoc train split (Singh et al. 2020, CC BY 4.0)"
  },
  "library": [
   "corn-cercospora-leaf-spot-gray-leaf-spot",

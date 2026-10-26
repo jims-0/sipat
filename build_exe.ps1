@@ -54,12 +54,16 @@ Write-Host '[ Docs ]' -ForegroundColor Cyan
 $docsOut = Join-Path $dist 'Docs'
 $docFiles = @(
     'TRAINING.md', 'requirements-train.txt',
-    'docs\EVALUATION.md', 'docs\confusion_matrix.png', 'docs\SIPAT_SYSTEM_OVERVIEW.md',
-    'docs\training_evidence\README.txt', 'docs\training_evidence\training_log_20261014_010227.txt',
+    'docs\EVALUATION.md', 'docs\confusion_matrix.png', 'docs\FIELD_BENCHMARK.md',
+    'docs\SIPAT_SYSTEM_OVERVIEW.md',
+    'docs\training_evidence\README.txt', 'docs\training_evidence\training_log_20261027_001851.txt',
+    'docs\training_evidence\training_log_20261014_010227.txt',
+    'docs\training_evidence\field_benchmark_before_plantdoc_20261014.json',
     'app\ml\model\training_info.json', 'app\ml\model\training_history.csv',
-    'app\ml\model\evaluation_report.json', 'app\ml\model\labels.json',
-    'scripts\prepare_dataset.py', 'scripts\train_model.py', 'scripts\evaluate.py',
-    'scripts\export_tflite.py', 'scripts\evaluate_field.py', 'scripts\tg_data.py'
+    'app\ml\model\evaluation_report.json', 'app\ml\model\field_benchmark.json',
+    'app\ml\model\labels.json',
+    'scripts\prepare_dataset.py', 'scripts\make_plantdoc_field_set.py', 'scripts\train_model.py',
+    'scripts\evaluate.py', 'scripts\export_tflite.py', 'scripts\evaluate_field.py', 'scripts\tg_data.py'
 )
 foreach ($f in $docFiles) {
     if (-not (Test-Path $f)) { throw "Docs: missing $f" }
@@ -75,21 +79,24 @@ Read in this order:
 
 1. TRAINING.md                         how the model was trained, step by step
                                        (dataset, split, settings, limits)
-2. docs\EVALUATION.md                  test-set results: accuracy, per-disease
+2. docs\EVALUATION.md                  lab test-set results: accuracy, per-disease
    docs\confusion_matrix.png           scores, the confusion matrix
-3. docs\training_evidence\             the raw console log of the training run
+   docs\FIELD_BENCHMARK.md             results on real-world photos (PlantDoc),
+                                       before and after adding them to training
+3. docs\training_evidence\             raw console logs of both training runs
                                        (all 11 epochs) and what each file is
 4. app\ml\model\                       the run's numbers as data files:
                                        training_info.json (settings),
                                        training_history.csv (per epoch),
-                                       evaluation_report.json (test results),
+                                       evaluation_report.json (lab test results),
+                                       field_benchmark.json (real-world results),
                                        labels.json (the 21 classes)
 5. scripts\                            the code that prepared the dataset,
    requirements-train.txt              trained, evaluated and exported the model
 6. docs\SIPAT_SYSTEM_OVERVIEW.md       how the whole system fits together
 
 The .md files open in any text editor, or nicely in VS Code / GitHub.
-The dataset photos are not included: PlantVillage is public, see TRAINING.md.
+The dataset photos are not included: PlantVillage and PlantDoc are public, see TRAINING.md.
 '@
 Set-Content -Path (Join-Path $docsOut '1 - START HERE.txt') -Value $docsIndex -Encoding utf8
 

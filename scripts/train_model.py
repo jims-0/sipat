@@ -49,6 +49,8 @@ def main():
     ap.add_argument("--fine-epochs", type=int, default=5)
     ap.add_argument("--fine-tune-layers", type=int, default=40)
     ap.add_argument("--batch-size", type=int, default=32)
+    ap.add_argument("--no-field-photos", action="store_true",
+                    help="PlantVillage only (how the 2026-10-14 model was trained)")
     args = ap.parse_args()
 
     import keras
@@ -59,7 +61,9 @@ def main():
     run_dir = tg_data.RUNS_DIR / time.strftime("%Y%m%d_%H%M%S")
     run_dir.mkdir(parents=True)
 
-    split = tg_data.split_files(args.max_per_class)
+    field = not args.no_field_photos
+    split = tg_data.split_files(args.max_per_class, field_photos=field)
+    plantdoc = {k: sum(tg_data.PLANTDOC_DIR.name in p for p, _ in v) for k, v in split.items()}
     counts = Counter(label for _, label in split["train"])
     total = sum(counts.values())
     class_weight = {i: total / (len(tg_data.LABELS) * counts[i]) for i in counts}
@@ -111,7 +115,11 @@ def main():
         "training_minutes": round((time.time() - started) / 60, 1),
         "tensorflow": tf.__version__, "keras": keras.__version__,
         "run": run_dir.name,
-        "dataset": "PlantVillage, Mendeley Data doi:10.17632/tywbtsjrjv.1 (without augmentation)",
+        "dataset": "PlantVillage, Mendeley Data doi:10.17632/tywbtsjrjv.1 (without augmentation)"
+                   + (" + PlantDoc train split (Singh et al. 2020, CC BY 4.0)" if field else ""),
+        "plantdoc_train_photos": plantdoc["train"] // tg_data.PLANTDOC_REPEAT if field else 0,
+        "plantdoc_repeat": tg_data.PLANTDOC_REPEAT if field else 0,
+        "plantdoc_val_photos": plantdoc["val"],
     }
     (tg_data.MODEL_DIR / "training_info.json").write_text(json.dumps(meta, indent=1))
     shutil.copy(run_dir / "history.csv", tg_data.MODEL_DIR / "training_history.csv")

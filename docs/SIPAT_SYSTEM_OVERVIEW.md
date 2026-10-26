@@ -10,7 +10,7 @@ SIPAT (Smart Image-based Plant Ailment Tracker) is an offline app that identifie
 
 ```mermaid
 flowchart LR
-    A["PlantVillage photos<br/>21 classes, 4 crops<br/>70 / 15 / 15 split"] --> B["Training (scripts/)<br/>MobileNetV3-Small, 11 epochs<br/>evaluate.py: 95.0% on test"]
+    A["PlantVillage + PlantDoc photos<br/>21 classes, 4 crops<br/>70 / 15 / 15 split"] --> B["Training (scripts/)<br/>MobileNetV3-Small, 11 epochs<br/>95.1% lab, 43.8% real-world"]
     B --> C["Model file<br/>sipat.tflite, 3.8 MB<br/>same file in both apps"]
     G["Curated guidance<br/>Tagalog + English, sourced<br/>no doses; ask the MAO"] --> D
     C --> D["Desktop app (Windows)<br/>Flask + LiteRT, Sipat.exe"]
@@ -69,12 +69,12 @@ SIPAT uses transfer learning: a small network pre-trained on ImageNet, re-traine
 
 | Part | Detail |
 | --- | --- |
-| Dataset | PlantVillage (Mendeley Data, doi:10.17632/tywbtsjrjv.1), single leaves on a plain background |
+| Dataset | PlantVillage (Mendeley Data, doi:10.17632/tywbtsjrjv.1), single leaves on a plain background; plus the PlantDoc train split (Singh et al. 2020, CC BY 4.0), real-world photos of the same crops |
 | Classes | 19 crop classes (tomato 10, pepper 2, potato 3, corn 4) + "Background without leaves" + "Other plant" (apple, grape, soybean and other PlantVillage leaves pooled) = 21 |
 | Split | 70% train / 15% validation / 15% test, assigned by a hash of each file name so it never changes; train capped at 700 photos per class |
-| Photo counts | 13,240 train, 4,383 validation, 4,454 test |
-| Model | MobileNetV3-Small (ImageNet weights) + global average pooling + dropout 0.25 + dense softmax; input 224 x 224 RGB |
-| Training | 6 epochs with the base frozen, then 5 epochs fine-tuning the last 40 layers; 28 minutes on a laptop CPU (TensorFlow 2.22) |
+| Photo counts | 13,240 PlantVillage + 1,436 PlantDoc train (PlantDoc shown 3x per epoch), 4,585 validation, 4,454 lab test; 236 PlantDoc test photos kept apart as the field benchmark |
+| Model | Transfer learning: MobileNetV3-Small pretrained on ImageNet (not designed by us) + global average pooling + dropout 0.25 + dense softmax; input 224 x 224 RGB |
+| Training | 6 epochs with the base frozen, then 5 epochs fine-tuning the last 40 layers; 18 minutes on a laptop CPU (TensorFlow 2.22), run 20261027_001851 |
 | Deployment | Exported to TensorFlow Lite (3.8 MB, float32). Desktop runs it with LiteRT; the phone runs the same file in the browser through TensorFlow.js tflite (WebAssembly) |
 
 **The confidence rule.** The model outputs 21 probabilities. If the top one is below 0.70, SIPAT answers "not sure, retake the photo" instead of guessing. If the top class is "Background without leaves" or "Other plant" at 0.70 or more, it says so instead of naming a disease. The 0.70 cut-off was picked on the test-set threshold sweep in docs/EVALUATION.md, not guessed.
@@ -85,29 +85,32 @@ SIPAT uses transfer learning: a small network pre-trained on ImageNet, re-traine
 
 ## Measured results
 
-On 4,454 test photos the model never saw, SIPAT is 95.0% accurate; at the 0.70 cut-off it answers 93.7% of photos and is right on 97.6% of those. Every number here was produced by a script in the repo; quote only these, and say they are lab photos.
+On 4,454 lab test photos the model never saw, SIPAT is 95.1% accurate; at the 0.70 cut-off it answers 93.2% of photos and is right on 97.9% of those. On 128 real-world photos of the 4 crops (PlantDoc test split, never trained on) it is 43.8% accurate. Every number here was produced by a script in the repo; quote only these, and always say which set a number is from.
 
 | Measure | Value | Produced by |
 | --- | --- | --- |
-| Accuracy (21 classes) | 95.0% | scripts/evaluate.py -> docs/EVALUATION.md |
-| Correct answer in top 3 | 99.5% | same |
-| Macro F1 | 0.941 | same |
-| At 0.70 cut-off: photos answered / accuracy on those | 93.7% / 97.6% | same (threshold sweep) |
-| Weakest class by recall | Tomato Early Blight 0.77 (17 of 155 called Late Blight) | same (confusion matrix) |
-| Weakest class by precision | Potato Healthy 0.70 (only 28 test photos) | same |
-| Model size / speed | 3.8 MB TFLite; 6.6 ms per photo batched on a laptop CPU | scripts/export_tflite.py, evaluate.py |
-| Phone vs desktop agreement | 105 / 105 same class and status; largest probability gap 0.0000024 | scripts/pwa_parity.py + pwa/parity.html (2026-10-22) |
-| Automated tests | 67 passing | python -m pytest tests |
+| Accuracy, lab (21 classes) | 95.1% | scripts/evaluate.py -> docs/EVALUATION.md |
+| Correct answer in top 3, lab | 99.2% | same |
+| Macro F1, lab | 0.939 | same |
+| At 0.70 cut-off, lab: photos answered / accuracy on those | 93.2% / 97.9% | same (threshold sweep) |
+| Weakest class by recall, lab | Unsupported plant 0.78; Tomato Early Blight 0.86 | same (confusion matrix) |
+| Weakest class by precision, lab | Potato Healthy 0.56 (only 28 test photos; 21 other-plant leaves called Potato Healthy) | same |
+| **Accuracy, real-world photos of the 4 crops** | **43.8%** (128 photos; was 20.3% before PlantDoc training) | scripts/evaluate_field.py --benchmark -> docs/FIELD_BENCHMARK.md |
+| Real-world, all 236 photos / top 3 | 58.5% / 85.6% | same |
+| Real-world, answered / accuracy when answered | 54.7% / 79.1% | same |
+| Model size / speed | 3.8 MB TFLite; 4.9 ms per photo batched on a laptop CPU | scripts/export_tflite.py, evaluate.py |
+| Phone vs desktop agreement | 105 / 105 same class and status; largest probability gap 0.0000024 | scripts/pwa_parity.py + pwa/parity.html (2026-10-22, previous model; re-run pwa/parity.html for the 2026-10-27 model) |
+| Automated tests | 71 passing | python -m pytest tests |
 
-The cut-off trades coverage for accuracy: 0.50 answers 98.6% at 95.7%, 0.70 answers 93.7% at 97.6%, 0.90 answers 84.8% at 99.2%. The full sweep and the confusion matrix are in docs/EVALUATION.md; use them as the paper's figures.
+The cut-off trades coverage for accuracy: 0.50 answers 98.3% at 96.0%, 0.70 answers 93.2% at 97.9%, 0.90 answers 84.1% at 99.0%. The full sweep and the confusion matrix are in docs/EVALUATION.md; use them as the paper's figures.
 
-**Not yet measured:** accuracy on real phone photos taken in a field. This is the most important missing number (see the checklist below).
+**Real-world photos are measured** on the public PlantDoc benchmark (43.8%). Still to do: photos from Philippine farms, labelled by the MAO, through the app's field test set (see the checklist below).
 
 ## Limitations and what the paper must not claim
 
 The panel will check every number against the code, so the paper claims only what was measured.
 
-- **Lab photos, not field photos.** PlantVillage leaves are single, centred, on a plain background. Real phone photos (several leaves, soil, shadows, blur) will score lower. Do not present 95.0% as field accuracy.
+- **Lab vs field.** 95.1% is on PlantVillage lab photos (single, centred, plain background). On real-world photos it is 43.8% for the 4 crops (85.6% top 3). Never present 95.1% as field accuracy; give both numbers. The "not sure, retake the photo" answer is the design response: on real-world photos it answers about half the time and is right 79% of the time when it does. PlantDoc photos are web images, not photos from Philippine farms.
 - **No rice.** PlantVillage has no rice photos. Rice needs a new dataset and retraining (TRAINING.md explains how).
 - **Lookalike diseases.** Tomato Early Blight vs Late Blight and Spider Mites vs Target Spot are the main confusions; the top-3 list and the heat map exist for this.
 - **Treatment text is general extension guidance** (UC IPM, Cornell, Penn State, CIP, CIMMYT), not a Department of Agriculture sign-off, and it never gives doses.
@@ -123,7 +126,7 @@ A standard five-chapter structure; each chapter can start from the repo file lis
 | 1 Introduction | Background (leaf diseases, access to technicians), problem statement, objectives, scope and limits, significance | This page: "The problem" and "Limitations" |
 | 2 Review of related literature | PlantVillage studies, CNNs and transfer learning, MobileNetV3, on-device AI, CAM / Grad-CAM, existing plant-disease apps | Sources section below; Zhou 2016, Selvaraju 2017, Howard 2019 papers |
 | 3 Methodology | Dataset and split, model and training, threshold choice, heat map, treatment curation rules, adviser design, system architecture, phone app | TRAINING.md, scripts/tg_data.py (split), scripts/train_model.py, app/ml/inference.py, app/ml/treatment_data.py (header lists the rules), pwa/README.md |
-| 4 Results and discussion | Accuracy, top-3, macro F1, per-class table, confusion matrix, threshold sweep, phone vs desktop parity, field results once collected | docs/EVALUATION.md, app/ml/model/evaluation_report.json, pwa/README.md, docs/FIELD_EVALUATION.md (after field test) |
+| 4 Results and discussion | Accuracy, top-3, macro F1, per-class table, confusion matrix, threshold sweep, phone vs desktop parity, field results once collected | docs/EVALUATION.md, app/ml/model/evaluation_report.json, pwa/README.md, docs/FIELD_BENCHMARK.md (PlantDoc real-world photos), docs/FIELD_EVALUATION.md (after our own field test) |
 | 5 Conclusion and recommendations | What was achieved per objective; rice, more field data, quantised model, more crops | This page: "Limitations" and "Before the defense" |
 | Appendices | Screenshots (desktop and phone), user guide, test list, treatment table | README.md, SETUP.md, tests/ |
 
