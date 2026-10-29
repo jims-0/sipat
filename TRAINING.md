@@ -58,10 +58,12 @@ first model (run 20261014_010227) was trained.
 ## How the model is built
 
 - **Transfer learning**: we did not design the network. We start from
-  **MobileNetV3-Small** (Howard et al. 2019), already pretrained on ImageNet
+  **EfficientNetV2-B0** (Tan & Le 2021), already pretrained on ImageNet
   (1.2 million general photos), and re-train it on leaf photos. This is the
   standard method when there are thousands, not millions, of labelled photos.
-  224x224 input; chosen for speed on ordinary laptops and phones.
+  224x224 input. Chosen on 2026-10-29 from three candidates (MobileNetV3-Small,
+  MobileNetV3-Large, EfficientNetV2-B0) by accuracy on the PlantDoc validation
+  photos: 63.4 %, 66.8 %, 68.3 %. Still fast enough on ordinary laptops and phones.
 - New head: global average pooling, dropout 0.25, dense softmax over 21 classes
   (19 crop classes + "not a leaf" + "other plant").
 - **Stage 1** (6 epochs): base frozen, Adam lr 1e-3 - learn the classes from
@@ -95,13 +97,13 @@ The lab test set says nothing about phone photos in a real field.
 diagnoses + 108 of other crops, where the right answer is "other plant"), run
 through the app's own pipeline (LiteRT, the app's threshold):
 
-| | PlantVillage only (run 20261014_010227) | + PlantDoc in training (run 20261027_001851) |
-|---|---|---|
-| Lab test set, 4,454 photos | 95.0 % | 95.1 % |
-| Real-world photos of the 4 crops, 128 | 20.3 % | **43.8 %** |
-| All 236 real-world photos | 47.0 % | 58.5 % |
-| Real-world, right answer in top 3 | 68.6 % | 85.6 % |
-| Real-world, accuracy when it answers (not "unsure") | 57.8 % | 79.1 % |
+| | PlantVillage only (run 20261014_010227) | + PlantDoc, MobileNetV3-Small (run 20261027_001851) | + PlantDoc, EfficientNetV2-B0 (run 20261029_220930, current) |
+|---|---|---|---|
+| Lab test set, 4,454 photos | 95.0 % | 95.1 % | 94.1 % |
+| Real-world photos of the 4 crops, 128 | 20.3 % | 43.8 % | **50.8 %** |
+| All 236 real-world photos | 47.0 % | 58.5 % | 62.7 % |
+| Real-world, right answer in top 3 | 68.6 % | 85.6 % | 90.3 % |
+| Real-world, accuracy when it answers (not "unsure") | 57.8 % | 79.1 % | 76.3 % |
 
 Full report: `docs/FIELD_BENCHMARK.md`. The before numbers are kept in
 `docs/training_evidence/field_benchmark_before_plantdoc_20261014.json`.
@@ -129,11 +131,11 @@ Do not use PlantVillage photos here - that would only repeat the lab number.
 
 ## Limits to state honestly
 
-- **Lab vs field**: 95 % is on PlantVillage photos (single leaf, plain
-  background, even light). On real-world photos (PlantDoc) it is **43.8 %**
-  for the 4 crops, 85.6 % with the top 3. Say both numbers. The app's
+- **Lab vs field**: 94 % is on PlantVillage photos (single leaf, plain
+  background, even light). On real-world photos (PlantDoc) it is **50.8 %**
+  for the 4 crops, 90.3 % with the top 3. Say both numbers. The app's
   "unsure, retake the photo" answer exists because of this: when it does
-  answer firmly on a field photo it is right 79 % of the time.
+  answer firmly on a field photo it is right 76 % of the time.
 - PlantDoc photos are web images, not photos from Philippine farms. Photos from
   Philippine farms, labelled by the MAO or an agriculturist, are the next
   step (see "Your own field photos").

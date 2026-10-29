@@ -1,0 +1,47 @@
+=== effv2b0 Thu, Oct 29, 2026 10:09:23 PM
+{'train': 21856, 'val': 4585, 'test': 4454} train photos per class: 101 - 2242
+I0000 00:00:1793282971.453343   12092 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE3 SSE4.1 SSE4.2 AVX AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+C:\Users\User\AppData\Roaming\Python\Python314\site-packages\keras\src\trainers\epoch_iterator.py:74: UserWarning: `shuffle=True` was passed, but will be ignored since the data `x` was provided as a tf.data.Dataset. The Dataset is expected to already be shuffled (via `.shuffle(buffer_size)`).
+  self.data_adapter = data_adapters.get_data_adapter(
+Epoch 1/6
+  field val: 0.564
+683/683 - 304s - 446ms/step - accuracy: 0.5952 - loss: 1.2930 - val_accuracy: 0.8087 - val_loss: 0.7131 - val_field_loss: 1.3183 - val_field_accuracy: 0.5644
+Epoch 2/6
+  field val: 0.599
+683/683 - 450s - 658ms/step - accuracy: 0.7299 - loss: 0.8041 - val_accuracy: 0.8484 - val_loss: 0.5627 - val_field_loss: 1.2338 - val_field_accuracy: 0.5990
+Epoch 3/6
+  field val: 0.604
+683/683 - 511s - 748ms/step - accuracy: 0.7547 - loss: 0.7020 - val_accuracy: 0.8619 - val_loss: 0.4851 - val_field_loss: 1.2133 - val_field_accuracy: 0.6040
+Epoch 4/6
+  field val: 0.653
+683/683 - 390s - 571ms/step - accuracy: 0.7716 - loss: 0.6433 - val_accuracy: 0.8755 - val_loss: 0.4517 - val_field_loss: 1.1704 - val_field_accuracy: 0.6535
+Epoch 5/6
+  field val: 0.639
+683/683 - 478s - 699ms/step - accuracy: 0.7856 - loss: 0.5981 - val_accuracy: 0.8824 - val_loss: 0.4168 - val_field_loss: 1.1692 - val_field_accuracy: 0.6386
+Epoch 6/6
+  field val: 0.629
+683/683 - 503s - 736ms/step - accuracy: 0.7905 - loss: 0.5787 - val_accuracy: 0.8868 - val_loss: 0.4022 - val_field_loss: 1.1557 - val_field_accuracy: 0.6287
+Epoch 7/16
+  field val: 0.644
+683/683 - 631s - 923ms/step - accuracy: 0.8189 - loss: 0.4936 - val_accuracy: 0.9064 - val_loss: 0.2829 - val_field_loss: 1.1324 - val_field_accuracy: 0.6436
+Epoch 8/16
+  field val: 0.644
+683/683 - 508s - 743ms/step - accuracy: 0.8653 - loss: 0.3587 - val_accuracy: 0.9206 - val_loss: 0.2391 - val_field_loss: 1.1296 - val_field_accuracy: 0.6436
+Epoch 9/16
+  field val: 0.663
+683/683 - 574s - 840ms/step - accuracy: 0.8970 - loss: 0.2814 - val_accuracy: 0.9232 - val_loss: 0.2350 - val_field_loss: 1.1174 - val_field_accuracy: 0.6634
+Epoch 10/16
+  field val: 0.683
+683/683 - 555s - 812ms/step - accuracy: 0.9193 - loss: 0.2174 - val_accuracy: 0.9154 - val_loss: 0.2528 - val_field_loss: 1.2139 - val_field_accuracy: 0.6832
+Epoch 11/16
+  field val: 0.683
+683/683 - 591s - 866ms/step - accuracy: 0.9325 - loss: 0.1845 - val_accuracy: 0.9352 - val_loss: 0.2095 - val_field_loss: 1.4386 - val_field_accuracy: 0.6832
+Epoch 12/16
+  field val: 0.673
+683/683 - 549s - 804ms/step - accuracy: 0.9424 - loss: 0.1593 - val_accuracy: 0.9396 - val_loss: 0.1951 - val_field_loss: 1.4478 - val_field_accuracy: 0.6733
+Epoch 13/16
+  field val: 0.683
+683/683 - 550s - 806ms/step - accuracy: 0.9504 - loss: 0.1342 - val_accuracy: 0.9394 - val_loss: 0.2079 - val_field_loss: 1.4525 - val_field_accuracy: 0.6832
+candidate only, app model untouched: C:\Users\User\Downloads\Main\tanim_guard\training_runs\20261029_220930 {'architecture': 'EfficientNetV2-B0 (ImageNet) + GAP + Dropout 0.25 + Dense softmax', 'image_size': 224, 'classes': 21, 'train_photos': 21856, 'val_photos': 4585, 'test_photos': 4454, 'max_train_per_class': 700, 'head_epochs': 6, 'fine_epochs': 10, 'fine_tune_layers': 60, 'training_minutes': 109.9, 'tensorflow': '2.22.0-rc0', 'keras': '3.16.0.dev2026100804', 'run': '20261029_220930', 'dataset': 'PlantVillage, Mendeley Data doi:10.17632/tywbtsjrjv.1 (without augmentation) + PlantDoc train split (Singh et al. 2020, CC BY 4.0)', 'plantdoc_train_photos': 2872, 'plantdoc_repeat': 6, 'plantdoc_val_photos': 202, 'selected_on': 'val_field_accuracy', 'best_val_field_accuracy': 0.6832}
+=== done Thu, Oct 29, 2026 11:59:38 PM

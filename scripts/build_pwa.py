@@ -6,7 +6,7 @@ not drift from the desktop app, so nothing in pwa/data or pwa/model is written
 by hand - this script regenerates it from the one source of truth:
 
   app/ml/model/tanim_guard.tflite      -> pwa/model/sipat.tflite
-  app/ml/model/cam_weights.npy         -> pwa/model/cam_weights.bin  (float32, [576, 21] row-major)
+  app/ml/model/cam_weights.npy         -> pwa/model/cam_weights.bin  (float32, [channels, 21] row-major)
   labels, classes, threshold, treatment text, adviser keywords, test-set numbers
                                        -> pwa/data/sipat.json
   app/static/library/*.jpg             -> pwa/library/

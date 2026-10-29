@@ -11,7 +11,7 @@ and English. If it is not confident, it says so and asks for a better photo.
 
 ## What it does
 
-- **Leaf diagnosis** with a MobileNetV3-Small model trained on PlantVillage
+- **Leaf diagnosis** with an EfficientNetV2-B0 model trained on PlantVillage + PlantDoc
   (transfer learning). 19 classes across **tomato, pepper (sili), potato and corn**,
   plus "not a leaf" and "unsupported plant".
 - **Says "not sure"** instead of guessing when its confidence is below the
@@ -49,21 +49,21 @@ retraining; do not edit numbers by hand):
 | | |
 |---|---|
 | Test photos (never seen in training) | 4,454 |
-| Accuracy | 95.1 % |
-| Correct answer in the top 3 | 99.2 % |
+| Accuracy | 94.1 % |
+| Correct answer in the top 3 | 99.1 % |
 | Macro F1 | 0.939 |
-| Answered at the 0.7 threshold / accuracy on those | 93.2 % / 97.9 % |
-| **Real-world photos (PlantDoc test split, 128 of the 4 crops)** | **43.8 %** (top 3: 85.6 % of all 236) |
-| App model (TensorFlow Lite, float32) | 3.8 MB; same top answer as the trained model on 179/179 checked photos |
+| Answered at the 0.8 threshold / accuracy on those | 88.0 % / 97.9 % |
+| **Real-world photos (PlantDoc test split, 128 of the 4 crops)** | **50.8 %** (top 3: 90.3 % of all 236) |
+| App model (TensorFlow Lite, float32) | 23.5 MB; same top answer as the trained model on 179/179 checked photos |
 
-Weakest classes: some unsupported-plant leaves are called Potato Healthy
-(Potato Healthy precision 0.56, only 28 test photos); Tomato Early Blight
-(recall 0.86); Tomato Target Spot vs Spider Mites.
+Weakest classes: some unsupported-plant leaves are called Potato Healthy or
+Spider Mites (precision 0.76 for both; Unsupported plant recall 0.80); Tomato
+Target Spot (precision 0.82); Tomato Early Blight (precision 0.85).
 
-**Lab vs field.** The 95 % is on PlantVillage lab photos (one leaf, plain
+**Lab vs field.** The 94 % is on PlantVillage lab photos (one leaf, plain
 background, even light). On real-world photos from PlantDoc (Singh et al. 2020),
-which the model never trained on, it is **43.8 %** for the 4 crops - up from
-20.3 % before PlantDoc's training photos were added. Quote both numbers
+which the model never trained on, it is **50.8 %** for the 4 crops - up from
+20.3 % with PlantVillage only and 43.8 % with the earlier MobileNetV3-Small model. Quote both numbers
 (`docs/FIELD_BENCHMARK.md`, `TRAINING.md` "Measuring on field photos"). There is **no rice** - PlantVillage has no rice photos.
 No field trial with farmers has been done.
 

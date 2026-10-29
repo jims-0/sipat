@@ -16,7 +16,7 @@
   const esc = C.escapeHtml;
 
   let DATA = null;       // data/sipat.json (built by scripts/build_pwa.py)
-  let CAMW = null;       // Float32Array [576 * 21]
+  let CAMW = null;       // Float32Array [channels * 21]
   let modelPromise = null;
   let lang = "tl";
   try { lang = localStorage.getItem("sipat-lang") || "tl"; } catch (e) { /* private mode */ }
@@ -66,6 +66,11 @@
         fetch("model/cam_weights.bin").then((r) => r.arrayBuffer()),
       ]);
       CAMW = new Float32Array(w);
+      // The first predict() after loading returns wrong probabilities (seen with
+      // EfficientNetV2-B0: "unsure" where the desktop said 98%), so spend it on a
+      // blank image instead of the farmer's photo.
+      const warm = model.predict(tf.zeros([1, DATA.img_size, DATA.img_size, 3]));
+      (warm instanceof tf.Tensor ? [warm] : Object.values(warm)).forEach((t) => t.dispose());
       return model;
     })();
     modelPromise.catch(() => { modelPromise = null; }); // let a later scan retry

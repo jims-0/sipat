@@ -40,11 +40,12 @@ def bucket(filename: str) -> str:
 
 
 def split_files(max_train_per_class: int | None = None,
-                field_photos: bool = False) -> dict[str, list[tuple[str, int]]]:
+                field_photos: bool = False,
+                plantdoc_repeat: int = PLANTDOC_REPEAT) -> dict[str, list[tuple[str, int]]]:
     """{"train"|"val"|"test": [(path, label_index), ...]}.
 
     field_photos=True (training) also mixes in PlantDoc: 85% to train (each
-    repeated PLANTDOC_REPEAT times), 15% to val. The test list is the same
+    repeated plantdoc_repeat times), 15% to val. The test list is the same
     PlantVillage test set either way."""
     out = {"train": [], "val": [], "test": []}
     for idx, folder in enumerate(LABELS):
@@ -67,7 +68,7 @@ def split_files(max_train_per_class: int | None = None,
             for p in extra:
                 h = int(hashlib.md5(p.name.encode("utf-8")).hexdigest(), 16) % 100
                 if h < 85:
-                    out["train"].extend([(str(p), idx)] * PLANTDOC_REPEAT)
+                    out["train"].extend([(str(p), idx)] * plantdoc_repeat)
                 else:
                     out["val"].append((str(p), idx))
     if field_photos and not PLANTDOC_DIR.exists():

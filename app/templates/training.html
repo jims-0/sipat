@@ -30,7 +30,7 @@
     <table class="ev-table">
         <tr><th>Dataset</th><td>{{ info.dataset }}</td></tr>
         <tr><th>Model</th><td>{{ info.architecture }}</td></tr>
-        <tr><th>Paraan</th><td>Transfer learning: MobileNetV3-Small na naka-pretrain na sa ImageNet (general na pictures), tapos ni-retrain namin sa leaf photos para matuto ng sakit ng halaman</td></tr>
+        <tr><th>Paraan</th><td>Transfer learning: EfficientNetV2-B0 na naka-pretrain na sa ImageNet (general na pictures), tapos ni-retrain namin sa leaf photos para matuto ng sakit ng halaman</td></tr>
         {% if info.plantdoc_train_photos %}<tr><th>Field photos sa training</th><td>{{ "{:,}".format(info.plantdoc_train_photos) }} PlantDoc photos (×{{ info.plantdoc_repeat }}), + {{ info.plantdoc_val_photos }} sa validation</td></tr>{% endif %}
         <tr><th>Picture size</th><td>{{ info.image_size }} × {{ info.image_size }}</td></tr>
         <tr><th>Classes</th><td>{{ info.classes }} (sakit + healthy + "hindi dahon" + "ibang halaman")</td></tr>

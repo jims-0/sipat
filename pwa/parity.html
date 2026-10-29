@@ -31,7 +31,7 @@
         const expected = await res.json();
         while (!SipatDebug.data()) await new Promise((r) => setTimeout(r, 100));
         await SipatDebug.loadModel();
-        let sameClass = 0, sameStatus = 0, correct = 0, maxDiff = 0;
+        let sameClass = 0, sameStatus = 0, correct = 0, maxDiff = 0, worst = "";
         const diffs = [], bad = [];
         const t0 = performance.now();
         for (const [i, row] of expected.entries()) {
@@ -39,9 +39,10 @@
           const blob = await (await fetch("_parity/" + row.file)).blob();
           const { d, probs } = await SipatDebug.analyse(new File([blob], row.file, { type: blob.type }));
           const diff = Math.max(...probs.map((p, k) => Math.abs(p - row.probs[k])));
-          diffs.push(diff); maxDiff = Math.max(maxDiff, diff);
+          diffs.push(diff);
+          if (diff > maxDiff) { maxDiff = diff; worst = `#${i + 1} ${row.file}`; }
           if (d.class_key === row.class_key) sameClass++; else bad.push(`${row.file}: desktop ${row.class_key}, phone ${d.class_key}`);
-          if (d.status === row.status) sameStatus++;
+          if (d.status === row.status) sameStatus++; else bad.push(`${row.file}: status desktop ${row.status}, phone ${d.status}`);
           if (d.class_key === row.true) correct++;
         }
         diffs.sort((a, b) => a - b);
@@ -49,7 +50,7 @@
         const result = {
           photos: n, same_class: sameClass, same_status: sameStatus, phone_correct: correct,
           desktop_correct: expected.filter((r) => r.class_key === r.true).length,
-          median_prob_diff: diffs[Math.floor(n / 2)], max_prob_diff: maxDiff,
+          median_prob_diff: diffs[Math.floor(n / 2)], max_prob_diff: maxDiff, max_diff_photo: worst,
           ms_per_photo: Math.round((performance.now() - t0) / n), user_agent: navigator.userAgent,
         };
         window.parityResult = result;
