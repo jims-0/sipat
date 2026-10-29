@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Sipat</string>
+    <string name="title_activity_main">Sipat</string>
+    <string name="package_name">ph.edu.bulsu.sipat</string>
+    <string name="custom_url_scheme">ph.edu.bulsu.sipat</string>
+</resources>
