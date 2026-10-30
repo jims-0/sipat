@@ -41,4 +41,12 @@
     <!-- "Kunan ng picture": lets the photo picker open the camera -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
+
+    <!-- Android 11+ hides other apps unless declared; without this Capacitor
+         can't find the camera app and silently opens the photo picker instead -->
+    <queries>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+    </queries>
 </manifest>

@@ -4,7 +4,7 @@
   "description": "Sipat phone app (pwa/) packaged as an Android APK with Capacitor",
   "scripts": {
     "sync": "node copy-web.js && npx cap sync android",
-    "apk": "npm run sync && cd android && gradlew.bat assembleDebug"
+    "apk": "npm run sync && cd android && .\\gradlew.bat assembleDebug"
   },
   "dependencies": {
     "@capacitor/android": "^8.6.0",
