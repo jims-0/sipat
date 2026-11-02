@@ -1,6 +1,6 @@
 # SIPAT: Smart Image-based Plant Ailment Tracker
 
-*Brief for the thesis group · updated 2026-10-22 · live editable version: https://claude.ai/artifact/K4yRrgPuwpa72XpF5zDn2u (ask James for access)*
+*Brief for the thesis group · updated 2026-10-22*
 
 SIPAT (Smart Image-based Plant Ailment Tracker) is an offline app that identifies 19 diseases and healthy states of tomato, pepper (sili), potato and corn from a photo of one leaf, then gives Tagalog and English treatment guidance. It runs on a Windows PC and on a phone, with no internet needed. This page is the starting brief for writing the paper.
 
